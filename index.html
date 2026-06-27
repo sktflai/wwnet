@@ -669,6 +669,7 @@
             <div class="nav-menu">
                 <div class="nav-item active" onclick="switchTab('feed')" id="nav-feed">🔮 Home Feed</div>
                 <div class="nav-item" onclick="switchTab('dms')" id="nav-dms">✉️ Direct Messages</div>
+                <div class="nav-item" onclick="switchTab('hearts')" id="nav-hearts">📊 Attributes & Romance</div>
                 <div class="nav-item" onclick="switchTab('settings')" id="nav-settings">⚙️ AI Key Settings</div>
             </div>
 
@@ -690,7 +691,7 @@
 
             <!-- Global Hogwarts Stats -->
             <div class="stats-card">
-                <h3 style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase;">Stats</h3>
+                <h3 style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase;">Global Standing</h3>
                 <div class="stats-grid">
                     <div class="stat-box">
                         <span>Aura</span>
@@ -757,11 +758,32 @@
                     </div>
                 </div>
 
-                <!-- Tab 3: Hearts (Accessible via Mobile bottom menu directly) -->
+                <!-- Tab 3: Attributes & Romance Tab (Combines romance meters + Status Attributes) -->
                 <div id="hearts-view" class="hidden" style="padding: 20px;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px;">📊 Wizarding Attributes</h3>
+                    
+                    <div class="profile-card" style="margin-bottom: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background-color: rgba(255,255,255,0.02);">
+                        <div class="stat-box" style="text-align: left; padding: 10px;">
+                            <span>Popularity</span>
+                            <strong id="stat-val-popularity" style="font-size: 1.4rem;">10</strong>
+                        </div>
+                        <div class="stat-box" style="text-align: left; padding: 10px;">
+                            <span>Intelligence</span>
+                            <strong id="stat-val-intelligence" style="font-size: 1.4rem;">10</strong>
+                        </div>
+                        <div class="stat-box" style="text-align: left; padding: 10px;">
+                            <span>Courage</span>
+                            <strong id="stat-val-courage" style="font-size: 1.4rem;">10</strong>
+                        </div>
+                        <div class="stat-box" style="text-align: left; padding: 10px;">
+                            <span>Magic Skill</span>
+                            <strong id="stat-val-magic" style="font-size: 1.4rem;">10</strong>
+                        </div>
+                    </div>
+
                     <h3 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px;">❤️ Hogwarts Hearts</h3>
                     <div id="romance-meters-list-mobile">
-                        <!-- Renders romance meters directly in the center panel for mobile users -->
+                        <!-- Renders romance meters here for mobile and central view -->
                     </div>
                 </div>
 
@@ -771,17 +793,18 @@
                     <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">
                         To give your Hogwarts classmates unrestricted, 100% open-ended AI personalities who can dynamically react, hold romance conversations, and adapt to whatever you type, you can link your Google Gemini API key.
                     </p>
-                    <ol style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; padding-left: 20px;">
-                        <li>Go to <a href="https://aistudio.google.com/" target="_blank" style="color: var(--primary); font-weight: bold;">Google AI Studio</a>.</li>
-                        <li>Click <strong>Get API Key</strong> and create a free key.</li>
-                        <li>Paste your key below and save.</li>
-                    </ol>
                     <div class="form-group">
                         <label>Paste Gemini API Key</label>
                         <input type="password" id="api-key-input" class="form-control" placeholder="AIzaSy...">
                     </div>
                     <button class="btn-magic" onclick="saveApiKey()" style="margin-top: 10px;">Activate Real-time AI</button>
-                    <button class="btn-magic" onclick="clearApiKey()" style="background-color: var(--danger); color: #fff; margin-left: 10px; border-radius: 20px;">Disconnect AI</button>
+                    <button class="btn-magic" onclick="clearApiKey()" style="background-color: var(--accent); color: #fff; margin-left: 10px; border-radius: 20px;">Disconnect AI</button>
+
+                    <h3 style="color: var(--danger); margin-top: 40px; margin-bottom: 10px;">⚠️ Danger Zone</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
+                        Wipe your saved student files, attributes, event logs, and start your Hogwarts adventure completely over.
+                    </p>
+                    <button class="btn-magic" onclick="wipeSaveAndRestart()" style="background-color: var(--danger); color: #fff; border-radius: 20px;">Reset Student File</button>
                 </div>
             </div>
         </div>
@@ -811,8 +834,8 @@
                 <span>DMs</span>
             </div>
             <div class="bottom-nav-item" onclick="switchTab('hearts')" id="bottom-nav-hearts">
-                <span class="bottom-nav-icon">❤️</span>
-                <span>Hearts</span>
+                <span class="bottom-nav-icon">📊</span>
+                <span>Stats</span>
             </div>
             <div class="bottom-nav-item" onclick="switchTab('settings')" id="bottom-nav-settings">
                 <span class="bottom-nav-icon">⚙️</span>
@@ -823,7 +846,7 @@
     </div>
 
     <script>
-        // Game State Core
+        // Game State Core (V5 Supports core Attributes)
         let state = {
             player: {
                 name: "Wizard Student",
@@ -832,7 +855,12 @@
                 avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop",
                 aura: 100,
                 points: 10,
-                turnsPlayed: 0
+                turnsPlayed: 0,
+                // Status Attributes
+                popularity: 10,
+                intelligence: 10,
+                courage: 10,
+                magic: 10
             },
             api_key: "",
             activeTab: "feed",
@@ -842,7 +870,9 @@
                 "Hermione Granger": 5,
                 "Harry Potter": 5,
                 "Luna Lovegood": 5,
-                "Pansy Parkinson": 5
+                "Pansy Parkinson": 5,
+                "Amelia Vance": 5,
+                "Reggie Spark": 5
             },
             triggeredEvents: [],
             feedPosts: [],
@@ -851,7 +881,9 @@
                 "Hermione Granger": [{ sender: "Hermione Granger", text: "Did you finish the transfiguration essay? I'm proofreading mine in the library." }],
                 "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some pick-up Quidditch." }],
                 "Luna Lovegood": [{ sender: "Luna Lovegood", text: "The nargles are highly active around the library today. Keep your eyes open." }],
-                "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horrendous." }]
+                "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horrendous." }],
+                "Amelia Vance": [{ sender: "Amelia Vance", text: "Do not wake me up before noon. And no, I do not want to go study by the Herbology greenhouse." }],
+                "Reggie Spark": [{ sender: "Reggie Spark", text: "Hey! Do you know if there's any spell to convert spell-fire into a 5G hotspot? Asking for a friend." }]
             }
         };
 
@@ -860,53 +892,79 @@
                 handle: "pureblood_prince", 
                 house: "🐍 Slytherin", 
                 avatar: "https://hp-api.onrender.com/images/draco.jpg", 
-                bio: "Slytherin Seeker. Defensive, fiercely proud, uses 'Potter' or 'Gryffindor' as mild insults. Underneath his snobbish exterior, he feels immense pressure to live up to his family name, making him deeply guarded but intensely protective if you win him over." 
+                bio: "Slytherin Seeker. Defensive, prideful, hides vulnerabilities under layers of family arrogance." 
             },
             "Hermione Granger": { 
                 handle: "brightest_witch", 
                 house: "🦁 Gryffindor", 
                 avatar: "https://hp-api.onrender.com/images/hermione.jpeg", 
-                bio: "S.P.E.W. founder. Library regular. Highly articulate, intellectually competitive, easily annoyed by rule-breakers, but gets highly flustered and sweet if you playfully tease her or show interest in her thoughts." 
+                bio: "S.P.E.W. founder. Library regular. Highly articulate, intellectually competitive, easily flustered when teased." 
             },
             "Harry Potter": { 
                 handle: "the_chosen_one", 
                 house: "🦁 Gryffindor", 
                 avatar: "https://hp-api.onrender.com/images/harry.jpg", 
-                bio: "Gryffindor Quidditch Captain. Tired of being treated like a celebrity or a weapon. Appreciates quiet sincerity, dry humor, and simple loyalty over theatrical worship." 
+                bio: "Gryffindor Quidditch Captain. Wants simple sincerity, dry humor, and a normal classmate to hang out with." 
             },
             "Luna Lovegood": { 
                 handle: "nargle_hunter", 
                 house: "🦅 Ravenclaw", 
                 avatar: "https://hp-api.onrender.com/images/luna.jpg", 
-                bio: "Dreamy eccentric. Mentions Nargles and Plimpies. Deeply observant and empathetic; speaks in mysterious, poetic truths. She notices things about you that no one else does." 
+                bio: "Dreamy eccentric. Empathetic, speaks in cryptic poetic truths about the world and magical creatures." 
             },
             "Pansy Parkinson": { 
                 handle: "pansy_p", 
                 house: "🐍 Slytherin", 
                 avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop", 
-                bio: "Slytherin socialite. Mean girl aesthetic. Obsessed with pureblood politics and school rumors. Sarcastic, high-maintenance, but can be deeply won over by high-status gossip or smooth devotion." 
+                bio: "Slytherin socialite. Sarcastic, high-maintenance, gossipy, but protective of her friends." 
+            },
+            // Non-Canonical / Original Characters (Romanceable!)
+            "Amelia Vance": {
+                handle: "shadow_vance",
+                house: "🐍 Slytherin",
+                avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&h=150&fit=crop",
+                bio: "Half-vampire exchange student. Enjoys blood-pops, hates mornings in the Great Hall, speaks with lazy cynicism."
+            },
+            "Reggie Spark": {
+                handle: "reggie_sparks",
+                house: "🦡 Hufflepuff",
+                avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&h=150&fit=crop",
+                bio: "Enthusiastic Muggle-born wizard. Trying to make magic-powered smartphones. Extremely tech-obsessed, friendly, and clumsy."
             }
         };
 
-        // Fire-Fueling Background Bots (They trigger feed activity and insert chaos)
+        // Fire-Fueling Background Bots (Non-romanceable chaos-makers)
         const backgroundBots = {
             "Rita Skeeter": {
                 handle: "quick_quotes_rita",
                 house: "⚡ Press",
                 avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&h=150&fit=crop",
-                bio: "Daily Prophet column writer. Truth is a perspective. I see everything."
+                bio: "Daily Prophet writer. Blind items, scandals, and dramatic twists are my specialty."
             },
             "Professor Snape": {
                 handle: "potion_master_snape",
                 house: "🐍 Slytherin",
                 avatar: "https://hp-api.onrender.com/images/snape.jpg",
-                bio: "Potions Master. Head of Slytherin. Do not waste my time with digital nonsense."
+                bio: "Potions Master. Head of Slytherin. Report to detention immediately."
             },
             "Fred & George": {
                 handle: "weasley_pranks",
                 house: "🦁 Gryffindor",
                 avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop",
-                bio: "Proprietors of Weasleys' Wizard Wheezes. Chaos is our currency."
+                bio: "Proprietors of Weasleys' Wizard Wheezes. Chaos-maker extra-ordinaire."
+            },
+            // Non-Canonical Background Bots
+            "Aria Whispers": {
+                handle: "aria_whispering",
+                house: "🦅 Ravenclaw",
+                avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&h=150&fit=crop",
+                bio: "Half-siren student. Posts moody poetry, sings constantly, and complains that the Giant Squid keeps interrupting her choruses."
+            },
+            "Grok the Goblin": {
+                handle: "grok_gringotts_intern",
+                house: "🪙 Goblin Liaison",
+                avatar: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=150&h=150&fit=crop",
+                bio: "Audit intern from Gringotts. Wants to check the House Cup balance sheet. Constantly complaining about Hogwarts security."
             }
         };
 
@@ -917,9 +975,13 @@
             "Harry Potter": ["Brilliant! We should totally do that.", "Snape's been keeping his eye on us. Be careful.", "Are we still meeting up by the lake?"],
             "Luna Lovegood": ["Your aura is very sparkly today.", "The Wrackspurts approve of this message.", "Let's go look for pudding in the Great Hall."],
             "Pansy Parkinson": ["Ugh, tell me about it.", "You look decent today, did you do something with your hair?", "Meet me in the common room. Alone."],
+            "Amelia Vance": ["Let me sleep. Wake me when Snape's class is over.", "Are you staring at my teeth? Mind your business."],
+            "Reggie Spark": ["Yes! I almost bypassed the school's anti-muggle wards!", "Filch took my router again. I'm going to duel him."],
             "Rita Skeeter": ["Fascinating... my Quick-Quotes Quill is practically writing itself!", "A scandalous detail! This will look lovely on page three."],
             "Professor Snape": ["That will be ten points from your house for general foolishness.", "Silencio. Go back to your essay."],
-            "Fred & George": ["Brilliant! Want to test out our new fever-fudge?", "Prank incoming in the North Corridor. Watch out!"]
+            "Fred & George": ["Brilliant! Want to test out our new fever-fudge?", "Prank incoming in the North Corridor. Watch out!"],
+            "Aria Whispers": ["*siren song echoes* ...oh, were you talking to me?", "The Giant Squid tried to join my harmony again. Extremely rude."],
+            "Grok the Goblin": ["There is a serious accounting error in the Hufflepuff common room fund.", "Magic is cool, but have you tried compounding interest? #GoldStandard"]
         };
 
         // Bot autonomous posts used to populate the feed and "fuel the fire"
@@ -927,8 +989,10 @@
             { sender: "Rita Skeeter", handle: "quick_quotes_rita", avatar: backgroundBots["Rita Skeeter"].avatar, house: "⚡ Press", body: "Rumors are swirling of a certain Slytherin prince getting unusually close with a new student... Is it a tragic delusion, or a pureblood scandal in the making? Details in my next column. #SlytherinScandal" },
             { sender: "Professor Snape", handle: "potion_master_snape", avatar: backgroundBots["Professor Snape"].avatar, house: "🐍 Slytherin", body: "Any student caught using WizNet during class hours will receive a week of detention scrubbing flobberworms. I am looking directly at Gryffindor house." },
             { sender: "Fred & George", handle: "weasley_pranks", avatar: backgroundBots["Fred & George"].avatar, house: "🦁 Gryffindor", body: "Need to escape History of Magic? Our Skiving Snackboxes are 15% off today! Guarantees 2 hours of projectile illness. Snape-proof! #GredAndFeorge" },
-            { sender: "Rita Skeeter", handle: "quick_quotes_rita", avatar: backgroundBots["Rita Skeeter"].avatar, house: "⚡ Press", body: "A certain Golden Boy was spotted looking exceptionally miserable in the Great Hall today. Is the pressure of destiny finally breaking his heroic spirit? #TheStressedOne" },
-            { sender: "Fred & George", handle: "weasley_pranks", avatar: backgroundBots["Fred & George"].avatar, house: "🦁 Gryffindor", body: "Accidentally turned Ron's pet rat neon green. If anyone asks, it's a rare French breed. Selling it for 2 Galleons." }
+            { sender: "Amelia Vance", handle: "shadow_vance", avatar: characters["Amelia Vance"].avatar, house: "🐍 Slytherin", body: "The sun is too loud today. If anyone needs me, I will be sleeping in the shadows of the Owlery. Do not throw seeds at me." },
+            { sender: "Reggie Spark", handle: "reggie_sparks", avatar: characters["Reggie Spark"].avatar, house: "🦡 Hufflepuff", body: "URGENT: Has anyone figured out how to charge an iPhone with a Wand? I tried 'Incendio' and now my battery is smoking. #MuggleTech" },
+            { sender: "Aria Whispers", handle: "aria_whispering", avatar: backgroundBots["Aria Whispers"].avatar, house: "🦅 Ravenclaw", body: "Do you ever just stand by the lake and sing until the Giant Squid waves a tentacle? No? Just me? Okay." },
+            { sender: "Grok the Goblin", handle: "grok_gringotts_intern", avatar: backgroundBots["Grok the Goblin"].avatar, house: "🪙 Goblin Liaison", body: "Audited the Gryffindor House points ledger today. Found several illegal 'unauthorized bravery bonuses' from Dumbledore. Investigation ongoing. #GrogLeaks" }
         ];
 
         // Trope Stage Paths mapped to Romance percentage limits (0-100)
@@ -967,10 +1031,24 @@
                 { maxVal: 60, stage: "Flirtatious Rivals 💋" },
                 { maxVal: 80, stage: "Secret Flame 🔥" },
                 { maxVal: 100, stage: "Devoted Partners 💍" }
+            ],
+            "Amelia Vance": [
+                { maxVal: 20, stage: "Annoying Sunlight 💢" },
+                { maxVal: 40, stage: "Gloom Buddies 🦇" },
+                { maxVal: 60, stage: "Cryptic Partners 🤝" },
+                { maxVal: 80, stage: "Midnight Crush 🤫" },
+                { maxVal: 100, stage: "Immortal Lovers ❤️" }
+            ],
+            "Reggie Spark": [
+                { maxVal: 20, stage: "Anti-Tech Rival 💢" },
+                { maxVal: 40, stage: "Lab Partners ⚡" },
+                { maxVal: 60, stage: "Close Co-conspirators 🤝" },
+                { maxVal: 80, stage: "Beta Testers 💕" },
+                { maxVal: 100, stage: "System Soulmates 💍" }
             ]
         };
 
-        // Interactive Event Scenarios list
+        // Interactive Event Scenarios list (Updated with Status Attributes)
         const interactiveEvents = [
             {
                 id: "potions_accident",
@@ -980,18 +1058,18 @@
                 choices: [
                     {
                         text: "Throw yourself in front of them to shield them from the potion splatter.",
-                        aura: 15, points: -15, romanceBoost: 18,
-                        outcome: "The potion explodes, covering you entirely in pink bubblegum slime. Snape deducts 15 points from your house, but your crush is deeply flushed and touched by your heroic stunt."
+                        aura: 15, points: -15, romanceBoost: 18, attribute: "courage", attrVal: 10,
+                        outcome: "The potion explodes, covering you entirely in pink bubblegum slime. Snape deducts 15 points from your house, but your courage is through the roof (+10 Courage) and your crush is deeply flushed and touched by your heroic stunt."
                     },
                     {
                         text: "Blame the wrong ingredient on them and take a step back.",
-                        aura: -10, points: 5, romanceBoost: -15,
-                        outcome: "You escape unharmed, but your partner glares at you through black soot-covered hair. They unfollow you on WizNet and relationship progress falls bitterly."
+                        aura: -10, points: 5, romanceBoost: -15, attribute: "popularity", attrVal: -5,
+                        outcome: "You escape unharmed, but your partner glares at you through black soot-covered hair. Word spreads and you lose some popularity."
                     },
                     {
                         text: "Quickly cast an emergency Containment Charm ('Impedimenta!')",
-                        aura: 10, points: 15, romanceBoost: 8,
-                        outcome: "The potion freezes safely. Snape begrudgingly awards your house 15 points. Your partner looks at you with high, quiet respect for your quick reflexes."
+                        aura: 10, points: 15, romanceBoost: 8, attribute: "intelligence", attrVal: 12,
+                        outcome: "The potion freezes safely. Snape begrudgingly awards your house 15 points. You level up your Intelligence (+12) and your partner looks at you with quiet respect."
                     }
                 ]
             },
@@ -1003,18 +1081,18 @@
                 choices: [
                     {
                         text: "Show up ready to fight, dragging your excited crush along.",
-                        aura: 20, points: -25, romanceBoost: 15,
-                        outcome: "You get caught by Filch after a brief, thrilling exchange of sparks! You lose heavy house points, but your crush spent the night laughing and running down forbidden corridors with you."
+                        aura: 20, points: -25, romanceBoost: 15, attribute: "magic", attrVal: 15,
+                        outcome: "You get caught by Filch after a brief, thrilling exchange of sparks! You lose heavy house points, but your magic skill surges (+15 Magic Skill) and your crush loved the thrill of running down forbidden corridors with you."
                     },
                     {
                         text: "Ignore it. It's obviously a trap set up by Slytherins.",
-                        aura: -5, points: 5, romanceBoost: 0,
-                        outcome: "You sleep comfortably. The next day, you discover it was indeed a trap, but rumors spread that you chickened out."
+                        aura: -5, points: 5, romanceBoost: 0, attribute: "intelligence", attrVal: 8,
+                        outcome: "You sleep comfortably. The next day, you discover it was indeed a trap, showing your practical intelligence (+8 Intelligence)."
                     },
                     {
                         text: "Send a mock curse reply on WizNet, exposing the anonymous challenger.",
-                        aura: 15, points: 10, romanceBoost: -5,
-                        outcome: "The whole school laughs at the sender, increasing your Aura points. However, your crush thinks you took the safe, unromantic way out."
+                        aura: 15, points: 10, romanceBoost: -5, attribute: "popularity", attrVal: 12,
+                        outcome: "The whole school laughs at the sender, increasing your Popularity (+12 Popularity) and school Aura. However, your crush thinks you took the unromantic way out."
                     }
                 ]
             },
@@ -1026,30 +1104,30 @@
                 choices: [
                     {
                         text: "Walk up confidently, ask them to dance, and whisper a smooth compliment.",
-                        aura: 25, points: 0, romanceBoost: 22,
-                        outcome: "They blush beautifully, taking your hand! You dance under the falling snow, cementing your transition to a heavy mutual crush."
+                        aura: 25, points: 0, romanceBoost: 22, attribute: "popularity", attrVal: 15,
+                        outcome: "They blush beautifully, taking your hand! You dance under the falling snow, increasing your Popularity (+15) and cementing your transition to a heavy mutual crush."
                     },
                     {
                         text: "Try to slide over smoothly, but slip and spill pumpkin juice on yourself.",
-                        aura: -15, points: 0, romanceBoost: 8,
-                        outcome: "It's highly embarrassing, but they laugh softly, pull out their wand to cast 'Scourgify,' and end up dancing with you anyway because you're endearing."
+                        aura: -15, points: 0, romanceBoost: 8, attribute: "courage", attrVal: 10,
+                        outcome: "It's highly embarrassing, but they laugh softly, pull out their wand to cast 'Scourgify,' and end up dancing with you anyway because you showed real courage (+10 Courage) walking up."
                     },
                     {
                         text: "Ask someone else to dance nearby to try and make them jealous.",
-                        aura: 5, points: 0, romanceBoost: -15,
-                        outcome: "They catch on immediately, look deeply offended, and leave the Great Hall early. This sets you back several relationship stages."
+                        aura: 5, points: 0, romanceBoost: -15, attribute: "popularity", attrVal: -10,
+                        outcome: "They catch on immediately, look deeply offended, and leave the Great Hall early. This sets you back several relationship stages and hurts your standing."
                     }
                 ]
             }
         ];
 
         window.onload = function() {
-            const savedState = localStorage.getItem("wiznet_save_v4");
+            const savedState = localStorage.getItem("wiznet_save_v5");
             if (savedState) {
                 state = JSON.parse(savedState);
                 document.getElementById("setup-modal").classList.add("hidden");
             }
-            const savedKey = localStorage.getItem("wiznet_api_key_v4");
+            const savedKey = localStorage.getItem("wiznet_api_key_v5");
             if (savedKey) {
                 state.api_key = savedKey;
                 document.getElementById("api-key-input").value = savedKey;
@@ -1080,9 +1158,13 @@
             state.player.house = house;
             state.player.avatar = avatar;
             state.player.turnsPlayed = 0;
+            state.player.popularity = 10;
+            state.player.intelligence = 10;
+            state.player.courage = 10;
+            state.player.magic = 10;
             state.triggeredEvents = [];
 
-            localStorage.setItem("wiznet_save_v4", JSON.stringify(state));
+            localStorage.setItem("wiznet_save_v5", JSON.stringify(state));
             document.getElementById("setup-modal").classList.add("hidden");
             updateUI();
         }
@@ -1094,6 +1176,12 @@
             document.getElementById("stat-aura").innerText = state.player.aura;
             document.getElementById("stat-points").innerText = state.player.points;
             document.getElementById("stat-turns").innerText = state.player.turnsPlayed;
+
+            // Update Status Attribute Values inside the Stats Tab
+            document.getElementById("stat-val-popularity").innerText = state.player.popularity;
+            document.getElementById("stat-val-intelligence").innerText = state.player.intelligence;
+            document.getElementById("stat-val-courage").innerText = state.player.courage;
+            document.getElementById("stat-val-magic").innerText = state.player.magic;
 
             // Set Avatar Images in HTML
             document.getElementById("composer-my-avatar").innerHTML = `<img src="${state.player.avatar}" alt="My Avatar">`;
@@ -1107,7 +1195,7 @@
                 badge.innerText = "🔌 Offline AI Mode";
                 badge.style.backgroundColor = "var(--accent)";
             }
-            localStorage.setItem("wiznet_save_v4", JSON.stringify(state));
+            localStorage.setItem("wiznet_save_v5", JSON.stringify(state));
         }
 
         function getTropeStage(characterName, romanceVal) {
@@ -1199,6 +1287,11 @@
             state.player.aura = Math.max(0, state.player.aura + choice.aura);
             state.player.points = Math.max(0, state.player.points + choice.points);
 
+            // Apply Attribute Increases from Event Choices
+            if (choice.attribute) {
+                state.player[choice.attribute] = Math.max(0, state.player[choice.attribute] + choice.attrVal);
+            }
+
             let highestCrush = "Draco Malfoy";
             let highestVal = -1;
             for (const [char, val] of Object.entries(state.romance)) {
@@ -1210,7 +1303,7 @@
 
             state.romance[highestCrush] = Math.max(0, Math.min(100, state.romance[highestCrush] + choice.romanceBoost));
 
-            alert(`✨ SCENARIO OUTCOME ✨\n\n${choice.outcome}\n\nStats Updated:\n💎 Aura: ${choice.aura >= 0 ? '+' : ''}${choice.aura}\n🏆 House Points: ${choice.points >= 0 ? '+' : ''}${choice.points}\n❤️ ${highestCrush} Relationship: ${choice.romanceBoost >= 0 ? '+' : ''}${choice.romanceBoost}%`);
+            alert(`✨ SCENARIO OUTCOME ✨\n\n${choice.outcome}\n\nStats Updated:\n💎 Aura: ${choice.aura >= 0 ? '+' : ''}${choice.aura}\n🏆 House Points: ${choice.points >= 0 ? '+' : ''}${choice.points}\n📈 Attribute ${choice.attribute.toUpperCase()}: ${choice.attrVal >= 0 ? '+' : ''}${choice.attrVal}\n❤️ ${highestCrush} Relationship: ${choice.romanceBoost >= 0 ? '+' : ''}${choice.romanceBoost}%`);
 
             updateUI();
             renderRomanceMeters();
@@ -1218,11 +1311,9 @@
 
         // Periodic bot posting activity to fill space and fuel fires
         function triggerAutonomousBotActivity() {
-            // 40% chance of a bot creating a fresh autonomous post on the feed to "fuel the fire"
             if (Math.random() < 0.40) {
                 const randomBotPost = botAutonomousPosts[Math.floor(Math.random() * botAutonomousPosts.length)];
                 
-                // Avoid flooding duplicates
                 const alreadyExists = state.feedPosts.some(p => p.body === randomBotPost.body);
                 if (!alreadyExists) {
                     state.feedPosts.unshift({
@@ -1265,20 +1356,17 @@
             checkStoryEvents();
             triggerAutonomousBotActivity();
 
-            // Have a Hogwarts character respond
             setTimeout(() => {
                 const npcList = Object.keys(characters);
                 const randomNpc = npcList[Math.floor(Math.random() * npcList.length)];
                 generateAIResponse(randomNpc, text, true);
 
-                // Sometimes, background bots (Snape or Rita Skeeter) jump in to fuel the fire!
                 triggerBackgroundBotIntervention(randomNpc, text);
             }, 2000);
         }
 
-        // Firing chaotic comments from background bots
         function triggerBackgroundBotIntervention(mainNpcName, userMessage) {
-            if (Math.random() < 0.65) { // 65% chance a background bot interrupts the thread
+            if (Math.random() < 0.65) { 
                 setTimeout(() => {
                     const bots = Object.keys(backgroundBots);
                     const selectedBot = bots[Math.floor(Math.random() * bots.length)];
@@ -1296,7 +1384,7 @@
                 } else {
                     post.likes++;
                     post.liked = true;
-                    state.player.aura += 2;
+                    state.player.popularity += 1;
                 }
                 renderFeed();
                 updateUI();
@@ -1433,7 +1521,7 @@
             }
 
             let replyText = "";
-            let changes = { romance: 1, aura: 1, points: 2 };
+            let changes = { romance: 1, aura: 1, points: 2, popularity: 0, intelligence: 0, courage: 0, magic: 0 };
 
             if (state.api_key) {
                 try {
@@ -1447,13 +1535,15 @@
                             - If you are Rita Skeeter: Add scandalous gossip, act like a slimy journalist, and make up rumors about the player and their Hogwarts crushes.
                             - If you are Professor Snape: Be incredibly bitter, demand safety compliance, complain about Gryffindor rule-breakers, or deduct house points.
                             - If you are Fred & George: Speak with twin-banter, make joke suggestions, or offer illegal products.
+                            - If you are Aria Whispers (Half-Siren): Sing lines, complain about the giant squid, speak in floating siren terms.
+                            - If you are Grok the Goblin: Criticize human magic, mention audits, complain about goblin relations and currency issues.
                             
                             Respond to this player's post/conversation context: "${userMessage}".
                             Keep your response short (1 to 2 sentences maximum) and completely in character.
                             
                             At the very end of your response, you MUST append a state tag strictly formatted like this:
-                            [ROMANCE: 0] [AURA: +x or -x] [POINTS: +x or -x]
-                            where x is a small integer (between -10 and +10) based on how you feel or if Snape deducts points.
+                            [ROMANCE: 0] [AURA: +x or -x] [POINTS: +x or -x] [POPULARITY: +x] [INTELLIGENCE: +x] [COURAGE: +x] [MAGIC: +x]
+                            where x is a small integer (between -10 and +10) based on how you feel or if Snape deducts points or if the player got smarter.
                         `;
                     } else {
                         prompt = `
@@ -1466,6 +1556,8 @@
                             You MUST adjust your behavior, mood, friendliness, and openness to match this stage.
                             - For Draco Malfoy (Enemies to Lovers): If in "Bitter Enemies", be snobbish, defensive, call them 'Potter's lackey' or a 'nobody', and mock them. If in "Reluctant Allies", show mild compliance but mask your interest. If in "Star-Crossed Lovers", be highly protective, intense, and deeply affectionate but still keep your typical Draco flavor.
                             - For Hermione Granger: If in "Academic Rivals", correct their spelling/grammar, be highly articulate, and tease their lack of study. If in "Mutual Crushes", get flustered, shy, easily blushing, and speak in longer nervous structures.
+                            - For Amelia Vance (Half-Vampire): Lazily cynical, yawns, mentions sleeping in shadows or drinking tomato juice, slowly warms up to being fiercely protective.
+                            - For Reggie Spark (Tech Wizard): Super enthusiastic, types in modern text lingo, gets flustered if you ask about dating, talks about his magic-powered servers.
                             - Adapt these dynamic rules to whichever character you are playing!
                             
                             The player said: "${userMessage}".
@@ -1473,10 +1565,10 @@
                             Write a short response (1 to 3 sentences maximum) completely in character. Be reactive. 
                             
                             At the very end of your response, you MUST append a state tag strictly formatted like this:
-                            [ROMANCE: +x or -x] [AURA: +x or -x] [POINTS: +x or -x] 
+                            [ROMANCE: +x or -x] [AURA: +x or -x] [POINTS: +x or -x] [POPULARITY: +x or -x] [INTELLIGENCE: +x or -x] [COURAGE: +x or -x] [MAGIC: +x or -x]
                             where x is an integer from -10 to +10. Adjust these based on how you feel about the player's message and current relationship status.
                             
-                            Example response: "I suppose that's acceptable... for a Gryffindor. Don't go telling anyone I said that. [ROMANCE: +3] [AURA: +1] [POINTS: +0]"
+                            Example response: "I suppose that's acceptable... for a Gryffindor. Don't go telling anyone I said that. [ROMANCE: +3] [AURA: +1] [POINTS: +0] [POPULARITY: +2] [INTELLIGENCE: +0] [COURAGE: +1] [MAGIC: +0]"
                         `;
                     }
 
@@ -1494,10 +1586,18 @@
                         const romanceMatch = rawReply.match(/\[ROMANCE:\s*([+-]?\d+)\]/i);
                         const auraMatch = rawReply.match(/\[AURA:\s*([+-]?\d+)\]/i);
                         const pointsMatch = rawReply.match(/\[POINTS:\s*([+-]?\d+)\]/i);
+                        const popularityMatch = rawReply.match(/\[POPULARITY:\s*([+-]?\d+)\]/i);
+                        const intelligenceMatch = rawReply.match(/\[INTELLIGENCE:\s*([+-]?\d+)\]/i);
+                        const courageMatch = rawReply.match(/\[COURAGE:\s*([+-]?\d+)\]/i);
+                        const magicMatch = rawReply.match(/\[MAGIC:\s*([+-]?\d+)\]/i);
 
                         if (romanceMatch) changes.romance = parseInt(romanceMatch[1]);
                         if (auraMatch) changes.aura = parseInt(auraMatch[1]);
                         if (pointsMatch) changes.points = parseInt(pointsMatch[1]);
+                        if (popularityMatch) changes.popularity = parseInt(popularityMatch[1]);
+                        if (intelligenceMatch) changes.intelligence = parseInt(intelligenceMatch[1]);
+                        if (courageMatch) changes.courage = parseInt(courageMatch[1]);
+                        if (magicMatch) changes.magic = parseInt(magicMatch[1]);
 
                         replyText = rawReply.replace(/\[.*?\]/g, "").trim();
                     } else {
@@ -1516,10 +1616,12 @@
                 if (lowercase.includes("date") || lowercase.includes("flirt") || lowercase.includes("cute") || lowercase.includes("love")) {
                     changes.romance = 8;
                     changes.aura = 5;
+                    changes.popularity = 2;
                 } else if (lowercase.includes("stupid") || lowercase.includes("ugly") || lowercase.includes("hate")) {
                     changes.romance = -5;
                     changes.aura = -10;
                     changes.points = -5;
+                    changes.popularity = -3;
                 }
             }
 
@@ -1529,6 +1631,12 @@
             }
             state.player.aura = Math.max(0, state.player.aura + changes.aura);
             state.player.points = Math.max(0, state.player.points + changes.points);
+
+            // Level up user Status attributes!
+            state.player.popularity = Math.max(0, state.player.popularity + changes.popularity);
+            state.player.intelligence = Math.max(0, state.player.intelligence + changes.intelligence);
+            state.player.courage = Math.max(0, state.player.courage + changes.courage);
+            state.player.magic = Math.max(0, state.player.magic + changes.magic);
 
             if (isPublicFeed) {
                 const feedLoader = document.getElementById(`feed-loader-${npcName}`);
@@ -1569,6 +1677,7 @@
             // Desktop Left Nav Bar States
             document.getElementById("nav-feed").classList.remove("active");
             document.getElementById("nav-dms").classList.remove("active");
+            document.getElementById("nav-hearts").classList.remove("active");
             document.getElementById("nav-settings").classList.remove("active");
 
             // Mobile Bottom Nav Bar States
@@ -1585,7 +1694,7 @@
 
             if (tab === "feed") document.getElementById("tab-title").innerText = "Home Feed";
             if (tab === "dms") document.getElementById("tab-title").innerText = "Owl Post (DMs)";
-            if (tab === "hearts") document.getElementById("tab-title").innerText = "Hogwarts Hearts";
+            if (tab === "hearts") document.getElementById("tab-title").innerText = "Wizard Status";
             if (tab === "settings") document.getElementById("tab-title").innerText = "AI Key Configuration";
             
             state.activeTab = tab;
@@ -1596,7 +1705,7 @@
             const key = document.getElementById("api-key-input").value.trim();
             if (key) {
                 state.api_key = key;
-                localStorage.setItem("wiznet_api_key_v4", key);
+                localStorage.setItem("wiznet_api_key_v5", key);
                 alert("🪄 Real-time AI connected successfully! Speak freely with any student.");
                 updateUI();
             }
@@ -1604,10 +1713,18 @@
 
         function clearApiKey() {
             state.api_key = "";
-            localStorage.removeItem("wiznet_api_key_v4");
+            localStorage.removeItem("wiznet_api_key_v5");
             document.getElementById("api-key-input").value = "";
             alert("🪄 AI disconnected. WizNet reverted to Offline Simulation.");
             updateUI();
+        }
+
+        function wipeSaveAndRestart() {
+            if (confirm("Are you sure you want to completely erase your wizard files and start over? All attributes, romantic progress, and messages will be lost!")) {
+                localStorage.removeItem("wiznet_save_v5");
+                alert("Wand snapped. Floo powder lit. Restarting application...");
+                window.location.reload();
+            }
         }
     </script>
 </body>
