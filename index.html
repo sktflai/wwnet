@@ -910,7 +910,7 @@
             dms: {
                 "Draco Malfoy": [{ sender: "Draco Malfoy", text: "Why are you looking at me? If my father hears about this..." }],
                 "Hermione Granger": [{ sender: "Hermione Granger", text: "Did you finish the transfiguration essay? I'm proofreading mine in the library." }],
-                "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some pick-up Quidditch." }],
+                "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some Quidditch." }],
                 "Ron Weasley": [{ sender: "Ron Weasley", text: "Snape's essay prompt is absolute rubbish. Do you have any idea what we're supposed to write about?" }],
                 "Luna Lovegood": [{ sender: "Luna Lovegood", text: "The nargles are highly active around the library today. Keep your eyes open." }],
                 "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horrendous." }],
@@ -919,7 +919,7 @@
             }
         };
 
-        // All Character Avatars updated strictly to your local JPEG file list
+        // All Character Avatars updated strictly to your local JPEG file list (Case-sensitive matched!)
         const characters = {
             "Draco Malfoy": { 
                 handle: "pureblood_prince", 
@@ -1072,9 +1072,9 @@
             },
             "Fred Weasley": {
                 flirt: "Oh ho! Georgie, look at this. We have an admirer!",
-                hate: "A bit touchy, aren't we? Have a U-No-Poo sweet to calm down.",
+                hate: "A bit touchy, aren't we? Have a U-No-Poo sweet to candy down.",
                 study: "Study? We only study the art of escape, mate.",
-                default: "Prank incoming in the North Corridor. Watch your step!"
+                default: "Prank incoming in the North Corridor. Watch out!"
             },
             "George Weasley": {
                 flirt: "Careful, Fred might get jealous. But please, do go on.",
@@ -1098,7 +1098,7 @@
 
         // Bot autonomous posts used to populate the feed and "fuel the fire"
         const botAutonomousPosts = [
-            { sender: "Rita Skeeter", handle: "quick_quotes_rita", avatar: backgroundBots["Rita Skeeter"].avatar, house: "⚡ Press", body: "Rumors are swirling of a certain Slyhn prince getting unusually close with a new student... Is it a tragic delusion, or a pureblood scandal in the making? Details in my next column. #SlytherinScandal", comments: [] },
+            { sender: "Rita Skeeter", handle: "quick_quotes_rita", avatar: backgroundBots["Rita Skeeter"].avatar, house: "⚡ Press", body: "Rumors are swirling of a certain Slytherin prince getting unusually close with a new student... Is it a tragic delusion, or a pureblood scandal in the making? Details in my next column. #SlytherinScandal", comments: [] },
             { sender: "Professor Snape", handle: "potion_master_snape", avatar: backgroundBots["Professor Snape"].avatar, house: "🐍 Slytherin", body: "Any student caught using WizNet during class hours will receive a week of detention scrubbing flobberworms. I am looking directly at Gryffindor house.", comments: [] },
             { sender: "Fred Weasley", handle: "fred_weasley", avatar: backgroundBots["Fred Weasley"].avatar, house: "🦁 Gryffindor", body: "Need to escape History of Magic? Our Skiving Snackboxes are 15% off today! Guarantees 2 hours of projectile illness. Snape-proof! #GredAndFeorge", comments: [] },
             { sender: "George Weasley", handle: "george_weasley", avatar: backgroundBots["George Weasley"].avatar, house: "🦁 Gryffindor", body: "Just made a bet with Fred on how long it takes Snape to confiscate Reggie's new router. Standard Gringotts terms. #GredAndFeorge", comments: [] },
@@ -1513,7 +1513,7 @@
             let html = "";
             for (const [char, val] of Object.entries(state.romance)) {
                 const npc = characters[char];
-                if (!npc) continue; // CRITICAL STRUCTURAL NULL-CHECK (Forces app not to crash)
+                if (!npc) continue; // CRITICAL STRUCTURAL NULL-CHECK
 
                 const stageName = getTropeStage(char, val);
                 
@@ -1544,7 +1544,7 @@
             threads.innerHTML = "";
             for (const char in state.dms) {
                 const npc = characters[char] || backgroundBots[char];
-                if (!npc) continue; // CRITICAL STRUCTURAL NULL-CHECK (Forces app not to crash)
+                if (!npc) continue; // CRITICAL STRUCTURAL NULL-CHECK
 
                 const lastMsg = state.dms[char].length > 0 ? state.dms[char][state.dms[char].length - 1].text : "No messages";
                 const activeClass = state.activeDMTarget === char ? "active" : "";
