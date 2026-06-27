@@ -219,13 +219,19 @@
             padding: 15px 20px;
             border-bottom: 1px solid var(--border-color);
             display: flex;
-            gap: 15px;
+            flex-direction: column;
+            gap: 10px;
             animation: slideIn 0.3s ease-out;
         }
 
         @keyframes slideIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post-main-header-row {
+            display: flex;
+            gap: 15px;
         }
 
         .post-main {
@@ -281,6 +287,48 @@
 
         .post-action:hover {
             color: var(--primary);
+        }
+
+        /* Comment Threads Styling (Public Feed Banter) */
+        .comments-container {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nested-comment {
+            display: flex;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-size: 0.9rem;
+            animation: slideIn 0.2s ease-out;
+        }
+
+        .nested-comment:last-child {
+            border-bottom: none;
+        }
+
+        .comment-input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .comment-input {
+            flex-grow: 1;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            color: var(--text-main);
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            outline: none;
         }
 
         /* Direct Messages (DM) Panel */
@@ -846,7 +894,7 @@
     </div>
 
     <script>
-        // Game State Core (V5 Supports core Attributes)
+        // Game State Core
         let state = {
             player: {
                 name: "Wizard Student",
@@ -856,7 +904,6 @@
                 aura: 100,
                 points: 10,
                 turnsPlayed: 0,
-                // Status Attributes
                 popularity: 10,
                 intelligence: 10,
                 courage: 10,
@@ -887,53 +934,52 @@
             }
         };
 
+        // Pinterest "Boyfriend / Girlfriend Material" cozy candidates
         const characters = {
             "Draco Malfoy": { 
                 handle: "pureblood_prince", 
                 house: "🐍 Slytherin", 
-                avatar: "https://hp-api.onrender.com/images/draco.jpg", 
-                bio: "Slytherin Seeker. Defensive, prideful, hides vulnerabilities under layers of family arrogance." 
+                avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=250&h=250&fit=crop", // Smirking blond, dark coat, cozy lighting
+                bio: "Slytherin Seeker. Defensive, prideful, hides vulnerabilities under layers of family arrogance. Uses sarcasm as armor." 
             },
             "Hermione Granger": { 
                 handle: "brightest_witch", 
                 house: "🦁 Gryffindor", 
-                avatar: "https://hp-api.onrender.com/images/hermione.jpeg", 
+                avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=250&h=250&fit=crop", // Cozy curls, warm natural smile
                 bio: "S.P.E.W. founder. Library regular. Highly articulate, intellectually competitive, easily flustered when teased." 
             },
             "Harry Potter": { 
                 handle: "the_chosen_one", 
                 house: "🦁 Gryffindor", 
-                avatar: "https://hp-api.onrender.com/images/harry.jpg", 
+                avatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=250&h=250&fit=crop", // Candid curly messy dark hair, wire frame glasses, soft smile
                 bio: "Gryffindor Quidditch Captain. Wants simple sincerity, dry humor, and a normal classmate to hang out with." 
             },
             "Luna Lovegood": { 
                 handle: "nargle_hunter", 
                 house: "🦅 Ravenclaw", 
-                avatar: "https://hp-api.onrender.com/images/luna.jpg", 
+                avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=250&h=250&fit=crop", // Dreamy look, long blond waves, cozy knit sweater
                 bio: "Dreamy eccentric. Empathetic, speaks in cryptic poetic truths about the world and magical creatures." 
             },
             "Pansy Parkinson": { 
                 handle: "pansy_p", 
                 house: "🐍 Slytherin", 
-                avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop", 
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=250&h=250&fit=crop", // Edgy bob, leather jacket, smug direct look
                 bio: "Slytherin socialite. Sarcastic, high-maintenance, gossipy, but protective of her friends." 
             },
-            // Non-Canonical / Original Characters (Romanceable!)
             "Amelia Vance": {
                 handle: "shadow_vance",
                 house: "🐍 Slytherin",
-                avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=150&h=150&fit=crop",
+                avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=250&h=250&fit=crop", // Moody dark hair vintage beauty
                 bio: "Half-vampire exchange student. Enjoys blood-pops, hates mornings in the Great Hall, speaks with lazy cynicism."
             },
             "Reggie Spark": {
                 handle: "reggie_sparks",
                 house: "🦡 Hufflepuff",
-                avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&h=150&fit=crop",
-                bio: "Enthusiastic Muggle-born wizard. Trying to make magic-powered smartphones. Extremely tech-obsessed, friendly, and clumsy."
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=250&h=250&fit=crop", // Curly wild hair, cute wire frame glasses, cozy winter knit
+                bio: "Enthusiastic Muggle-born wizard. Tech-obsessed, friendly, and clumsy."
             }
         };
 
-        // Fire-Fueling Background Bots (Non-romanceable chaos-makers)
         const backgroundBots = {
             "Rita Skeeter": {
                 handle: "quick_quotes_rita",
@@ -953,7 +999,6 @@
                 avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop",
                 bio: "Proprietors of Weasleys' Wizard Wheezes. Chaos-maker extra-ordinaire."
             },
-            // Non-Canonical Background Bots
             "Aria Whispers": {
                 handle: "aria_whispering",
                 house: "🦅 Ravenclaw",
@@ -964,35 +1009,63 @@
                 handle: "grok_gringotts_intern",
                 house: "🪙 Goblin Liaison",
                 avatar: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=150&h=150&fit=crop",
-                bio: "Audit intern from Gringotts. Wants to check the House Cup balance sheet. Constantly complaining about Hogwarts security."
+                bio: "Audit intern from Gringotts. Wants to check the House Cup balance sheet."
             }
         };
 
-        // Static Offline Fallbacks
-        const fallbackReplies = {
-            "Draco Malfoy": ["I suppose that's mildly acceptable... for a non-Slytherin.", "Don't act like we're friends.", "Meet me behind the Herbology greenhouse after dark. Don't let anyone see you."],
-            "Hermione Granger": ["That is factually correct. I read about it in Hogwarts, A History!", "I don't think that's safe, but... it is quite intriguing.", "Oh! Are we going to the library together then?"],
-            "Harry Potter": ["Brilliant! We should totally do that.", "Snape's been keeping his eye on us. Be careful.", "Are we still meeting up by the lake?"],
-            "Luna Lovegood": ["Your aura is very sparkly today.", "The Wrackspurts approve of this message.", "Let's go look for pudding in the Great Hall."],
-            "Pansy Parkinson": ["Ugh, tell me about it.", "You look decent today, did you do something with your hair?", "Meet me in the common room. Alone."],
-            "Amelia Vance": ["Let me sleep. Wake me when Snape's class is over.", "Are you staring at my teeth? Mind your business."],
-            "Reggie Spark": ["Yes! I almost bypassed the school's anti-muggle wards!", "Filch took my router again. I'm going to duel him."],
-            "Rita Skeeter": ["Fascinating... my Quick-Quotes Quill is practically writing itself!", "A scandalous detail! This will look lovely on page three."],
-            "Professor Snape": ["That will be ten points from your house for general foolishness.", "Silencio. Go back to your essay."],
-            "Fred & George": ["Brilliant! Want to test out our new fever-fudge?", "Prank incoming in the North Corridor. Watch out!"],
-            "Aria Whispers": ["*siren song echoes* ...oh, were you talking to me?", "The Giant Squid tried to join my harmony again. Extremely rude."],
-            "Grok the Goblin": ["There is a serious accounting error in the Hufflepuff common room fund.", "Magic is cool, but have you tried compounding interest? #GoldStandard"]
+        // Static Offline Fallbacks (Highly upgraded pattern-sass matcher)
+        const fallbackBanterDatabase = {
+            "Draco Malfoy": {
+                flirt: "Is this your terrible attempt at flirting? Try harder, Gryffindor.",
+                hate: "The feeling is entirely mutual. Don't speak to me again.",
+                study: "I don't need help from you. My potions are flawless.",
+                default: "Why are you commenting under my scroll? Don't make me write to my father."
+            },
+            "Hermione Granger": {
+                flirt: "Oh! Well... thank you, but shouldn't we be studying for Transfiguration?",
+                hate: "There is no need for such hostile language! We are in a school!",
+                study: "Absolutely! Meet me in the library, third table on the left. Bring parchment.",
+                default: "Have you checked the reference section? That's historically inaccurate."
+            },
+            "Harry Potter": {
+                flirt: "Uhh... thanks? Sorry, I'm not really good at this stuff. Want to watch Quidditch?",
+                hate: "Right, go join Malfoy then. I have enough drama to deal with.",
+                study: "Please save me, Hermione's essay demands are killing me.",
+                default: "Just saw Snape patrolling. Stay safe in your common room."
+            },
+            "Luna Lovegood": {
+                flirt: "Your aura is turning a very pretty shade of lavender. It means you are affectionate.",
+                hate: "That's quite an angry frequency. You might have Wrackspurts behind your ears.",
+                study: "We can study the flight patterns of the Wrackspurts together!",
+                default: "The pudding at dinner was wonderful. I think it had magic stardust."
+            },
+            "Pansy Parkinson": {
+                flirt: "Flattering. But you still look like you dressed in the dark. Let's talk gossip.",
+                hate: "A nobody trying to start drama. Run along before I curse you.",
+                study: "Study? How incredibly boring. Let's go watch Draco practice.",
+                default: "Did you see Granger's hair today? Honestly, a bird could nest in there."
+            },
+            "Amelia Vance": {
+                flirt: "Charming. Unfortunately for you, my heart doesn't beat. Literally.",
+                hate: "Yawn. Keep talking, you're making me sleepy.",
+                default: "Can someone close the Great Hall curtains? Sunlight is annoying."
+            },
+            "Reggie Spark": {
+                flirt: "Whoa, wait, really? Is this a prank or is my charisma server actually working?!",
+                hate: "Ouch. System error 404: friendship not found.",
+                default: "I think if I wire this spell-matrix, I can stream Netflix in the dungeons!"
+            }
         };
 
         // Bot autonomous posts used to populate the feed and "fuel the fire"
         const botAutonomousPosts = [
-            { sender: "Rita Skeeter", handle: "quick_quotes_rita", avatar: backgroundBots["Rita Skeeter"].avatar, house: "⚡ Press", body: "Rumors are swirling of a certain Slytherin prince getting unusually close with a new student... Is it a tragic delusion, or a pureblood scandal in the making? Details in my next column. #SlytherinScandal" },
-            { sender: "Professor Snape", handle: "potion_master_snape", avatar: backgroundBots["Professor Snape"].avatar, house: "🐍 Slytherin", body: "Any student caught using WizNet during class hours will receive a week of detention scrubbing flobberworms. I am looking directly at Gryffindor house." },
-            { sender: "Fred & George", handle: "weasley_pranks", avatar: backgroundBots["Fred & George"].avatar, house: "🦁 Gryffindor", body: "Need to escape History of Magic? Our Skiving Snackboxes are 15% off today! Guarantees 2 hours of projectile illness. Snape-proof! #GredAndFeorge" },
-            { sender: "Amelia Vance", handle: "shadow_vance", avatar: characters["Amelia Vance"].avatar, house: "🐍 Slytherin", body: "The sun is too loud today. If anyone needs me, I will be sleeping in the shadows of the Owlery. Do not throw seeds at me." },
-            { sender: "Reggie Spark", handle: "reggie_sparks", avatar: characters["Reggie Spark"].avatar, house: "🦡 Hufflepuff", body: "URGENT: Has anyone figured out how to charge an iPhone with a Wand? I tried 'Incendio' and now my battery is smoking. #MuggleTech" },
-            { sender: "Aria Whispers", handle: "aria_whispering", avatar: backgroundBots["Aria Whispers"].avatar, house: "🦅 Ravenclaw", body: "Do you ever just stand by the lake and sing until the Giant Squid waves a tentacle? No? Just me? Okay." },
-            { sender: "Grok the Goblin", handle: "grok_gringotts_intern", avatar: backgroundBots["Grok the Goblin"].avatar, house: "🪙 Goblin Liaison", body: "Audited the Gryffindor House points ledger today. Found several illegal 'unauthorized bravery bonuses' from Dumbledore. Investigation ongoing. #GrogLeaks" }
+            { sender: "Rita Skeeter", handle: "quick_quotes_rita", avatar: backgroundBots["Rita Skeeter"].avatar, house: "⚡ Press", body: "Rumors are swirling of a certain Slytherin prince getting unusually close with a new student... Is it a tragic delusion, or a pureblood scandal in the making? Details in my next column. #SlytherinScandal", comments: [] },
+            { sender: "Professor Snape", handle: "potion_master_snape", avatar: backgroundBots["Professor Snape"].avatar, house: "🐍 Slytherin", body: "Any student caught using WizNet during class hours will receive a week of detention scrubbing flobberworms. I am looking directly at Gryffindor house.", comments: [] },
+            { sender: "Fred & George", handle: "weasley_pranks", avatar: backgroundBots["Fred & George"].avatar, house: "🦁 Gryffindor", body: "Need to escape History of Magic? Our Skiving Snackboxes are 15% off today! Guarantees 2 hours of projectile illness. Snape-proof! #GredAndFeorge", comments: [] },
+            { sender: "Amelia Vance", handle: "shadow_vance", avatar: characters["Amelia Vance"].avatar, house: "🐍 Slytherin", body: "The sun is too loud today. If anyone needs me, I will be sleeping in the shadows of the Owlery. Do not throw seeds at me.", comments: [] },
+            { sender: "Reggie Spark", handle: "reggie_sparks", avatar: characters["Reggie Spark"].avatar, house: "🦡 Hufflepuff", body: "URGENT: Has anyone figured out how to charge an iPhone with a Wand? I tried 'Incendio' and now my battery is smoking. #MuggleTech", comments: [] },
+            { sender: "Aria Whispers", handle: "aria_whispering", avatar: backgroundBots["Aria Whispers"].avatar, house: "🦅 Ravenclaw", body: "Do you ever just stand by the lake and sing until the Giant Squid waves a tentacle? No? Just me? Okay.", comments: [] },
+            { sender: "Grok the Goblin", handle: "grok_gringotts_intern", avatar: backgroundBots["Grok the Goblin"].avatar, house: "🪙 Goblin Liaison", body: "Audited the Gryffindor House points ledger today. Found several illegal 'unauthorized bravery bonuses' from Dumbledore. Investigation ongoing. #GrogLeaks", comments: [] }
         ];
 
         // Trope Stage Paths mapped to Romance percentage limits (0-100)
@@ -1115,7 +1188,7 @@
                     {
                         text: "Ask someone else to dance nearby to try and make them jealous.",
                         aura: 5, points: 0, romanceBoost: -15, attribute: "popularity", attrVal: -10,
-                        outcome: "They catch on immediately, look deeply offended, and leave the Great Hall early. This sets you back several relationship stages and hurts your standing."
+                        outcome: "They notice, look deeply hurt, and leave the Great Hall early. This sets you back several relationship stages and hurts your standing."
                     }
                 ]
             }
@@ -1211,9 +1284,9 @@
 
         function seedInitialFeed() {
             state.feedPosts = [
-                { id: 1, sender: "Draco Malfoy", handle: "pureblood_prince", avatar: characters["Draco Malfoy"].avatar, house: "🐍 Slytherin", body: "If I have to share a potions cauldron with another clumsy Gryffindor I am going to write a formal complaint to the Headmaster.", likes: 45, liked: false },
-                { id: 2, sender: "Hermione Granger", handle: "brightest_witch", avatar: characters["Hermione Granger"].avatar, house: "🦁 Gryffindor", body: "WizNet is not a platform to complain. We should be utilizing it to study for the upcoming Ancient Runes examination. DM me if you need study materials.", likes: 112, liked: false },
-                { id: 3, sender: "Luna Lovegood", handle: "nargle_hunter", avatar: characters["Luna Lovegood"].avatar, house: "🦅 Ravenclaw", body: "The puddings in the Great Hall are exceptional today. They taste almost completely clear of spiritual toxins.", likes: 88, liked: false }
+                { id: 1, sender: "Draco Malfoy", handle: "pureblood_prince", avatar: characters["Draco Malfoy"].avatar, house: "🐍 Slytherin", body: "If I have to share a potions cauldron with another clumsy Gryffindor I am going to write a formal complaint to the Headmaster.", likes: 45, liked: false, comments: [] },
+                { id: 2, sender: "Hermione Granger", handle: "brightest_witch", avatar: characters["Hermione Granger"].avatar, house: "🦁 Gryffindor", body: "WizNet is not a platform to complain. We should be utilizing it to study for the upcoming Ancient Runes examination. DM me if you need study materials.", likes: 112, liked: false, comments: [] },
+                { id: 3, sender: "Luna Lovegood", handle: "nargle_hunter", avatar: characters["Luna Lovegood"].avatar, house: "🦅 Ravenclaw", body: "The puddings in the Great Hall are exceptional today. They taste almost completely clear of spiritual toxins.", likes: 88, liked: false, comments: [] }
             ];
             renderFeed();
         }
@@ -1224,23 +1297,222 @@
             state.feedPosts.forEach(post => {
                 const card = document.createElement("div");
                 card.className = "post-card";
+                card.id = `post-${post.id}`;
+
+                // Generate comment HTML
+                let commentsHTML = "";
+                if (post.comments && post.comments.length > 0) {
+                    post.comments.forEach(c => {
+                        commentsHTML += `
+                            <div class="nested-comment">
+                                <div class="post-avatar" style="width: 30px; height: 30px;"><img src="${c.avatar}" alt="avatar"></div>
+                                <div>
+                                    <span style="font-weight: bold; color: var(--primary);">${c.sender}</span>
+                                    <span style="font-size: 0.75rem; color: var(--text-muted);">@${c.handle}</span>
+                                    <div style="margin-top: 3px;">${c.body}</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
                 card.innerHTML = `
-                    <div class="post-avatar"><img src="${post.avatar}" alt="${post.sender}"></div>
-                    <div class="post-main">
-                        <div class="post-header">
-                            <span class="post-name">${post.sender}</span>
-                            <span class="post-house-badge" style="background-color: ${getHouseBg(post.house)}; color: #fff;">${post.house}</span>
-                            <span class="post-handle">@${post.handle}</span>
+                    <div class="post-main-header-row">
+                        <div class="post-avatar"><img src="${post.avatar}" alt="${post.sender}"></div>
+                        <div class="post-main">
+                            <div class="post-header">
+                                <span class="post-name">${post.sender}</span>
+                                <span class="post-house-badge" style="background-color: ${getHouseBg(post.house)}; color: #fff;">${post.house}</span>
+                                <span class="post-handle">@${post.handle}</span>
+                            </div>
+                            <div class="post-body">${post.body}</div>
+                            <div class="post-footer">
+                                <div class="post-action" onclick="likePost(${post.id})">❤️ <span>${post.likes}</span></div>
+                                <div class="post-action" onclick="toggleCommentsSection(${post.id})">💬 <span>Reply</span></div>
+                            </div>
                         </div>
-                        <div class="post-body">${post.body}</div>
-                        <div class="post-footer">
-                            <div class="post-action" onclick="likePost(${post.id})">❤️ <span>${post.likes}</span></div>
-                            <div class="post-action" onclick="triggerReply('${post.sender}')">✉️ Send Owl</div>
+                    </div>
+
+                    <!-- Nested Public Banter Comments Panel -->
+                    <div class="comments-container hidden" id="comments-container-${post.id}">
+                        <div id="comments-thread-${post.id}">
+                            ${commentsHTML}
+                        </div>
+                        <div class="comment-input-area">
+                            <input type="text" placeholder="Speak, friend, and comment..." class="comment-input" id="comment-input-${post.id}" onkeydown="handleCommentEnter(event, ${post.id}, '${post.sender}')">
+                            <button class="btn-magic" style="padding: 4px 12px; font-size: 0.8rem;" onclick="submitPublicComment(${post.id}, '${post.sender}')">Post</button>
                         </div>
                     </div>
                 `;
                 list.appendChild(card);
             });
+        }
+
+        function toggleCommentsSection(postId) {
+            const container = document.getElementById(`comments-container-${postId}`);
+            if (container) {
+                container.classList.toggle("hidden");
+            }
+        }
+
+        function handleCommentEnter(e, postId, postAuthor) {
+            if (e.key === "Enter") {
+                submitPublicComment(postId, postAuthor);
+            }
+        }
+
+        // Handle typing public reply comments under posts
+        function submitPublicComment(postId, postAuthor) {
+            const input = document.getElementById(`comment-input-${postId}`);
+            const text = input.value.trim();
+            if (!text) return;
+
+            const post = state.feedPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            // Add user's comment
+            const userComment = {
+                sender: state.player.name,
+                handle: state.player.handle,
+                avatar: state.player.avatar,
+                body: text
+            };
+            if (!post.comments) post.comments = [];
+            post.comments.push(userComment);
+            input.value = "";
+            renderFeed();
+
+            // Re-open expanded box
+            document.getElementById(`comments-container-${postId}`).classList.remove("hidden");
+
+            state.player.turnsPlayed++;
+            updateUI();
+            checkStoryEvents();
+            triggerAutonomousBotActivity();
+
+            // Generate AI/Banter reply in comment thread
+            setTimeout(() => {
+                generateThreadReply(postId, postAuthor, text);
+            }, 1500);
+        }
+
+        async function generateThreadReply(postId, postAuthor, userCommentText) {
+            const post = state.feedPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            // Author replies, or a chaotic bot intercepts the thread
+            const replyBot = (Math.random() < 0.40 && postAuthor !== state.player.name) ? "Rita Skeeter" : postAuthor;
+            
+            const isFillerBot = backgroundBots[replyBot] !== undefined;
+            const npc = isFillerBot ? backgroundBots[replyBot] : characters[replyBot];
+            const currentAffection = isFillerBot ? 0 : (state.romance[replyBot] || 0);
+            const currentStage = isFillerBot ? "N/A" : getTropeStage(replyBot, currentAffection);
+
+            let replyText = "";
+            let changes = { romance: 1, aura: 1, points: 2, popularity: 0, intelligence: 0, courage: 0, magic: 0 };
+
+            if (state.api_key) {
+                // Real AI thread reply
+                try {
+                    const prompt = `
+                        You are playing the role of ${replyBot} from Harry Potter inside a modern magical social network. 
+                        Character bio: ${npc.bio}. Hogwarts House: ${npc.house || "⚡ Press"}.
+                        The player is commenting on a public thread post. Player name is "${state.player.name}" from ${state.player.house}.
+                        
+                        - If you are Draco Malfoy: Be toxic, defensive, or highly flustered/protective depending on if your romance stage is "Bitter Enemies" or "Star-Crossed Lovers". Use typical smug pureblood slang. Avoid polite or helpful robotic speech. 
+                        - If you are Rita Skeeter: Try to start gossip, call out the player, ask if they are secretly sneaking out with the Malfoy heir, and write blind items.
+                        
+                        Current Relationship Stage with player: "${currentStage}" (Affection: ${currentAffection}/100).
+                        The player just posted this comment under a WizNet scroll: "${userCommentText}".
+                        
+                        Reply to their comment directly in exactly 1 to 2 sentences. Be sassy, fast-paced, and write like a real teenager or dynamic wizard, not an assistant. Use lowercases, minor typos, exclamation marks, or text terms where appropriate to make it feel human.
+                        
+                        At the very end of your response, you MUST append a state tag strictly formatted like this:
+                        [ROMANCE: +x] [AURA: +x] [POINTS: +x] [POPULARITY: +x] [INTELLIGENCE: +x] [COURAGE: +x] [MAGIC: +x]
+                        where x is an integer from -10 to +10. Adjust these based on how you feel.
+                    `;
+
+                    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${state.api_key}`;
+                    const response = await fetch(endpoint, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                    });
+                    const data = await response.json();
+                    
+                    if (data.candidates && data.candidates[0].content.parts[0].text) {
+                        const rawReply = data.candidates[0].content.parts[0].text;
+                        
+                        const romanceMatch = rawReply.match(/\[ROMANCE:\s*([+-]?\d+)\]/i);
+                        const auraMatch = rawReply.match(/\[AURA:\s*([+-]?\d+)\]/i);
+                        const pointsMatch = rawReply.match(/\[POINTS:\s*([+-]?\d+)\]/i);
+                        const popularityMatch = rawReply.match(/\[POPULARITY:\s*([+-]?\d+)\]/i);
+                        const intelligenceMatch = rawReply.match(/\[INTELLIGENCE:\s*([+-]?\d+)\]/i);
+                        const courageMatch = rawReply.match(/\[COURAGE:\s*([+-]?\d+)\]/i);
+                        const magicMatch = rawReply.match(/\[MAGIC:\s*([+-]?\d+)\]/i);
+
+                        if (romanceMatch) changes.romance = parseInt(romanceMatch[1]);
+                        if (auraMatch) changes.aura = parseInt(auraMatch[1]);
+                        if (pointsMatch) changes.points = parseInt(pointsMatch[1]);
+                        if (popularityMatch) changes.popularity = parseInt(popularityMatch[1]);
+                        if (intelligenceMatch) changes.intelligence = parseInt(intelligenceMatch[1]);
+                        if (courageMatch) changes.courage = parseInt(courageMatch[1]);
+                        if (magicMatch) changes.magic = parseInt(magicMatch[1]);
+
+                        replyText = rawReply.replace(/\[.*?\]/g, "").trim();
+                    }
+                } catch (e) {
+                    console.error(e);
+                    replyText = "Fascinating comment. Merlin's beard, the Ley lines are volatile today.";
+                }
+            } else {
+                // Highly upgraded offline banter script with keyword triggers
+                const lowercaseComment = userCommentText.toLowerCase();
+                const characterBanter = fallbackBanterDatabase[replyBot];
+                
+                if (characterBanter) {
+                    if (lowercaseComment.includes("love") || lowercaseComment.includes("cute") || lowercaseComment.includes("flirt") || lowercaseComment.includes("handsome")) {
+                        replyText = characterBanter.flirt;
+                        changes.romance = 5;
+                        changes.popularity = 2;
+                    } else if (lowercaseComment.includes("hate") || lowercaseComment.includes("stupid") || lowercaseComment.includes("idiot")) {
+                        replyText = characterBanter.hate;
+                        changes.romance = -5;
+                        changes.popularity = -2;
+                    } else if (lowercaseComment.includes("study") || lowercaseComment.includes("exam") || lowercaseComment.includes("potions")) {
+                        replyText = characterBanter.study;
+                        changes.intelligence = 4;
+                    } else {
+                        replyText = characterBanter.default;
+                    }
+                } else {
+                    replyText = "detention! stop wasting time under comments.";
+                }
+            }
+
+            // Apply updates
+            if (!isFillerBot) {
+                state.romance[replyBot] = Math.max(0, Math.min(100, (state.romance[replyBot] || 0) + changes.romance));
+            }
+            state.player.aura = Math.max(0, state.player.aura + changes.aura);
+            state.player.points = Math.max(0, state.player.points + changes.points);
+            state.player.popularity = Math.max(0, state.player.popularity + changes.popularity);
+            state.player.intelligence = Math.max(0, state.player.intelligence + changes.intelligence);
+            state.player.courage = Math.max(0, state.player.courage + changes.courage);
+            state.player.magic = Math.max(0, state.player.magic + changes.magic);
+
+            // Append bot reply in comment thread
+            post.comments.push({
+                sender: replyBot,
+                handle: npc.handle,
+                avatar: npc.avatar,
+                body: replyText
+            });
+
+            renderFeed();
+            document.getElementById(`comments-container-${postId}`).classList.remove("hidden");
+            renderRomanceMeters();
+            updateUI();
         }
 
         function getHouseBg(house) {
@@ -1287,7 +1559,6 @@
             state.player.aura = Math.max(0, state.player.aura + choice.aura);
             state.player.points = Math.max(0, state.player.points + choice.points);
 
-            // Apply Attribute Increases from Event Choices
             if (choice.attribute) {
                 state.player[choice.attribute] = Math.max(0, state.player[choice.attribute] + choice.attrVal);
             }
@@ -1309,7 +1580,6 @@
             renderRomanceMeters();
         }
 
-        // Periodic bot posting activity to fill space and fuel fires
         function triggerAutonomousBotActivity() {
             if (Math.random() < 0.40) {
                 const randomBotPost = botAutonomousPosts[Math.floor(Math.random() * botAutonomousPosts.length)];
@@ -1324,7 +1594,8 @@
                         house: randomBotPost.house,
                         body: randomBotPost.body,
                         likes: Math.floor(Math.random() * 50) + 10,
-                        liked: false
+                        liked: false,
+                        comments: []
                     });
                     renderFeed();
                 }
@@ -1344,7 +1615,8 @@
                 house: state.player.house,
                 body: text,
                 likes: 0,
-                liked: false
+                liked: false,
+                comments: []
             };
 
             state.feedPosts.unshift(newPost);
@@ -1360,19 +1632,7 @@
                 const npcList = Object.keys(characters);
                 const randomNpc = npcList[Math.floor(Math.random() * npcList.length)];
                 generateAIResponse(randomNpc, text, true);
-
-                triggerBackgroundBotIntervention(randomNpc, text);
             }, 2000);
-        }
-
-        function triggerBackgroundBotIntervention(mainNpcName, userMessage) {
-            if (Math.random() < 0.65) { 
-                setTimeout(() => {
-                    const bots = Object.keys(backgroundBots);
-                    const selectedBot = bots[Math.floor(Math.random() * bots.length)];
-                    generateAIResponse(selectedBot, `[SYSTEM EVENT: You are ${selectedBot} replying to the player's post "${userMessage}" right after ${mainNpcName} commented on it. Fuel the fire, add gossip, or start drama!]`, true);
-                }, 3500);
-            }
         }
 
         function likePost(id) {
@@ -1470,11 +1730,6 @@
             chat.scrollTop = chat.scrollHeight;
         }
 
-        function triggerReply(npcName) {
-            switchTab("dms");
-            selectDMThread(npcName);
-        }
-
         function handleDMEnter(e) {
             if (e.key === "Enter") {
                 sendDirectMessage();
@@ -1535,15 +1790,12 @@
                             - If you are Rita Skeeter: Add scandalous gossip, act like a slimy journalist, and make up rumors about the player and their Hogwarts crushes.
                             - If you are Professor Snape: Be incredibly bitter, demand safety compliance, complain about Gryffindor rule-breakers, or deduct house points.
                             - If you are Fred & George: Speak with twin-banter, make joke suggestions, or offer illegal products.
-                            - If you are Aria Whispers (Half-Siren): Sing lines, complain about the giant squid, speak in floating siren terms.
-                            - If you are Grok the Goblin: Criticize human magic, mention audits, complain about goblin relations and currency issues.
                             
                             Respond to this player's post/conversation context: "${userMessage}".
                             Keep your response short (1 to 2 sentences maximum) and completely in character.
                             
                             At the very end of your response, you MUST append a state tag strictly formatted like this:
-                            [ROMANCE: 0] [AURA: +x or -x] [POINTS: +x or -x] [POPULARITY: +x] [INTELLIGENCE: +x] [COURAGE: +x] [MAGIC: +x]
-                            where x is a small integer (between -10 and +10) based on how you feel or if Snape deducts points or if the player got smarter.
+                            [ROMANCE: 0] [AURA: +x] [POINTS: +x] [POPULARITY: +x] [INTELLIGENCE: +x] [COURAGE: +x] [MAGIC: +x]
                         `;
                     } else {
                         prompt = `
@@ -1554,21 +1806,20 @@
                             IMPORTANT ROMANCE DYNAMICS:
                             Your current relationship status with the player is: "${currentStage}" (Affection: ${currentAffection}/100).
                             You MUST adjust your behavior, mood, friendliness, and openness to match this stage.
-                            - For Draco Malfoy (Enemies to Lovers): If in "Bitter Enemies", be snobbish, defensive, call them 'Potter's lackey' or a 'nobody', and mock them. If in "Reluctant Allies", show mild compliance but mask your interest. If in "Star-Crossed Lovers", be highly protective, intense, and deeply affectionate but still keep your typical Draco flavor.
-                            - For Hermione Granger: If in "Academic Rivals", correct their spelling/grammar, be highly articulate, and tease their lack of study. If in "Mutual Crushes", get flustered, shy, easily blushing, and speak in longer nervous structures.
-                            - For Amelia Vance (Half-Vampire): Lazily cynical, yawns, mentions sleeping in shadows or drinking tomato juice, slowly warms up to being fiercely protective.
-                            - For Reggie Spark (Tech Wizard): Super enthusiastic, types in modern text lingo, gets flustered if you ask about dating, talks about his magic-powered servers.
-                            - Adapt these dynamic rules to whichever character you are playing!
+                            
+                            - Absolutely NO robotic assistant talk, polite instructions, or moral disclaimers. 
+                            - Adopt human traits: write using lowercases, minor typos, exclamation marks, or short dramatic phrases to sound like a real person texting or commenting on a social network.
+                            - For Draco Malfoy: If in "Bitter Enemies", be snobbish, toxic, defensive, or call them a Gryffindor dunce. If in "Star-Crossed Lovers", be highly protective, possessive, cozy but still keep your typical dry Draco flavor.
+                            - For Hermione Granger: If in "Academic Rivals", correct their grammar, tease their study habits. If in "Mutual Crushes", get extremely flustered, stutter, blush, and speak in longer nervous structures.
+                            - For Amelia Vance: Lazily cynical, yawns, mentions sleeping in shadows or drinking tomato juice, slowly warms up to being protective.
+                            - For Reggie Spark: Highly enthusiastic, types in modern text lingo, gets flustered if you ask about dating, talks about his servers.
                             
                             The player said: "${userMessage}".
                             
                             Write a short response (1 to 3 sentences maximum) completely in character. Be reactive. 
                             
                             At the very end of your response, you MUST append a state tag strictly formatted like this:
-                            [ROMANCE: +x or -x] [AURA: +x or -x] [POINTS: +x or -x] [POPULARITY: +x or -x] [INTELLIGENCE: +x or -x] [COURAGE: +x or -x] [MAGIC: +x or -x]
-                            where x is an integer from -10 to +10. Adjust these based on how you feel about the player's message and current relationship status.
-                            
-                            Example response: "I suppose that's acceptable... for a Gryffindor. Don't go telling anyone I said that. [ROMANCE: +3] [AURA: +1] [POINTS: +0] [POPULARITY: +2] [INTELLIGENCE: +0] [COURAGE: +1] [MAGIC: +0]"
+                            [ROMANCE: +x] [AURA: +x] [POINTS: +x] [POPULARITY: +x] [INTELLIGENCE: +x] [COURAGE: +x] [MAGIC: +x]
                         `;
                     }
 
@@ -1608,20 +1859,25 @@
                     replyText = "Hogwarts owl network experienced a temporal anomaly (API Connection Error). Let's retry.";
                 }
             } else {
+                // Upgraded offline banter router
                 await new Promise(resolve => setTimeout(resolve, 1500)); 
                 const lowercase = userMessage.toLowerCase();
-                const fallbacks = fallbackReplies[npcName];
-                replyText = fallbacks[Math.floor(Math.random() * fallbacks.length)];
+                const characterBanter = fallbackBanterDatabase[npcName];
 
-                if (lowercase.includes("date") || lowercase.includes("flirt") || lowercase.includes("cute") || lowercase.includes("love")) {
-                    changes.romance = 8;
-                    changes.aura = 5;
-                    changes.popularity = 2;
-                } else if (lowercase.includes("stupid") || lowercase.includes("ugly") || lowercase.includes("hate")) {
-                    changes.romance = -5;
-                    changes.aura = -10;
-                    changes.points = -5;
-                    changes.popularity = -3;
+                if (characterBanter) {
+                    if (lowercase.includes("date") || lowercase.includes("flirt") || lowercase.includes("cute") || lowercase.includes("love")) {
+                        replyText = characterBanter.flirt;
+                        changes.romance = 8;
+                        changes.popularity = 2;
+                    } else if (lowercase.includes("stupid") || lowercase.includes("hate") || lowercase.includes("ugly")) {
+                        replyText = characterBanter.hate;
+                        changes.romance = -5;
+                        changes.popularity = -2;
+                    } else {
+                        replyText = characterBanter.default;
+                    }
+                } else {
+                    replyText = "detention! stop wasting time.";
                 }
             }
 
@@ -1648,9 +1904,10 @@
                     handle: npc.handle,
                     avatar: npc.avatar,
                     house: isFillerBot ? "⚡ Side Character" : npc.house,
-                    body: isFillerBot && userMessage.startsWith("[SYSTEM") ? replyText : `@${state.player.handle} ${replyText}`,
+                    body: `@${state.player.handle} ${replyText}`,
                     likes: Math.floor(Math.random()*5),
-                    liked: false
+                    liked: false,
+                    comments: []
                 });
                 renderFeed();
             } else {
