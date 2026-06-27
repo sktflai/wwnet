@@ -1072,9 +1072,9 @@
             },
             "Fred Weasley": {
                 flirt: "Oh ho! Georgie, look at this. We have an admirer!",
-                hate: "A bit touchy, aren't we? Have a U-No-Poo sweet to candy down.",
+                hate: "A bit touchy, aren't we? Have a U-No-Poo sweet to calm down.",
                 study: "Study? We only study the art of escape, mate.",
-                default: "Prank incoming in the North Corridor. Watch out!"
+                default: "Prank incoming in the North Corridor. Watch your step!"
             },
             "George Weasley": {
                 flirt: "Careful, Fred might get jealous. But please, do go on.",
@@ -1109,8 +1109,8 @@
         ];
 
         window.onload = function() {
-            // Bumped to v6 to completely wipe out old, corrupted saved states
-            const savedState = localStorage.getItem("wiznet_save_v6");
+            // Using a unique final key name to force the browser to discard any old save files
+            const savedState = localStorage.getItem("wwnet_romance_v1");
             if (savedState) {
                 state = JSON.parse(savedState);
                 document.getElementById("setup-modal").classList.add("hidden");
@@ -1152,7 +1152,7 @@
             state.player.magic = 10;
             state.triggeredEvents = [];
 
-            localStorage.setItem("wiznet_save_v6", JSON.stringify(state));
+            localStorage.setItem("wwnet_romance_v1", JSON.stringify(state));
             document.getElementById("setup-modal").classList.add("hidden");
             updateUI();
         }
@@ -1183,7 +1183,7 @@
                 badge.innerText = "🔌 Offline AI Mode";
                 badge.style.backgroundColor = "var(--accent)";
             }
-            localStorage.setItem("wiznet_save_v6", JSON.stringify(state));
+            localStorage.setItem("wwnet_romance_v1", JSON.stringify(state));
         }
 
         function getTropeStage(characterName, romanceVal) {
@@ -1838,7 +1838,7 @@
 
         function wipeSaveAndRestart() {
             if (confirm("Are you sure you want to completely erase your wizard files and start over? All attributes, romantic progress, and messages will be lost!")) {
-                localStorage.removeItem("wiznet_save_v5");
+                localStorage.removeItem("wwnet_romance_v1");
                 alert("Wand snapped. Floo powder lit. Restarting application...");
                 window.location.reload();
             }
