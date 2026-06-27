@@ -197,23 +197,6 @@
             margin-top: 10px;
         }
 
-        /* Buttons */
-        .btn-magic {
-            background-color: var(--primary);
-            color: #000;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-magic:hover {
-            background-color: var(--primary-hover);
-            transform: scale(1.02);
-        }
-
         /* Post Cards */
         .post-card {
             padding: 15px 20px;
@@ -916,6 +899,7 @@
                 "Draco Malfoy": 5,
                 "Hermione Granger": 5,
                 "Harry Potter": 5,
+                "Ron Weasley": 5,
                 "Luna Lovegood": 5,
                 "Pansy Parkinson": 5,
                 "Amelia Vance": 5,
@@ -927,6 +911,7 @@
                 "Draco Malfoy": [{ sender: "Draco Malfoy", text: "Why are you looking at me? If my father hears about this..." }],
                 "Hermione Granger": [{ sender: "Hermione Granger", text: "Did you finish the transfiguration essay? I'm proofreading mine in the library." }],
                 "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some pick-up Quidditch." }],
+                "Ron Weasley": [{ sender: "Ron Weasley", text: "Snape's essay prompt is absolute rubbish. Do you have any idea what we're supposed to write about?" }],
                 "Luna Lovegood": [{ sender: "Luna Lovegood", text: "The nargles are highly active around the library today. Keep your eyes open." }],
                 "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horrendous." }],
                 "Amelia Vance": [{ sender: "Amelia Vance", text: "Do not wake me up before noon. And no, I do not want to go study by the Herbology greenhouse." }],
@@ -934,48 +919,54 @@
             }
         };
 
-        // Pinterest "Boyfriend / Girlfriend Material" cozy candidates
+        // All Character Avatars updated strictly to your local JPEG file list
         const characters = {
             "Draco Malfoy": { 
                 handle: "pureblood_prince", 
                 house: "🐍 Slytherin", 
-                avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=250&h=250&fit=crop", // Smirking blond, dark coat, cozy lighting
+                avatar: "./IMG_1364.jpeg", 
                 bio: "Slytherin Seeker. Defensive, prideful, hides vulnerabilities under layers of family arrogance. Uses sarcasm as armor." 
             },
             "Hermione Granger": { 
                 handle: "brightest_witch", 
                 house: "🦁 Gryffindor", 
-                avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=250&h=250&fit=crop", // Cozy curls, warm natural smile
+                avatar: "./IMG_1362.jpeg", 
                 bio: "S.P.E.W. founder. Library regular. Highly articulate, intellectually competitive, easily flustered when teased." 
             },
             "Harry Potter": { 
                 handle: "the_chosen_one", 
                 house: "🦁 Gryffindor", 
-                avatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=250&h=250&fit=crop", // Candid curly messy dark hair, wire frame glasses, soft smile
+                avatar: "./IMG_1363.jpeg", 
                 bio: "Gryffindor Quidditch Captain. Wants simple sincerity, dry humor, and a normal classmate to hang out with." 
+            },
+            "Ron Weasley": {
+                handle: "chudley_cannon99",
+                house: "🦁 Gryffindor",
+                avatar: "./IMG_1361.jpeg", 
+                bio: "Gryffindor Keeper. Loyal, easily embarrassed, loves a good laugh, and is highly protective of those he cares about."
             },
             "Luna Lovegood": { 
                 handle: "nargle_hunter", 
                 house: "🦅 Ravenclaw", 
-                avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=250&h=250&fit=crop", // Dreamy look, long blond waves, cozy knit sweater
+                avatar: "./IMG_1365.jpeg", 
                 bio: "Dreamy eccentric. Empathetic, speaks in cryptic poetic truths about the world and magical creatures." 
             },
             "Pansy Parkinson": { 
                 handle: "pansy_p", 
                 house: "🐍 Slytherin", 
-                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=250&h=250&fit=crop", // Edgy bob, leather jacket, smug direct look
+                avatar: "./IMG_1366.jpeg", 
                 bio: "Slytherin socialite. Sarcastic, high-maintenance, gossipy, but protective of her friends." 
             },
             "Amelia Vance": {
                 handle: "shadow_vance",
                 house: "🐍 Slytherin",
-                avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=250&h=250&fit=crop", // Moody dark hair vintage beauty
+                avatar: "./IMG_1367.jpeg", 
                 bio: "Half-vampire exchange student. Enjoys blood-pops, hates mornings in the Great Hall, speaks with lazy cynicism."
             },
             "Reggie Spark": {
                 handle: "reggie_sparks",
                 house: "🦡 Hufflepuff",
-                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=250&h=250&fit=crop", // Curly wild hair, cute wire frame glasses, cozy winter knit
+                avatar: "./IMG_1368.jpeg", 
                 bio: "Enthusiastic Muggle-born wizard. Tech-obsessed, friendly, and clumsy."
             }
         };
@@ -984,31 +975,37 @@
             "Rita Skeeter": {
                 handle: "quick_quotes_rita",
                 house: "⚡ Press",
-                avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&h=150&fit=crop",
+                avatar: "./IMG_1369.jpeg",
                 bio: "Daily Prophet writer. Blind items, scandals, and dramatic twists are my specialty."
             },
             "Professor Snape": {
                 handle: "potion_master_snape",
                 house: "🐍 Slytherin",
-                avatar: "https://hp-api.onrender.com/images/snape.jpg",
+                avatar: "./IMG_1372.jpeg",
                 bio: "Potions Master. Head of Slytherin. Report to detention immediately."
             },
-            "Fred & George": {
-                handle: "weasley_pranks",
+            "Fred Weasley": {
+                handle: "fred_weasley",
                 house: "🦁 Gryffindor",
-                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop",
-                bio: "Proprietors of Weasleys' Wizard Wheezes. Chaos-maker extra-ordinaire."
+                avatar: "./IMG_1371.jpeg",
+                bio: "Proprietor of Weasleys' Wizard Wheezes. The better looking twin."
+            },
+            "George Weasley": {
+                handle: "george_weasley",
+                house: "🦁 Gryffindor",
+                avatar: "./IMG_1370.jpeg",
+                bio: "Proprietor of Weasleys' Wizard Wheezes. The smarter twin."
             },
             "Aria Whispers": {
                 handle: "aria_whispering",
                 house: "🦅 Ravenclaw",
-                avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&h=150&fit=crop",
+                avatar: "./IMG_1374.jpeg",
                 bio: "Half-siren student. Posts moody poetry, sings constantly, and complains that the Giant Squid keeps interrupting her choruses."
             },
             "Grok the Goblin": {
                 handle: "grok_gringotts_intern",
                 house: "🪙 Goblin Liaison",
-                avatar: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=150&h=150&fit=crop",
+                avatar: "./IMG_1375.jpeg",
                 bio: "Audit intern from Gringotts. Wants to check the House Cup balance sheet."
             }
         };
@@ -1033,6 +1030,12 @@
                 study: "Please save me, Hermione's essay demands are killing me.",
                 default: "Just saw Snape patrolling. Stay safe in your common room."
             },
+            "Ron Weasley": {
+                flirt: "Wait, are you... kidding? Bloody hell, my ears must be turning red. Stop it!",
+                hate: "Yeah? Go crawl back to the dungeons with Malfoy, then.",
+                study: "Please, yes! Hermione's tutoring is basically a torture session.",
+                default: "Is there any food left in the Great Hall? I missed dinner again."
+            },
             "Luna Lovegood": {
                 flirt: "Your aura is turning a very pretty shade of lavender. It means you are affectionate.",
                 hate: "That's quite an angry frequency. You might have Wrackspurts behind your ears.",
@@ -1054,6 +1057,42 @@
                 flirt: "Whoa, wait, really? Is this a prank or is my charisma server actually working?!",
                 hate: "Ouch. System error 404: friendship not found.",
                 default: "I think if I wire this spell-matrix, I can stream Netflix in the dungeons!"
+            },
+            "Rita Skeeter": {
+                flirt: "Fascinating... my Quick-Quotes Quill is practically writing itself!",
+                hate: "A scandalous detail! This will look lovely on page three.",
+                study: "Focusing on books when there is so much gossip to discover? Foolish.",
+                default: "My sources say there is much more to this story."
+            },
+            "Professor Snape": {
+                flirt: "Detention! I do not tolerate frivolous behavior.",
+                hate: "That will be ten points from your house for general foolishness.",
+                study: "If you wish to study, go look at your textbooks instead of WizNet.",
+                default: "Silencio. Go back to your essay."
+            },
+            "Fred Weasley": {
+                flirt: "Oh ho! Georgie, look at this. We have an admirer!",
+                hate: "A bit touchy, aren't we? Have a U-No-Poo sweet to calm down.",
+                study: "Study? We only study the art of escape, mate.",
+                default: "Prank incoming in the North Corridor. Watch your step!"
+            },
+            "George Weasley": {
+                flirt: "Careful, Fred might get jealous. But please, do go on.",
+                hate: "We're just trying to brighten up the place! No need for the hostility.",
+                study: "We can teach you some highly alternative alchemy... if you have the Galleons.",
+                default: "We are currently running testing trials for our nosebleed nougats. Volunteers welcome."
+            },
+            "Aria Whispers": {
+                flirt: "Your song has a lovely rhythm. But sirens are dangerous to love.",
+                hate: "How noisy. I prefer the quiet depth of the lake.",
+                study: "My notes are covered in ink splatters and song lyrics.",
+                default: "The Giant Squid tried to join my harmony again. Extremely rude."
+            },
+            "Grok the Goblin": {
+                flirt: "That won't get you any discounts on your vault security fee.",
+                hate: "Highly unprofessional attitude. This will be noted in your file.",
+                study: "Magic is fine, but have you tried studying compound interest?",
+                default: "Hogwarts security budget is an absolute disaster."
             }
         };
 
@@ -1061,137 +1100,12 @@
         const botAutonomousPosts = [
             { sender: "Rita Skeeter", handle: "quick_quotes_rita", avatar: backgroundBots["Rita Skeeter"].avatar, house: "⚡ Press", body: "Rumors are swirling of a certain Slytherin prince getting unusually close with a new student... Is it a tragic delusion, or a pureblood scandal in the making? Details in my next column. #SlytherinScandal", comments: [] },
             { sender: "Professor Snape", handle: "potion_master_snape", avatar: backgroundBots["Professor Snape"].avatar, house: "🐍 Slytherin", body: "Any student caught using WizNet during class hours will receive a week of detention scrubbing flobberworms. I am looking directly at Gryffindor house.", comments: [] },
-            { sender: "Fred & George", handle: "weasley_pranks", avatar: backgroundBots["Fred & George"].avatar, house: "🦁 Gryffindor", body: "Need to escape History of Magic? Our Skiving Snackboxes are 15% off today! Guarantees 2 hours of projectile illness. Snape-proof! #GredAndFeorge", comments: [] },
+            { sender: "Fred Weasley", handle: "fred_weasley", avatar: backgroundBots["Fred Weasley"].avatar, house: "🦁 Gryffindor", body: "Need to escape History of Magic? Our Skiving Snackboxes are 15% off today! Guarantees 2 hours of projectile illness. Snape-proof! #GredAndFeorge", comments: [] },
+            { sender: "George Weasley", handle: "george_weasley", avatar: backgroundBots["George Weasley"].avatar, house: "🦁 Gryffindor", body: "Just made a bet with Fred on how long it takes Snape to confiscate Reggie's new router. Standard Gringotts terms. #GredAndFeorge", comments: [] },
             { sender: "Amelia Vance", handle: "shadow_vance", avatar: characters["Amelia Vance"].avatar, house: "🐍 Slytherin", body: "The sun is too loud today. If anyone needs me, I will be sleeping in the shadows of the Owlery. Do not throw seeds at me.", comments: [] },
             { sender: "Reggie Spark", handle: "reggie_sparks", avatar: characters["Reggie Spark"].avatar, house: "🦡 Hufflepuff", body: "URGENT: Has anyone figured out how to charge an iPhone with a Wand? I tried 'Incendio' and now my battery is smoking. #MuggleTech", comments: [] },
             { sender: "Aria Whispers", handle: "aria_whispering", avatar: backgroundBots["Aria Whispers"].avatar, house: "🦅 Ravenclaw", body: "Do you ever just stand by the lake and sing until the Giant Squid waves a tentacle? No? Just me? Okay.", comments: [] },
             { sender: "Grok the Goblin", handle: "grok_gringotts_intern", avatar: backgroundBots["Grok the Goblin"].avatar, house: "🪙 Goblin Liaison", body: "Audited the Gryffindor House points ledger today. Found several illegal 'unauthorized bravery bonuses' from Dumbledore. Investigation ongoing. #GrogLeaks", comments: [] }
-        ];
-
-        // Trope Stage Paths mapped to Romance percentage limits (0-100)
-        const relationshipTropes = {
-            "Draco Malfoy": [
-                { maxVal: 20, stage: "Bitter Enemies 💢" },
-                { maxVal: 40, stage: "Heated Rivals 🍏" },
-                { maxVal: 60, stage: "Reluctant Allies 🤝" },
-                { maxVal: 80, stage: "Secret Crush 🤫" },
-                { maxVal: 100, stage: "Star-Crossed Lovers ❤️" }
-            ],
-            "Hermione Granger": [
-                { maxVal: 20, stage: "Academic Rivals 📚" },
-                { maxVal: 40, stage: "Study Partners ✍️" },
-                { maxVal: 60, stage: "Trusted Friends ✨" },
-                { maxVal: 80, stage: "Mutual Crushes 😳" },
-                { maxVal: 100, stage: "Intellectual Partners ❤️" }
-            ],
-            "Harry Potter": [
-                { maxVal: 20, stage: "Hogwarts Acquaintance 🏰" },
-                { maxVal: 40, stage: "Quidditch Companions 🧹" },
-                { maxVal: 60, stage: "Close Confidants ⚡" },
-                { maxVal: 80, stage: "Sweethearts 💕" },
-                { maxVal: 100, stage: "Soulmates 🔒" }
-            ],
-            "Luna Lovegood": [
-                { maxVal: 20, stage: "Curious Acquaintances 🧿" },
-                { maxVal: 40, stage: "Fellow Dreamers 🌌" },
-                { maxVal: 60, stage: "Ethereal Friends 🦋" },
-                { maxVal: 80, stage: "Enchanted Admirers ✨" },
-                { maxVal: 100, stage: "Cosmic Lovers ❤️" }
-            ],
-            "Pansy Parkinson": [
-                { maxVal: 20, stage: "Haughty Rivals 💅" },
-                { maxVal: 40, stage: "Gossip Allies ☕" },
-                { maxVal: 60, stage: "Flirtatious Rivals 💋" },
-                { maxVal: 80, stage: "Secret Flame 🔥" },
-                { maxVal: 100, stage: "Devoted Partners 💍" }
-            ],
-            "Amelia Vance": [
-                { maxVal: 20, stage: "Annoying Sunlight 💢" },
-                { maxVal: 40, stage: "Gloom Buddies 🦇" },
-                { maxVal: 60, stage: "Cryptic Partners 🤝" },
-                { maxVal: 80, stage: "Midnight Crush 🤫" },
-                { maxVal: 100, stage: "Immortal Lovers ❤️" }
-            ],
-            "Reggie Spark": [
-                { maxVal: 20, stage: "Anti-Tech Rival 💢" },
-                { maxVal: 40, stage: "Lab Partners ⚡" },
-                { maxVal: 60, stage: "Close Co-conspirators 🤝" },
-                { maxVal: 80, stage: "Beta Testers 💕" },
-                { maxVal: 100, stage: "System Soulmates 💍" }
-            ]
-        };
-
-        // Interactive Event Scenarios list (Updated with Status Attributes)
-        const interactiveEvents = [
-            {
-                id: "potions_accident",
-                turnTrigger: 3,
-                title: "🧪 Potions Class Catastrophe",
-                description: "You've been paired up in Potions class with your primary crush. Suddenly, your cauldron begins smoking violently and turning a volatile neon pink! Snape is walking over. What do you do?",
-                choices: [
-                    {
-                        text: "Throw yourself in front of them to shield them from the potion splatter.",
-                        aura: 15, points: -15, romanceBoost: 18, attribute: "courage", attrVal: 10,
-                        outcome: "The potion explodes, covering you entirely in pink bubblegum slime. Snape deducts 15 points from your house, but your courage is through the roof (+10 Courage) and your crush is deeply flushed and touched by your heroic stunt."
-                    },
-                    {
-                        text: "Blame the wrong ingredient on them and take a step back.",
-                        aura: -10, points: 5, romanceBoost: -15, attribute: "popularity", attrVal: -5,
-                        outcome: "You escape unharmed, but your partner glares at you through black soot-covered hair. Word spreads and you lose some popularity."
-                    },
-                    {
-                        text: "Quickly cast an emergency Containment Charm ('Impedimenta!')",
-                        aura: 10, points: 15, romanceBoost: 8, attribute: "intelligence", attrVal: 12,
-                        outcome: "The potion freezes safely. Snape begrudgingly awards your house 15 points. You level up your Intelligence (+12) and your partner looks at you with quiet respect."
-                    }
-                ]
-            },
-            {
-                id: "midnight_duel",
-                turnTrigger: 7,
-                title: "🪄 Midnight Duel Challenge",
-                description: "A mysterious scroll was slipped under your dormitory door. It's a challenge to a secret wizard's duel in the Trophy Room at midnight. It urges you to bring your Hogwarts crush as your second. What do you do?",
-                choices: [
-                    {
-                        text: "Show up ready to fight, dragging your excited crush along.",
-                        aura: 20, points: -25, romanceBoost: 15, attribute: "magic", attrVal: 15,
-                        outcome: "You get caught by Filch after a brief, thrilling exchange of sparks! You lose heavy house points, but your magic skill surges (+15 Magic Skill) and your crush loved the thrill of running down forbidden corridors with you."
-                    },
-                    {
-                        text: "Ignore it. It's obviously a trap set up by Slytherins.",
-                        aura: -5, points: 5, romanceBoost: 0, attribute: "intelligence", attrVal: 8,
-                        outcome: "You sleep comfortably. The next day, you discover it was indeed a trap, showing your practical intelligence (+8 Intelligence)."
-                    },
-                    {
-                        text: "Send a mock curse reply on WizNet, exposing the anonymous challenger.",
-                        aura: 15, points: 10, romanceBoost: -5, attribute: "popularity", attrVal: 12,
-                        outcome: "The whole school laughs at the sender, increasing your Popularity (+12 Popularity) and school Aura. However, your crush thinks you took the unromantic way out."
-                    }
-                ]
-            },
-            {
-                id: "yule_ball",
-                turnTrigger: 12,
-                title: "❄️ The Yule Ball Invitation",
-                description: "The Great Hall is a dream of white ice and floating candles. You see your crush standing alone near the enchanted punch bowl, looking drop-dead gorgeous but slightly detached. What do you do?",
-                choices: [
-                    {
-                        text: "Walk up confidently, ask them to dance, and whisper a smooth compliment.",
-                        aura: 25, points: 0, romanceBoost: 22, attribute: "popularity", attrVal: 15,
-                        outcome: "They blush beautifully, taking your hand! You dance under the falling snow, increasing your Popularity (+15) and cementing your transition to a heavy mutual crush."
-                    },
-                    {
-                        text: "Try to slide over smoothly, but slip and spill pumpkin juice on yourself.",
-                        aura: -15, points: 0, romanceBoost: 8, attribute: "courage", attrVal: 10,
-                        outcome: "It's highly embarrassing, but they laugh softly, pull out their wand to cast 'Scourgify,' and end up dancing with you anyway because you showed real courage (+10 Courage) walking up."
-                    },
-                    {
-                        text: "Ask someone else to dance nearby to try and make them jealous.",
-                        aura: 5, points: 0, romanceBoost: -15, attribute: "popularity", attrVal: -10,
-                        outcome: "They notice, look deeply hurt, and leave the Great Hall early. This sets you back several relationship stages and hurts your standing."
-                    }
-                ]
-            }
         ];
 
         window.onload = function() {
@@ -1515,71 +1429,6 @@
             updateUI();
         }
 
-        function getHouseBg(house) {
-            if (house.includes("Gryffindor")) return "#7f1d1d";
-            if (house.includes("Slytherin")) return "#14532d";
-            if (house.includes("Ravenclaw")) return "#1e3a8a";
-            if (house.includes("Hufflepuff")) return "#b45309";
-            return "#334155";
-        }
-
-        function checkStoryEvents() {
-            const currentTurn = state.player.turnsPlayed;
-            const eventToTrigger = interactiveEvents.find(e => e.turnTrigger === currentTurn && !state.triggeredEvents.includes(e.id));
-            if (eventToTrigger) {
-                showEventModal(eventToTrigger);
-            }
-        }
-
-        function showEventModal(eventObj) {
-            const modal = document.getElementById("event-modal");
-            document.getElementById("event-modal-title").innerText = eventObj.title;
-            document.getElementById("event-modal-desc").innerText = eventObj.description;
-            
-            const choicesDiv = document.getElementById("event-modal-choices");
-            choicesDiv.innerHTML = "";
-            
-            eventObj.choices.forEach((choice, index) => {
-                const btn = document.createElement("button");
-                btn.className = "choice-btn";
-                btn.innerText = choice.text;
-                btn.onclick = () => handleEventChoice(eventObj.id, choice);
-                choicesDiv.appendChild(btn);
-            });
-            
-            modal.classList.remove("hidden");
-        }
-
-        function handleEventChoice(eventId, choice) {
-            const modal = document.getElementById("event-modal");
-            modal.classList.add("hidden");
-
-            state.triggeredEvents.push(eventId);
-
-            state.player.aura = Math.max(0, state.player.aura + choice.aura);
-            state.player.points = Math.max(0, state.player.points + choice.points);
-
-            if (choice.attribute) {
-                state.player[choice.attribute] = Math.max(0, state.player[choice.attribute] + choice.attrVal);
-            }
-
-            let highestCrush = "Draco Malfoy";
-            let highestVal = -1;
-            for (const [char, val] of Object.entries(state.romance)) {
-                if (val > highestVal) {
-                    highestVal = val;
-                    highestCrush = char;
-                }
-            }
-
-            state.romance[highestCrush] = Math.max(0, Math.min(100, state.romance[highestCrush] + choice.romanceBoost));
-
-            alert(`✨ SCENARIO OUTCOME ✨\n\n${choice.outcome}\n\nStats Updated:\n💎 Aura: ${choice.aura >= 0 ? '+' : ''}${choice.aura}\n🏆 House Points: ${choice.points >= 0 ? '+' : ''}${choice.points}\n📈 Attribute ${choice.attribute.toUpperCase()}: ${choice.attrVal >= 0 ? '+' : ''}${choice.attrVal}\n❤️ ${highestCrush} Relationship: ${choice.romanceBoost >= 0 ? '+' : ''}${choice.romanceBoost}%`);
-
-            updateUI();
-            renderRomanceMeters();
-        }
-
         function triggerAutonomousBotActivity() {
             if (Math.random() < 0.40) {
                 const randomBotPost = botAutonomousPosts[Math.floor(Math.random() * botAutonomousPosts.length)];
@@ -1789,7 +1638,7 @@
                             You are a side character/chaos bot designed to fuel the fire, make funny remarks, start drama, or complain.
                             - If you are Rita Skeeter: Add scandalous gossip, act like a slimy journalist, and make up rumors about the player and their Hogwarts crushes.
                             - If you are Professor Snape: Be incredibly bitter, demand safety compliance, complain about Gryffindor rule-breakers, or deduct house points.
-                            - If you are Fred & George: Speak with twin-banter, make joke suggestions, or offer illegal products.
+                            - If you are Fred Weasley or George Weasley: Speak with twin-banter, make joke suggestions, or offer illegal products.
                             
                             Respond to this player's post/conversation context: "${userMessage}".
                             Keep your response short (1 to 2 sentences maximum) and completely in character.
@@ -1811,6 +1660,7 @@
                             - Adopt human traits: write using lowercases, minor typos, exclamation marks, or short dramatic phrases to sound like a real person texting or commenting on a social network.
                             - For Draco Malfoy: If in "Bitter Enemies", be snobbish, toxic, defensive, or call them a Gryffindor dunce. If in "Star-Crossed Lovers", be highly protective, possessive, cozy but still keep your typical dry Draco flavor.
                             - For Hermione Granger: If in "Academic Rivals", correct their grammar, tease their study habits. If in "Mutual Crushes", get extremely flustered, stutter, blush, and speak in longer nervous structures.
+                            - For Ron Weasley: Flustered easily, uses 'bloody hell', gets defensive when teased but intensely sweet and comfortable in high romance stages.
                             - For Amelia Vance: Lazily cynical, yawns, mentions sleeping in shadows or drinking tomato juice, slowly warms up to being protective.
                             - For Reggie Spark: Highly enthusiastic, types in modern text lingo, gets flustered if you ask about dating, talks about his servers.
                             
