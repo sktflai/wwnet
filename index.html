@@ -225,27 +225,6 @@
             margin-top: 10px;
         }
 
-        /* Buttons */
-        .btn-magic {
-            background-color: transparent;
-            color: var(--primary);
-            border: 1px solid var(--border-color);
-            padding: 8px 24px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            transition: all 0.2s;
-        }
-
-        .btn-magic:hover {
-            background-color: rgba(207, 168, 86, 0.05);
-            border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(207, 168, 86, 0.15);
-        }
-
         /* Post Cards */
         .post-card {
             padding: 20px;
@@ -323,7 +302,7 @@
 
         /* Twitter/X Style Thread View Panels */
         .post-details-header {
-            padding: 15px 20px;
+            padding: calc(15px + env(safe-area-inset-top)) 20px 15px 20px;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
@@ -1107,7 +1086,7 @@
     </div>
 
     <script>
-        // Game State Core (Fresh Key 'wwnet_spellbook_final_v15' clears all previous formats completely)
+        // Game State Core (Fresh Key 'wwnet_romance_v18' resolves all previous format caching)
         let state = {
             player: {
                 name: "Wizard Student",
@@ -1143,7 +1122,7 @@
             dms: {
                 "Draco Malfoy": [{ sender: "Draco Malfoy", text: "Why are you looking at me? If my father hears about this..." }],
                 "Hermione Granger": [{ sender: "Hermione Granger", text: "Did you finish the transfiguration essay? I'm proofreading mine in the library." }],
-                "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some pick-up Quidditch." }],
+                "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some Quidditch." }],
                 "Ron Weasley": [{ sender: "Ron Weasley", text: "Snape's essay prompt is absolute rubbish. Do you have any idea what we're supposed to write about?" }],
                 "Luna Lovegood": [{ sender: "Luna Lovegood", text: "The nargles are highly active around the library today. Keep your eyes open." }],
                 "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horrendous." }],
@@ -1158,7 +1137,7 @@
                 handle: "pureblood_prince", 
                 house: "Slytherin", 
                 avatar: "https://hp-api.onrender.com/images/draco.jpg", 
-                bio: "Malfoy heir. Slytherin Seeker. Don't waste my time unless you're pureblood, or unless your name is on my shortlist. My father will hear of any insolence." 
+                bio: "Slytherin Seeker. Defensive, prideful, hides vulnerabilities under layers of family arrogance. Uses sarcasm as armor." 
             },
             "Hermione Granger": { 
                 handle: "brightest_witch", 
@@ -1342,8 +1321,8 @@
         ];
 
         window.onload = function() {
-            // Using a unique final key name 'wwnet_spellbook_final_v15' to resolve all caching immediately
-            const savedState = localStorage.getItem("wwnet_spellbook_final_v15");
+            // Using a unique final key name 'wwnet_romance_v18' to resolve all caching immediately
+            const savedState = localStorage.getItem("wwnet_romance_v18");
             if (savedState) {
                 state = JSON.parse(savedState);
                 document.getElementById("setup-modal").classList.add("hidden");
@@ -1359,10 +1338,10 @@
                 state.dms = {
                     "Draco Malfoy": [{ sender: "Draco Malfoy", text: "Why are you looking at me? If my father hears about this..." }],
                     "Hermione Granger": [{ sender: "Hermione Granger", text: "Did you finish the transfiguration essay? I'm proofreading mine in the library." }],
-                    "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some Quidditch." }],
+                    "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some pick-up Quidditch." }],
                     "Ron Weasley": [{ sender: "Ron Weasley", text: "Snape's essay prompt is absolute rubbish. Do you have any idea what we're supposed to write about?" }],
                     "Luna Lovegood": [{ sender: "Luna Lovegood", text: "The nargles are highly active around the library today. Keep your eyes open." }],
-                    "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horhendous." }],
+                    "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horrendous." }],
                     "Amelia Vance": [{ sender: "Amelia Vance", text: "Do not wake me up before noon. And no, I do not want to go study by the Herbology greenhouse." }],
                     "Reggie Spark": [{ sender: "Reggie Spark", text: "Hey! Do you know if there's any spell to convert spell-fire into a 5G hotspot? Asking for a friend." }]
                 };
@@ -1415,7 +1394,7 @@
             state.player.magic = 10;
             state.triggeredEvents = [];
 
-            localStorage.setItem("wwnet_spellbook_final_v15", JSON.stringify(state));
+            localStorage.setItem("wwnet_romance_v18", JSON.stringify(state));
             document.getElementById("setup-modal").classList.add("hidden");
             updateUI();
         }
@@ -1468,7 +1447,7 @@
                 badge.innerText = "Offline AI Mode";
                 badge.style.backgroundColor = "var(--accent)";
             }
-            localStorage.setItem("wwnet_spellbook_final_v15", JSON.stringify(state));
+            localStorage.setItem("wwnet_romance_v18", JSON.stringify(state));
         }
 
         function getTropeStage(characterName, romanceVal) {
@@ -1717,8 +1696,9 @@
                         Character bio: ${npc.bio}. Hogwarts House: ${npc.house || "Press"}.
                         The player is commenting on a public thread post. Player name is "${state.player.name}" from ${state.player.house}.
                         
-                        - If you are Draco Malfoy: Be toxic, defensive, or highly flustered/protective depending on if your romance stage is "Bitter Enemies" or "Star-Crossed Lovers". Use typical smug pureblood slang. Avoid polite or helpful robotic speech. 
-                        - If you are Rita Skeeter: Try to start gossip, call out the player, ask if they are secretly sneaking out with the Malfoy heir, and write blind items.
+                        - Absolutely NO emojis. Never write symbols like smiley faces, hearts, stars, or any cartoon graphics.
+                        - Absolutely NO robotic assistant talk, polite instructions, or moral disclaimers.
+                        - Write in character like a real human. Draco should be defensive/mocking, Hermione studious/flustered, Ron easily flustered.
                         
                         Current Relationship Stage with player: "${currentStage}" (Affection: ${currentAffection}/100).
                         The player just posted this comment under a WizNet scroll: "${userCommentText}".
@@ -1800,69 +1780,19 @@
             state.player.magic = Math.max(0, state.player.magic + changes.magic);
 
             // Append bot reply in comment thread
-            post.comments.push({
+            const botComment = {
                 sender: replyBot,
                 handle: npc.handle,
                 avatar: npc.avatar,
                 body: replyText
-            });
-
-            // Re-draw active thread list if currently viewed
-            if (state.activeThreadPostId === postId) {
-                renderThreadReplies(post);
-            }
+            };
+            post.comments.push(botComment);
+            
+            // Smoothly append Bot reply directly to the thread DOM
+            appendCommentToDOM(postId, botComment);
 
             renderRomanceMeters();
             updateUI();
-        }
-
-        // Click-to-Open Profile Modal (Renders fully custom image addresses)
-        function showCharacterProfile(npcName) {
-            const modal = document.getElementById("profile-preview-modal");
-            
-            if (npcName === 'me' || npcName === state.player.name) {
-                document.getElementById("modal-char-avatar").innerHTML = `<img src="${state.player.avatar}" alt="Me">`;
-                document.getElementById("modal-char-name").innerText = state.player.name;
-                document.getElementById("modal-char-handle").innerText = "@" + state.player.handle;
-                document.getElementById("modal-char-house").innerText = state.player.house;
-                document.getElementById("modal-char-blood").innerText = state.player.bloodStatus || "Pure-blood";
-                document.getElementById("modal-char-blood").classList.remove("hidden");
-                document.getElementById("modal-char-bio").innerText = "This is your Hogwarts student file. Post updates on the feed to increase attributes and build relationships!";
-                document.getElementById("modal-char-romance-box").classList.add("hidden");
-            } else {
-                const npc = characters[npcName] || backgroundBots[npcName];
-                if (!npc) return;
-
-                document.getElementById("modal-char-avatar").innerHTML = `<img src="${npc.avatar}" alt="${npcName}">`;
-                document.getElementById("modal-char-name").innerText = npcName;
-                document.getElementById("modal-char-handle").innerText = "@" + npc.handle;
-                document.getElementById("modal-char-house").innerText = npc.house;
-                
-                if (npc.bloodStatus) {
-                    document.getElementById("modal-char-blood").innerText = npc.bloodStatus;
-                    document.getElementById("modal-char-blood").classList.remove("hidden");
-                } else {
-                    document.getElementById("modal-char-blood").classList.add("hidden");
-                }
-
-                document.getElementById("modal-char-bio").innerText = npc.bio;
-
-                const val = state.romance[npcName];
-                if (val !== undefined) {
-                    document.getElementById("modal-char-romance-box").classList.remove("hidden");
-                    document.getElementById("modal-char-romance-stage").innerText = getTropeStage(npcName, val);
-                    document.getElementById("modal-char-romance-val").innerText = val + "%";
-                    document.getElementById("modal-char-romance-fill").style.width = val + "%";
-                } else {
-                    document.getElementById("modal-char-romance-box").classList.add("hidden");
-                }
-            }
-
-            modal.classList.remove("hidden");
-        }
-
-        function closeProfilePreview() {
-            document.getElementById("profile-preview-modal").classList.add("hidden");
         }
 
         function triggerAutonomousBotActivity(forceManual = false) {
@@ -1931,13 +1861,7 @@
                     post.liked = true;
                     state.player.popularity += 1;
                 }
-                
-                // Keep views correctly refreshed
-                if (state.activeThreadPostId === id) {
-                    openPostThread(id);
-                } else {
-                    renderFeed();
-                }
+                renderFeed();
                 updateUI();
             }
         }
@@ -1976,7 +1900,8 @@
         }
 
         function renderDMThreads() {
-            const threads = document.getElementById("dm-threads");
+            const threads = document.getElementById("dm-threads-col");
+            if (!threads) return; // FIX MATCH KEY MISTAKE: Safely targeted to prevent silent startup crash
             threads.innerHTML = "";
             for (const char in state.dms) {
                 const npc = characters[char] || backgroundBots[char];
@@ -2204,7 +2129,7 @@
             state.player.magic = Math.max(0, state.player.magic + changes.magic);
 
             if (isPublicFeed) {
-                const feedLoader = document.getElementById(`feed-loader-${npcName}`);
+                const feedLoader = document.getElementById("feed-loader-" + npcName);
                 if (feedLoader) feedLoader.remove();
 
                 state.feedPosts.unshift({
@@ -2292,6 +2217,7 @@
         // Render input text fields dynamically inside settings for each character portrait
         function renderMagicMirrorInputs() {
             const container = document.getElementById("magic-mirror-list");
+            if (!container) return;
             container.innerHTML = "";
             
             // Loop through romanceable classmates
@@ -2383,7 +2309,7 @@
 
         function wipeSaveAndRestart() {
             if (confirm("Are you sure you want to completely erase your wizard files and start over? All attributes, romantic progress, and custom portraits will be lost!")) {
-                localStorage.removeItem("wwnet_romance_v7");
+                localStorage.removeItem("wwnet_romance_v18");
                 alert("Wand snapped. Floo powder lit. Restarting application...");
                 window.location.reload();
             }
