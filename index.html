@@ -3,123 +3,848 @@
 <head>
     <meta charset="UTF-8">
     <title>WizNet - Hogwarts Social Network</title>
+    
+    <!-- iOS Standalone App Mode Capabilities -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="WizNet">
+    
+    <!-- Times New Roman Gold 'W' on Solid Black iOS Shortcut Icon -->
     <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><rect width='180' height='180' fill='black'/><text x='50%' y='125' font-family='&quot;Times New Roman&quot;, Times, serif' font-size='130' font-weight='bold' fill='%23cfa856' text-anchor='middle'>W</text></svg>">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
     <style>
         :root {
-            --bg-color: #08060a; --card-bg: #130f17; --border-color: #2b1f13;
-            --text-main: #f1ebd9; --text-muted: #8c7f70; --primary: #cfa856;
-            --primary-hover: #b59345; --accent: #9c6c30; --danger: #cf4a4a; --success: #4acf7c;
+            --bg-color: #08060a; /* Midnight Obsidian */
+            --card-bg: #130f17; /* Deep Velvet */
+            --border-color: #2b1f13; /* Burnished Copper */
+            --text-main: #f1ebd9; /* Aged Parchment */
+            --text-muted: #8c7f70; /* Soft Shadow */
+            --primary: #cfa856; /* Hogwarts Gold */
+            --primary-hover: #b59345;
+            --accent: #9c6c30; /* Burnished Bronze */
+            --danger: #cf4a4a;
+            --success: #4acf7c;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
-        body { background-color: var(--bg-color); color: var(--text-main); display: flex; justify-content: center; min-height: 100dvh; overflow: hidden; }
-        .app-layout { display: flex; width: 100%; max-width: 1250px; height: 100dvh; position: relative; }
-        .sidebar-left { width: 25%; border-right: 1px solid var(--border-color); padding: 20px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
-        .logo { font-size: 1.6rem; font-weight: 900; color: var(--primary); text-shadow: 0 0 12px rgba(207, 168, 86, 0.3); letter-spacing: 2px; padding-bottom: 10px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); text-align: center; }
-        .nav-menu { display: flex; flex-direction: column; gap: 10px; }
-        .nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; border: 1px solid transparent; transition: all 0.3s; }
-        .nav-item:hover, .nav-item.active { background-color: rgba(207, 168, 86, 0.05); border-color: var(--border-color); color: var(--primary); }
-        .profile-card, .stats-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .stat-box { background-color: rgba(0,0,0,0.25); border: 1px solid var(--border-color); border-radius: 6px; padding: 8px; text-align: center; }
-        .stat-box span { display: block; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
-        .stat-box strong { font-size: 1.1rem; color: var(--primary); }
-        .main-col { width: 50%; display: flex; flex-direction: column; border-right: 1px solid var(--border-color); height: 100dvh; background-color: var(--bg-color); }
-        .header-title { padding: calc(15px + env(safe-area-inset-top)) 20px 15px 20px; font-size: 1rem; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); background-color: rgba(8, 6, 10, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; z-index: 50; }
-        .content-area { flex-grow: 1; overflow-y: auto; padding-bottom: calc(70px + env(safe-area-inset-bottom)); -webkit-overflow-scrolling: touch; }
-        .composer { padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; gap: 15px; background-color: rgba(19, 15, 23, 0.2); }
-        .composer-avatar, .post-avatar { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid var(--border-color); cursor: pointer; }
-        .composer-avatar img, .post-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .composer-textarea { width: 100%; background: transparent; border: none; color: var(--text-main); font-size: 1.05rem; resize: none; outline: none; min-height: 60px; }
-        .btn-magic { background-color: transparent; color: var(--primary); border: 1px solid var(--border-color); padding: 8px 24px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
-        .btn-magic:hover { background-color: rgba(207, 168, 86, 0.05); border-color: var(--primary); }
-        .post-card { padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 12px; background-color: rgba(19, 15, 23, 0.1); }
-        .post-main-header-row { display: flex; gap: 15px; }
-        .post-main { flex-grow: 1; }
-        .post-header { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; flex-wrap: wrap; }
-        .post-name { font-weight: bold; color: var(--text-main); font-size: 0.95rem; }
-        .post-handle { color: var(--text-muted); font-size: 0.85rem; }
-        .post-body { line-height: 1.6; font-size: 0.95rem; white-space: pre-wrap; color: #e2d8c3; }
-        .post-footer { display: flex; gap: 40px; margin-top: 15px; color: var(--text-muted); font-size: 0.85rem; }
-        .post-action { cursor: pointer; display: flex; align-items: center; gap: 6px; transition: color 0.15s; }
-        .post-action:hover { color: var(--primary); }
-        .post-details-header { padding: calc(15px + env(safe-area-inset-top)) 20px 15px 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 15px; font-size: 1.1rem; font-weight: bold; cursor: pointer; }
-        .enlarged-post-card { padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 15px; }
-        .enlarged-header { display: flex; gap: 15px; align-items: center; }
-        .enlarged-names { display: flex; flex-direction: column; gap: 2px; }
-        .enlarged-body { font-size: 1.25rem; line-height: 1.6; color: var(--text-main); white-space: pre-wrap; }
-        .enlarged-meta { color: var(--text-muted); font-size: 0.85rem; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; }
-        .enlarged-actions { display: flex; justify-content: space-around; padding: 10px 0; border-bottom: 1px solid var(--border-color); color: var(--text-muted); }
-        .pill-action-btn { display: flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 20px; border: 1px solid var(--border-color); cursor: pointer; font-weight: bold; font-size: 0.85rem; }
-        .pill-action-btn:hover { border-color: var(--primary); color: var(--primary); }
-        .thread-replies-list { padding: 10px 20px; display: flex; flex-direction: column; }
-        .comments-container { background-color: rgba(0, 0, 0, 0.3); border-radius: 8px; padding: 15px; margin-top: 10px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 10px; }
-        .nested-comment { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.02); font-size: 0.9rem; }
-        .nested-comment:last-child { border-bottom: none; }
-        .comment-input-area { display: flex; gap: 10px; margin-top: 5px; position: relative; }
-        .comment-input { flex-grow: 1; background-color: var(--bg-color); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); padding: 8px 12px; font-size: 0.9rem; outline: none; }
-        
-        /* Autocomplete Tagging Dropdown */
-        .autocomplete-dropdown { position: absolute; bottom: 45px; left: 0; background-color: var(--card-bg); border: 1.5px solid var(--primary); border-radius: 8px; width: 220px; max-height: 160px; overflow-y: auto; z-index: 50000; box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
-        .autocomplete-item { padding: 8px 12px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-bottom: 1px solid var(--border-color); font-size: 0.85rem; }
-        .autocomplete-item:hover { background-color: rgba(207, 168, 86, 0.1); color: var(--primary); }
-        .autocomplete-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 1px solid var(--border-color); }
-        
-        .dm-container { display: flex; height: 100%; }
-        .dm-list { width: 35%; border-right: 1px solid var(--border-color); overflow-y: auto; }
-        .dm-thread-item { padding: 15px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-color); cursor: pointer; }
-        .dm-thread-item:hover, .dm-thread-item.active { background-color: rgba(255, 255, 255, 0.02); }
-        .dm-window { width: 65%; display: flex; flex-direction: column; height: 100%; }
-        .dm-messages { flex-grow: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
-        .msg-bubble { max-width: 75%; padding: 12px 16px; border-radius: 12px; line-height: 1.5; font-size: 1rem; white-space: pre-wrap; }
-        .msg-bubble.sent { background-color: rgba(207, 168, 86, 0.1); color: var(--primary); border: 1px solid var(--border-color); align-self: flex-end; border-bottom-right-radius: 2px; }
-        .msg-bubble.received { background-color: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); align-self: flex-start; border-bottom-left-radius: 2px; }
-        .dm-input-area { padding: 15px; border-top: 1px solid var(--border-color); display: flex; gap: 10px; background-color: var(--bg-color); position: relative; }
-        .dm-input { flex-grow: 1; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-main); padding: 10px 15px; outline: none; }
-        .sidebar-right { width: 25%; border-left: 1px solid var(--border-color); padding: 20px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
-        .crush-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; }
-        .crush-header { font-size: 0.85rem; font-weight: bold; margin-bottom: 15px; color: var(--primary); text-transform: uppercase; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
-        .crush-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-size: 0.85rem; }
-        .meter-bg { width: 90px; height: 6px; background-color: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; }
-        .meter-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); width: 0%; transition: width 0.5s ease; }
-        .story-book-container { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; margin-top: 20px; }
-        .story-book-header { font-size: 0.9rem; font-weight: bold; color: var(--primary); text-transform: uppercase; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; margin-bottom: 15px; }
-        .story-chapter-card { background-color: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .chapter-title { font-weight: bold; font-size: 0.92rem; color: var(--text-main); }
-        .chapter-req { font-size: 0.72rem; color: var(--text-muted); margin-top: 3px; }
-        .bottom-nav { display: none; }
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 10000; }
-        .modal-content { background-color: var(--card-bg); border: 2px solid var(--primary); border-radius: 12px; padding: 30px; width: 90%; max-width: 480px; box-shadow: 0 0 25px rgba(207, 168, 86, 0.15); }
-        .form-group { margin-bottom: 15px; display: flex; flex-direction: column; gap: 5px; }
-        .form-control { background-color: var(--bg-color); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px; border-radius: 6px; outline: none; font-size: 0.95rem; }
-        .form-control:focus { border-color: var(--primary); }
-        .hidden { display: none !important; }
-        .loading-dots { font-style: italic; color: var(--text-muted); padding: 10px; }
-        .event-modal-content { background-color: #110e15; border: 2px solid var(--accent); box-shadow: 0 0 25px rgba(120, 93, 199, 0.3); border-radius: 12px; padding: 35px; width: 90%; max-width: 550px; animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .event-title { color: var(--primary); font-size: 1.3rem; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; text-transform: uppercase; }
-        .event-desc { font-size: 0.95rem; line-height: 1.6; margin-bottom: 25px; color: #cbd5e1; }
-        .choice-btn { background-color: rgba(255, 255, 255, 0.02); color: var(--text-main); border: 1px solid var(--border-color); padding: 14px 18px; border-radius: 8px; width: 100%; text-align: left; margin-bottom: 12px; cursor: pointer; font-size: 0.92rem; }
-        .choice-btn:hover { background-color: rgba(120, 93, 199, 0.1); border-color: var(--accent); transform: translateX(5px); }
 
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            min-height: 100dvh;
+            overflow: hidden;
+        }
+
+        /* Layout Structure */
+        .app-layout {
+            display: flex;
+            width: 100%;
+            max-width: 1250px;
+            height: 100dvh;
+            position: relative;
+        }
+
+        /* Sidebar Left (Desktop Only) */
+        .sidebar-left {
+            width: 25%;
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-shadow: 0 0 12px rgba(207, 168, 86, 0.3);
+            letter-spacing: 2px;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(207, 168, 86, 0.05);
+            border-color: var(--border-color);
+            color: var(--primary);
+            box-shadow: inset 0 0 10px rgba(207, 168, 86, 0.03);
+        }
+
+        .profile-card, .stats-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .stat-box {
+            background-color: rgba(0,0,0,0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .stat-box span {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-box strong {
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        /* Middle Main Column */
+        .main-col {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+            height: 100dvh;
+            background-color: var(--bg-color);
+        }
+
+        .header-title {
+            padding: calc(15px + env(safe-area-inset-top)) 20px 15px 20px; /* Safe padding for iPhone notch */
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-color);
+            background-color: rgba(8, 6, 10, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 50;
+        }
+
+        .content-area {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-bottom: calc(70px + env(safe-area-inset-bottom));
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Post Composer */
+        .composer {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 15px;
+            background-color: rgba(19, 15, 23, 0.2);
+        }
+
+        .composer-avatar, .post-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .composer-avatar:hover, .post-avatar:hover {
+            border-color: var(--primary);
+        }
+
+        .composer-avatar img, .post-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .composer-right {
+            flex-grow: 1;
+        }
+
+        .composer-textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.05rem;
+            resize: none;
+            outline: none;
+            min-height: 60px;
+        }
+
+        .composer-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        /* Post Cards */
+        .post-card {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background-color: rgba(19, 15, 23, 0.1);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .post-main-header-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .post-main {
+            flex-grow: 1;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+            flex-wrap: wrap;
+        }
+
+        .post-name {
+            font-weight: bold;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        .post-handle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .post-body {
+            line-height: 1.6;
+            font-size: 0.95rem;
+            white-space: pre-wrap;
+            color: #e2d8c3;
+        }
+
+        .post-footer {
+            display: flex;
+            gap: 40px;
+            margin-top: 15px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .post-action {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.15s;
+        }
+
+        .post-action svg {
+            display: block;
+        }
+
+        .post-action:hover {
+            color: var(--primary);
+        }
+
+        /* Twitter/X Style Thread View Panels */
+        .post-details-header {
+            padding: calc(15px + env(safe-area-inset-top)) 20px 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .enlarged-post-card {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .enlarged-header {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .enlarged-names {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .enlarged-body {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            white-space: pre-wrap;
+        }
+
+        .enlarged-meta {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .enlarged-actions {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        .pill-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .pill-action-btn:hover {
+            background-color: rgba(207, 168, 86, 0.05);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .thread-replies-list {
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Comment Threads Styling */
+        .comments-container {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nested-comment {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            font-size: 0.9rem;
+        }
+
+        .nested-comment:last-child {
+            border-bottom: none;
+        }
+
+        .comment-input-area {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+            position: relative;
+        }
+
+        .comment-input {
+            flex-grow: 1;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        /* Autocomplete Tagging Dropdown */
+        .autocomplete-dropdown {
+            position: absolute;
+            bottom: 45px;
+            left: 0;
+            background-color: var(--card-bg);
+            border: 1.5px solid var(--primary);
+            border-radius: 8px;
+            width: 220px;
+            max-height: 160px;
+            overflow-y: auto;
+            z-index: 50000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+
+        .autocomplete-item {
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-item:hover {
+            background-color: rgba(207, 168, 86, 0.1);
+            color: var(--primary);
+        }
+
+        .autocomplete-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Direct Messages (DM) Panel */
+        .dm-container {
+            display: flex;
+            height: 100%;
+        }
+
+        .dm-list {
+            width: 35%;
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+        }
+
+        .dm-thread-item {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .dm-thread-item:hover, .dm-thread-item.active {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .dm-window {
+            width: 65%;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .dm-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .msg-bubble {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 1rem;
+            white-space: pre-wrap;
+        }
+
+        .msg-bubble.sent {
+            background-color: rgba(207, 168, 86, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .msg-bubble.received {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+
+        .dm-input-area {
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 10px;
+            background-color: var(--bg-color);
+            position: relative;
+        }
+
+        .dm-input {
+            flex-grow: 1;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-main);
+            padding: 10px 15px;
+            outline: none;
+        }
+
+        /* Right Sidebar (Desktop Only) */
+        .sidebar-right {
+            width: 25%;
+            border-left: 1px solid var(--border-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        .crush-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .crush-header {
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        .crush-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+        }
+
+        .meter-bg {
+            width: 90px;
+            height: 6px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Interactive Hogwarts Story Book Hub Styles */
+        .story-book-container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .story-book-header {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+
+        .story-chapter-card {
+            background-color: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chapter-title {
+            font-weight: bold;
+            font-size: 0.92rem;
+            color: var(--text-main);
+        }
+
+        .chapter-req {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        /* Bottom Nav Mobile ONLY */
+        .bottom-nav {
+            display: none;
+        }
+
+        /* Modals & Overlay Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000; /* Overrides any other CSS layers securely */
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 0 0 25px rgba(207, 168, 86, 0.15);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-control {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            font-size: 0.95rem;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .loading-dots {
+            font-style: italic;
+            color: var(--text-muted);
+            padding: 10px;
+        }
+
+        /* Interactive Story Event Modal Styles */
+        .event-modal-content {
+            background-color: #110e15;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 25px rgba(120, 93, 199, 0.3);
+            border-radius: 12px;
+            padding: 35px;
+            width: 90%;
+            max-width: 550px;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .event-title {
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .event-desc {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            color: #cbd5e1;
+        }
+
+        .choice-btn {
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 14px 18px;
+            border-radius: 8px;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 0.92rem;
+        }
+
+        .choice-btn:hover {
+            background-color: rgba(120, 93, 199, 0.1);
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        /* Mobile Adaptation Media Queries */
         @media (max-width: 768px) {
-            .sidebar-left, .sidebar-right { display: none !important; }
-            .main-col { width: 100% !important; height: calc(100dvh - 60px); }
-            .bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: calc(60px + env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom); background-color: var(--card-bg); border-top: 1px solid var(--border-color); justify-content: space-around; align-items: center; z-index: 99; }
-            .bottom-nav-item { display: flex; flex-direction: column; align-items: center; font-size: 0.72rem; color: var(--text-muted); cursor: pointer; font-weight: bold; gap: 3px; flex-grow: 1; text-align: center; justify-content: center; height: 100%; }
-            .bottom-nav-item.active { color: var(--primary); }
-            .bottom-nav-icon { display: flex; align-items: center; justify-content: center; color: inherit; }
-            .bottom-nav-icon svg { width: 20px; height: 20px; }
-            .dm-container { flex-direction: column; }
-            .dm-list-col { width: 100% !important; display: block; }
-            .dm-window-col { width: 100% !important; display: none; }
-            #back-to-threads-btn { display: inline-block !important; }
-            .event-modal-content { padding: 20px; }
-            .event-title { font-size: 1.2rem; }
-            .event-desc { font-size: 0.9rem; }
+            .sidebar-left, .sidebar-right {
+                display: none !important;
+            }
+
+            .main-col {
+                width: 100% !important;
+                height: calc(100dvh - 60px); /* Leave room for bottom nav */
+            }
+
+            .bottom-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: calc(60px + env(safe-area-inset-bottom)); /* Safe padding for iPhone home bar */
+                padding-bottom: env(safe-area-inset-bottom);
+                background-color: var(--card-bg);
+                border-top: 1px solid var(--border-color);
+                justify-content: space-around;
+                align-items: center;
+                z-index: 99;
+            }
+
+            .bottom-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: 0.72rem;
+                color: var(--text-muted);
+                cursor: pointer;
+                font-weight: bold;
+                gap: 3px;
+                flex-grow: 1;
+                text-align: center;
+                justify-content: center;
+                height: 100%;
+            }
+
+            .bottom-nav-item.active {
+                color: var(--primary);
+            }
+
+            .bottom-nav-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: inherit;
+            }
+
+            .bottom-nav-icon svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            /* Stack DM columns on mobile */
+            .dm-container {
+                flex-direction: column;
+            }
+
+            .dm-list-col {
+                width: 100% !important;
+                display: block;
+            }
+
+            .dm-window-col {
+                width: 100% !important;
+                display: none; /* Initially hidden on mobile for clean swapping */
+            }
+
+            #back-to-threads-btn {
+                display: inline-block !important;
+            }
+
+            /* Make event text readable on small screens */
+            .event-modal-content {
+                padding: 20px;
+            }
+
+            .event-title {
+                font-size: 1.2rem;
+            }
+
+            .event-desc {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -237,8 +962,9 @@
                         <div id="p-handle" class="post-handle">@handle</div>
                     </div>
                 </div>
-                <div style="margin-top: 12px; font-size: 0.85rem;">
-                    <span id="p-house" style="background-color: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 10px; font-weight: bold; text-transform: uppercase;">Gryffindor</span>
+                <div style="margin-top: 12px; display: flex; gap: 5px;">
+                    <span id="p-house" style="background-color: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; font-size: 0.75rem;">Gryffindor</span>
+                    <span id="p-blood" style="background-color: rgba(207,168,86,0.1); color: var(--primary); padding: 3px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; font-size: 0.75rem;">Pure-blood</span>
                 </div>
             </div>
 
@@ -455,7 +1181,7 @@
     </div>
 
     <script>
-        // Game State Core (Fresh Key 'wwnet_romance_v25' completely wipes old local storage caches and crashes)
+        // Game State Core (Fresh Key 'wwnet_romance_v30' completely wipes out old layout memory bugs)
         let state = {
             player: {
                 name: "Wizard Student",
@@ -474,7 +1200,6 @@
             api_key: "",
             activeTab: "feed",
             activeDMTarget: "",
-            activeThreadPostId: null, // Stored ID for active X-style thread Details View
             customAvatars: {}, // Store Magic Mirror updates
             romance: {
                 "Draco Malfoy": 5,
@@ -700,7 +1425,7 @@
                 comments: [
                     { sender: "Fred Weasley", handle: "fred_weasley", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop", body: "Worth it, Professor. Our engagement metrics are through the roof." },
                     { sender: "George Weasley", handle: "george_weasley", avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&h=150&fit=crop", body: "Plus, we sold three dungbombs in the comments section of your last scroll." },
-                    { sender: "Professor Snape", handle: "potion_master_snape", avatar: "https://hp-api.onrender.com/images/snape.jpg", body: "Ten points from Gryffindor. Each." }
+                    { sender: "Professor Snape", handle: "potion_master_snape", avatar: backgroundBots["Professor Snape"].avatar, house: "Slytherin", body: "Ten points from Gryffindor. Each." }
                 ] 
             },
             { 
@@ -717,12 +1442,12 @@
             { 
                 sender: "Amelia Vance", 
                 handle: "shadow_vance", 
-                avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=250&h=250&fit=crop", 
+                avatar: characters["Amelia Vance"].avatar, 
                 house: "Slytherin", 
                 body: "The sun is too loud today. If anyone needs me, I will be sleeping in the shadows of the Owlery. Do not throw seeds at me.", 
                 comments: [
                     { sender: "Pansy Parkinson", handle: "pansy_p", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=250&h=250&fit=crop", body: "Agreed. Let's skip Herbology and hide in the Slytherin common room." },
-                    { sender: "Amelia Vance", handle: "shadow_vance", avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=250&h=250&fit=crop", body: "Bring chocolate frogs. The sugar helps with the sun-induced migraine." }
+                    { sender: "Amelia Vance", handle: "shadow_vance", avatar: characters["Amelia Vance"].avatar, body: "Bring chocolate frogs. The sugar helps with the sun-induced migraine." }
                 ] 
             }
         ];
@@ -790,8 +1515,8 @@
         ];
 
         window.onload = function() {
-            // Using a unique final key name 'wwnet_romance_v25' to resolve all caching immediately
-            const savedState = localStorage.getItem("wwnet_romance_v25");
+            // Using a unique final key name 'wwnet_romance_v30' to resolve all caching immediately
+            const savedState = localStorage.getItem("wwnet_romance_v30");
             if (savedState) {
                 state = JSON.parse(savedState);
                 document.getElementById("setup-modal").classList.add("hidden");
@@ -866,11 +1591,12 @@
             state.player.magic = 10;
             state.triggeredEvents = [];
 
-            localStorage.setItem("wwnet_romance_v25", JSON.stringify(state));
+            localStorage.setItem("wwnet_romance_v30", JSON.stringify(state));
             document.getElementById("setup-modal").classList.add("hidden");
             updateUI();
         }
 
+        // Save Custom Settings modifications (Avatar, Lineage, etc.)
         function saveUserProfileSettings() {
             const avatarInput = document.getElementById("edit-avatar-url").value.trim();
             const bloodInput = document.getElementById("edit-blood-status").value.trim();
@@ -891,19 +1617,28 @@
             document.getElementById("p-name").innerText = state.player.name;
             document.getElementById("p-handle").innerText = "@" + state.player.handle;
             document.getElementById("p-house").innerText = state.player.house;
-            document.getElementById("p-blood").innerText = state.player.bloodStatus || "Pure-blood";
+            
+            // Protective null-check on iOS Elements
+            const pBlood = document.getElementById("p-blood");
+            if (pBlood) {
+                pBlood.innerText = state.player.bloodStatus || "Pure-blood";
+            }
+            
             document.getElementById("stat-aura").innerText = state.player.aura;
             document.getElementById("stat-points").innerText = state.player.points;
             document.getElementById("stat-turns").innerText = state.player.turnsPlayed;
 
+            // Pre-fill settings fields
             document.getElementById("edit-avatar-url").value = state.player.avatar;
             document.getElementById("edit-blood-status").value = state.player.bloodStatus || "Pure-blood";
 
+            // Update Status Attribute Values inside the Stats Tab
             document.getElementById("stat-val-popularity").innerText = state.player.popularity;
             document.getElementById("stat-val-intelligence").innerText = state.player.intelligence;
             document.getElementById("stat-val-courage").innerText = state.player.courage;
             document.getElementById("stat-val-magic").innerText = state.player.magic;
 
+            // Set Avatar Images in HTML
             document.getElementById("composer-my-avatar").innerHTML = `<img src="${state.player.avatar}" alt="My Avatar">`;
             document.getElementById("desktop-my-avatar-img-container").innerHTML = `<img src="${state.player.avatar}" alt="My Avatar">`;
 
@@ -915,7 +1650,7 @@
                 badge.innerText = "Offline AI Mode";
                 badge.style.backgroundColor = "var(--accent)";
             }
-            localStorage.setItem("wwnet_romance_v25", JSON.stringify(state));
+            localStorage.setItem("wwnet_romance_v30", JSON.stringify(state));
         }
 
         function getTropeStage(characterName, romanceVal) {
@@ -927,19 +1662,6 @@
                 }
             }
             return path[path.length - 1].stage;
-        }
-
-        function seedInitialFeed() {
-            const dracoAvatar = characters["Draco Malfoy"] ? characters["Draco Malfoy"].avatar : "";
-            const hermioneAvatar = characters["Hermione Granger"] ? characters["Hermione Granger"].avatar : "";
-            const lunaAvatar = characters["Luna Lovegood"] ? characters["Luna Lovegood"].avatar : "";
-
-            state.feedPosts = [
-                { id: 1, sender: "Draco Malfoy", handle: "pureblood_prince", avatar: dracoAvatar, house: "Slytherin", body: "If I have to share a potions cauldron with another clumsy Gryffindor I am going to write a formal complaint to the Headmaster.", likes: 45, liked: false, comments: [] },
-                { id: 2, sender: "Hermione Granger", handle: "brightest_witch", avatar: hermioneAvatar, house: "Gryffindor", body: "WizNet is not a platform to complain. We should be utilizing it to study for the upcoming Ancient Runes examination. DM me if you need study materials.", likes: 112, liked: false, comments: [] },
-                { id: 3, sender: "Luna Lovegood", handle: "nargle_hunter", avatar: lunaAvatar, house: "Ravenclaw", body: "The puddings in the Great Hall are exceptional today. They taste almost completely clear of spiritual toxins.", likes: 88, liked: false, comments: [] }
-            ];
-            renderFeed();
         }
 
         function formatPostText(text) {
@@ -955,12 +1677,16 @@
                 card.className = "post-card";
                 card.id = `post-${post.id}`;
 
+                // Fetch live current portraits dynamically
                 const npc = characters[post.sender] || backgroundBots[post.sender];
                 const liveAvatar = npc ? npc.avatar : post.avatar;
+
+                // Escape single quotes safely to prevent profile modal click crashes
                 const safeSender = post.sender.replace(/'/g, "\\'");
 
                 card.innerHTML = `
                     <div class="post-main-header-row">
+                        <!-- Clicking portrait or name redirects to character profile popup modal safely -->
                         <div class="post-avatar" onclick="showCharacterProfile('${safeSender}')"><img src="${liveAvatar}" alt="${post.sender}"></div>
                         <div class="post-main">
                             <div class="post-header" onclick="openPostThread(${post.id})" style="cursor: pointer;">
@@ -969,6 +1695,7 @@
                             </div>
                             <div class="post-body" onclick="openPostThread(${post.id})" style="cursor: pointer;">${formatPostText(post.body)}</div>
                             <div class="post-footer">
+                                <!-- Minimalist Twitter/X Style Logos with count metrics -->
                                 <div class="post-action" onclick="likePost(${post.id})">
                                     <svg viewBox="0 0 24 24" width="16" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                                     <span>${post.likes}</span>
@@ -989,12 +1716,14 @@
             });
         }
 
-        // Open X-style thread details view
+        // Open Twitter/X Style Thread Details View on Post Click
         function openPostThread(postId) {
             const post = state.feedPosts.find(p => p.id === postId);
             if (!post) return;
 
             state.activeThreadPostId = postId;
+
+            // Render main enlarged post
             const container = document.getElementById("enlarged-post-container");
             const npc = characters[post.sender] || backgroundBots[post.sender];
             const liveAvatar = npc ? npc.avatar : post.avatar;
@@ -1024,8 +1753,10 @@
                 </div>
             `;
 
+            // Draw all comments
             renderThreadReplies(post);
 
+            // Bind Thread submit button actions
             const submitBtn = document.getElementById("thread-reply-submit-btn");
             submitBtn.onclick = () => submitThreadComment(postId, post.sender);
 
@@ -1044,7 +1775,6 @@
 
         function renderThreadReplies(post) {
             const list = document.getElementById("thread-replies-container");
-            if (!list) return;
             list.innerHTML = "";
             
             if (post.comments && post.comments.length > 0) {
@@ -1155,29 +1885,34 @@
             const post = state.feedPosts.find(p => p.id === postId);
             if (!post) return;
 
+            // Scanning the text body to verify if another character was actively tagged (@handle)
             let replyBot = postAuthor;
             const lowercaseText = userCommentText.toLowerCase();
 
             for (const charName in characters) {
-                if (lowercaseText.includes("@" + characters[charName].handle.toLowerCase())) {
-                    replyBot = charName;
-                    break;
-                }
-            }
-            for (const charName in backgroundBots) {
-                if (lowercaseText.includes("@" + backgroundBots[charName].handle.toLowerCase())) {
-                    replyBot = charName;
+                const handleTag = `@${characters[charName].handle.toLowerCase()}`;
+                if (lowercaseText.includes(handleTag)) {
+                    replyBot = charName; // Target tagged classmate for response intervention
                     break;
                 }
             }
 
+            for (const charName in backgroundBots) {
+                const handleTag = `@${backgroundBots[charName].handle.toLowerCase()}`;
+                if (lowercaseText.includes(handleTag)) {
+                    replyBot = charName; // Target tagged chaos bot for response intervention
+                    break;
+                }
+            }
+
+            // Fallback: If postAuthor is player and no tag found, select a random NPC
             if (replyBot === state.player.name || !characters[replyBot]) {
                 const allPool = [...Object.keys(characters), ...Object.keys(backgroundBots)];
                 replyBot = allPool[Math.floor(Math.random() * allPool.length)];
             }
             
             const isFillerBot = backgroundBots[replyBot] !== undefined;
-            const npc = isFillerBot ? backgroundBots[replyBot] : characters[replyBot];
+            const npc = isFillerBot ? backgroundBots[replyBot] : characters[replyBot]; // FIX PORTRAIT CRASH KEY MISMATCH!
             const currentAffection = isFillerBot ? 0 : (state.romance[replyBot] || 0);
             const currentStage = isFillerBot ? "N/A" : getTropeStage(replyBot, currentAffection);
 
@@ -1185,14 +1920,16 @@
             let changes = { romance: 1, aura: 1, points: 2, popularity: 0, intelligence: 0, courage: 0, magic: 0 };
 
             if (state.api_key) {
+                // Real AI thread reply
                 try {
                     const prompt = `
                         You are playing the role of ${replyBot} from Harry Potter inside a modern magical social network. 
                         Character bio: ${npc.bio}. Hogwarts House: ${npc.house || "Press"}.
                         The player is commenting on a public thread post. Player name is "${state.player.name}" from ${state.player.house}.
                         
-                        - Absolutely NO emojis.
-                        - Absolutely NO robotic assistant talk.
+                        - Absolutely NO emojis. Never write symbols like smiley faces, hearts, stars, or any cartoon graphics.
+                        - Absolutely NO robotic assistant talk, polite instructions, or moral disclaimers.
+                        - Write in character like a real human. Draco should be defensive/mocking, Hermione studious/flustered, Ron easily flustered.
                         
                         Current Relationship Stage with player: "${currentStage}" (Affection: ${currentAffection}/100).
                         The player just posted this comment under a WizNet scroll: "${userCommentText}".
@@ -1238,8 +1975,10 @@
                     replyText = "Fascinating comment. Merlin's beard, the Ley lines are volatile today.";
                 }
             } else {
+                // Highly upgraded offline banter script with keyword triggers
                 const lowercaseComment = userCommentText.toLowerCase();
                 const characterBanter = fallbackBanterDatabase[replyBot];
+                
                 if (characterBanter) {
                     if (lowercaseComment.includes("love") || lowercaseComment.includes("cute") || lowercaseComment.includes("flirt") || lowercaseComment.includes("handsome")) {
                         replyText = characterBanter.flirt;
@@ -1260,6 +1999,7 @@
                 }
             }
 
+            // Apply updates
             if (!isFillerBot) {
                 state.romance[replyBot] = Math.max(0, Math.min(100, (state.romance[replyBot] || 0) + changes.romance));
             }
@@ -1270,6 +2010,7 @@
             state.player.courage = Math.max(0, state.player.courage + changes.courage);
             state.player.magic = Math.max(0, state.player.magic + changes.magic);
 
+            // Append bot reply in comment thread
             const botComment = {
                 sender: replyBot,
                 handle: npc.handle,
@@ -1278,342 +2019,8 @@
             };
             post.comments.push(botComment);
             
+            // Smoothly append Bot reply directly to the thread DOM
             appendCommentToDOM(postId, botComment);
-
-            if (state.activeThreadPostId === postId) {
-                renderThreadReplies(post);
-            }
-
-            renderRomanceMeters();
-            updateUI();
-        }
-
-        function triggerAutonomousBotActivity(forceManual = false) {
-            if (forceManual || Math.random() < 0.40) {
-                const randomBotPost = botAutonomousPosts[Math.floor(Math.random() * botAutonomousPosts.length)];
-                const alreadyExists = state.feedPosts.some(p => p.body === randomBotPost.body);
-                if (!alreadyExists) {
-                    state.feedPosts.unshift({
-                        id: Date.now(),
-                        sender: randomBotPost.sender,
-                        handle: randomBotPost.handle,
-                        avatar: randomBotPost.avatar,
-                        house: randomBotPost.house,
-                        body: randomBotPost.body,
-                        likes: Math.floor(Math.random() * 50) + 10,
-                        liked: false,
-                        comments: randomBotPost.comments || []
-                    });
-                    renderFeed();
-                }
-            }
-        }
-
-        function submitFeedPost() {
-            const input = document.getElementById("feed-input");
-            const text = input.value.trim();
-            if (!text) return;
-
-            const newPost = {
-                id: Date.now(),
-                sender: state.player.name,
-                handle: state.player.handle,
-                avatar: state.player.avatar,
-                house: state.player.house,
-                body: text,
-                likes: 0,
-                liked: false,
-                comments: []
-            };
-
-            state.feedPosts.unshift(newPost);
-            input.value = "";
-            renderFeed();
-            
-            state.player.turnsPlayed++;
-            updateUI();
-            checkStoryEvents();
-            triggerAutonomousBotActivity();
-
-            setTimeout(() => {
-                const npcList = Object.keys(characters);
-                const randomNpc = npcList[Math.floor(Math.random() * npcList.length)];
-                generateAIResponse(randomNpc, text, true);
-            }, 2000);
-        }
-
-        function likePost(id) {
-            const post = state.feedPosts.find(p => p.id === id);
-            if (post) {
-                if (post.liked) {
-                    post.likes--;
-                    post.liked = false;
-                } else {
-                    post.likes++;
-                    post.liked = true;
-                    state.player.popularity += 1;
-                }
-                renderFeed();
-                updateUI();
-            }
-        }
-
-        function renderRomanceMeters() {
-            const listDesktop = document.getElementById("romance-meters-list");
-            const listMobile = document.getElementById("romance-meters-list-mobile");
-            if (!listDesktop || !listMobile) return;
-            
-            let html = "";
-            for (const [char, val] of Object.entries(state.romance)) {
-                const npc = characters[char];
-                if (!npc) continue;
-
-                const stageName = getTropeStage(char, val);
-                const safeChar = char.replace(/'/g, "\\'");
-                
-                html += `
-                    <div class="crush-item" style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
-                        <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
-                            <div class="post-avatar" style="width: 38px; height: 38px;" onclick="showCharacterProfile('${safeChar}')"><img src="${npc.avatar}" alt="${char}"></div>
-                            <div style="min-width: 0; overflow: hidden;">
-                                <div style="font-weight:bold; font-size: 0.9rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer;" onclick="showCharacterProfile('${safeChar}')">${char}</div>
-                                <div style="font-size:0.72rem; color: var(--text-muted);">${stageName}</div>
-                            </div>
-                        </div>
-                        <div style="display:flex; align-items:center; gap:8px; flex-shrink: 0;">
-                            <span style="font-size: 0.8rem; font-weight:bold;">${val}%</span>
-                            <div class="meter-bg">
-                                <div class="meter-fill" style="width: ${val}%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-            listDesktop.innerHTML = html;
-            listMobile.innerHTML = html;
-        }
-
-        function renderDMThreads() {
-            const threads = document.getElementById("dm-threads-col");
-            if (!threads) return;
-            threads.innerHTML = "";
-            for (const char in state.dms) {
-                const npc = characters[char] || backgroundBots[char];
-                if (!npc) continue;
-
-                const lastMsg = state.dms[char].length > 0 ? state.dms[char][state.dms[char].length - 1].text : "No messages";
-                const activeClass = state.activeDMTarget === char ? "active" : "";
-                const safeChar = char.replace(/'/g, "\\'");
-
-                const thread = document.createElement("div");
-                thread.className = `dm-thread-item ${activeClass}`;
-                thread.onclick = () => selectDMThread(char);
-                thread.innerHTML = `
-                    <div class="post-avatar" onclick="event.stopPropagation(); showCharacterProfile('${safeChar}')"><img src="${npc.avatar}" alt="${char}"></div>
-                    <div style="flex-grow:1; min-width:0;">
-                        <div style="display:flex; justify-content:space-between;">
-                            <span style="font-weight:bold; font-size:0.9rem;">${char}</span>
-                        </div>
-                        <div style="font-size:0.8rem; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                            ${lastMsg}
-                        </div>
-                    </div>
-                `;
-                threads.appendChild(thread);
-            }
-        }
-
-        function selectDMThread(char) {
-            state.activeDMTarget = char;
-            document.getElementById("active-dm-name").innerText = `Chat with ${char}`;
-            renderDMHistory();
-            renderDMThreads();
-
-            if (window.innerWidth <= 768) {
-                document.getElementById("dm-threads-col").style.display = "none";
-                document.getElementById("dm-window-col").style.display = "flex";
-            }
-        }
-
-        function renderDMHistory() {
-            const chat = document.getElementById("dm-chat-history");
-            if (!chat) return;
-            chat.innerHTML = "";
-            if (!state.activeDMTarget) return;
-
-            const messages = state.dms[state.activeDMTarget] || [];
-            messages.forEach(msg => {
-                const bubble = document.createElement("div");
-                bubble.className = `msg-bubble ${msg.sender === state.player.name ? "sent" : "received"}`;
-                bubble.innerText = msg.text;
-                chat.appendChild(bubble);
-            });
-            chat.scrollTop = chat.scrollHeight;
-        }
-
-        function handleDMEnter(e) {
-            if (e.key === "Enter") {
-                sendDirectMessage();
-            }
-        }
-
-        function sendDirectMessage() {
-            const input = document.getElementById("dm-text-input");
-            const text = input.value.trim();
-            if (!text || !state.activeDMTarget) return;
-
-            if (!state.dms[state.activeDMTarget]) {
-                state.dms[state.activeDMTarget] = [];
-            }
-
-            state.dms[state.activeDMTarget].push({
-                sender: state.player.name,
-                text: text
-            });
-            input.value = "";
-            renderDMHistory();
-            renderDMThreads();
-
-            state.player.turnsPlayed++;
-            updateUI();
-            checkStoryEvents();
-            triggerAutonomousBotActivity();
-
-            generateAIResponse(state.activeDMTarget, text, false);
-        }
-
-        async function generateAIResponse(npcName, userMessage, isPublicFeed = false) {
-            const isFillerBot = backgroundBots[npcName] !== undefined;
-            const npc = isFillerBot ? backgroundBots[npcName] : characters[npcName];
-            const currentAffection = isFillerBot ? 0 : (state.romance[npcName] || 0);
-            const currentStage = isFillerBot ? "N/A" : getTropeStage(npcName, currentAffection);
-            
-            if (isPublicFeed) {
-                const loader = document.createElement("div");
-                loader.className = "loading-dots";
-                loader.id = `feed-loader-${npcName}`;
-                loader.innerText = `${npcName} is typing...`;
-                const feedList = document.getElementById("feed-list");
-                if (feedList) feedList.insertBefore(loader, feedList.firstChild);
-            } else {
-                const dmLoader = document.getElementById("dm-loader");
-                if (dmLoader) dmLoader.classList.remove("hidden");
-            }
-
-            let replyText = "";
-            let changes = { romance: 1, aura: 1, points: 2, popularity: 0, intelligence: 0, courage: 0, magic: 0 };
-
-            if (state.api_key) {
-                try {
-                    let prompt = "";
-                    if (isFillerBot) {
-                        prompt = `You are playing ${npcName} from Harry Potter inside a modern magical social network. Bio: ${npc.bio}. No emojis. Write in character. Respond to: "${userMessage}". Keep it short (1-2 sentences).`;
-                    } else {
-                        // Personality and Affinity adjustments
-                        let stylePrompt = "Be normal classmate.";
-                        if (npcName === "Draco Malfoy") {
-                            if (currentAffection < 30) stylePrompt = "Be highly arrogant, distant, call them Gryffindor dunce or nobody. Act toxic.";
-                            else if (currentAffection < 70) stylePrompt = "Show reluctant allies cooperation. Sarcastic but less cruel.";
-                            else stylePrompt = "Highly possessive, protective, affectionate, though still maintaining dry Draco edge.";
-                        } else if (npcName === "Ron Weasley") {
-                            if (currentAffection < 30) stylePrompt = "Be awkward, distant, stammers and complains about homework.";
-                            else if (currentAffection < 70) stylePrompt = "Friendly, jokes about food or Quidditch, loyal friend.";
-                            else stylePrompt = "Extremely flustered, sweet, intensely protective, uses 'bloody hell'.";
-                        }
-                        prompt = `You are playing ${npcName} from Harry Potter. Bio: ${npc.bio}. No emojis. Style: ${stylePrompt}. Current Connection Stage: ${currentStage} (${currentAffection}%). Respond to player: "${userMessage}". Max 2 sentences. Appended tags expected: [ROMANCE: +x] [AURA: +x] [POINTS: +x] [POPULARITY: +x] [INTELLIGENCE: +x] [COURAGE: +x] [MAGIC: +x]`;
-                    }
-
-                    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${state.api_key}`;
-                    const response = await fetch(endpoint, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                    });
-                    const data = await response.json();
-                    
-                    if (data.candidates && data.candidates[0].content.parts[0].text) {
-                        const rawReply = data.candidates[0].content.parts[0].text;
-                        const romanceMatch = rawReply.match(/\[ROMANCE:\s*([+-]?\d+)\]/i);
-                        const auraMatch = rawReply.match(/\[AURA:\s*([+-]?\d+)\]/i);
-                        const pointsMatch = rawReply.match(/\[POINTS:\s*([+-]?\d+)\]/i);
-                        const popularityMatch = rawReply.match(/\[POPULARITY:\s*([+-]?\d+)\]/i);
-                        const intelligenceMatch = rawReply.match(/\[INTELLIGENCE:\s*([+-]?\d+)\]/i);
-                        const courageMatch = rawReply.match(/\[COURAGE:\s*([+-]?\d+)\]/i);
-                        const magicMatch = rawReply.match(/\[MAGIC:\s*([+-]?\d+)\]/i);
-
-                        if (romanceMatch) changes.romance = parseInt(romanceMatch[1]);
-                        if (auraMatch) changes.aura = parseInt(auraMatch[1]);
-                        if (pointsMatch) changes.points = parseInt(pointsMatch[1]);
-                        if (popularityMatch) changes.popularity = parseInt(popularityMatch[1]);
-                        if (intelligenceMatch) changes.intelligence = parseInt(intelligenceMatch[1]);
-                        if (courageMatch) changes.courage = parseInt(courageMatch[1]);
-                        if (magicMatch) changes.magic = parseInt(magicMatch[1]);
-
-                        replyText = rawReply.replace(/\[.*?\]/g, "").trim();
-                    }
-                } catch (err) {
-                    console.error(err);
-                    replyText = "Hogwarts owl network experienced a temporal anomaly (API Connection Error). Let's retry.";
-                }
-            } else {
-                await new Promise(resolve => setTimeout(resolve, 1500)); 
-                const lowercase = userMessage.toLowerCase();
-                const characterBanter = fallbackBanterDatabase[npcName];
-                if (characterBanter) {
-                    // Progression adjustments for offline banter
-                    if (currentAffection < 30 && npcName === "Draco Malfoy") {
-                        replyText = "Why are you talking to me? I refuse to waste time with an annoying Gryffindor.";
-                    } else if (lowercase.includes("date") || lowercase.includes("flirt") || lowercase.includes("cute") || lowercase.includes("love")) {
-                        replyText = characterBanter.flirt;
-                        changes.romance = 8;
-                        changes.popularity = 2;
-                    } else if (lowercase.includes("stupid") || lowercase.includes("hate") || lowercase.includes("ugly")) {
-                        replyText = characterBanter.hate;
-                        changes.romance = -5;
-                        changes.popularity = -2;
-                    } else {
-                        replyText = characterBanter.default;
-                    }
-                } else {
-                    replyText = "Quiet. I am busy.";
-                }
-            }
-
-            if (!isFillerBot) {
-                if (!state.dms[npcName]) state.dms[npcName] = [];
-                state.romance[npcName] = Math.max(0, Math.min(100, (state.romance[npcName] || 0) + changes.romance));
-            }
-            state.player.aura = Math.max(0, state.player.aura + changes.aura);
-            state.player.points = Math.max(0, state.player.points + changes.points);
-            state.player.popularity = Math.max(0, state.player.popularity + changes.popularity);
-            state.player.intelligence = Math.max(0, state.player.intelligence + changes.intelligence);
-            state.player.courage = Math.max(0, state.player.courage + changes.courage);
-            state.player.magic = Math.max(0, state.player.magic + changes.magic);
-
-            if (isPublicFeed) {
-                const feedLoader = document.getElementById(`feed-loader-${npcName}`);
-                if (feedLoader) feedLoader.remove();
-
-                state.feedPosts.unshift({
-                    id: Date.now(),
-                    sender: npcName,
-                    handle: npc.handle,
-                    avatar: npc.avatar,
-                    house: isFillerBot ? "Side Character" : npc.house,
-                    body: `@${state.player.handle} ${replyText}`,
-                    likes: Math.floor(Math.random()*5),
-                    liked: false,
-                    comments: []
-                });
-                renderFeed();
-            } else {
-                const dmLoader = document.getElementById("dm-loader");
-                if (dmLoader) dmLoader.classList.add("hidden");
-                if (!state.dms[npcName]) state.dms[npcName] = [];
-                state.dms[npcName].push({ sender: npcName, text: replyText });
-                renderDMHistory();
-                renderDMThreads();
-            }
 
             renderRomanceMeters();
             updateUI();
@@ -1833,10 +2240,382 @@
             modal.classList.remove("hidden");
         }
 
+        function triggerAutonomousBotActivity(forceManual = false) {
+            if (forceManual || Math.random() < 0.40) {
+                const randomBotPost = botAutonomousPosts[Math.floor(Math.random() * botAutonomousPosts.length)];
+                const alreadyExists = state.feedPosts.some(p => p.body === randomBotPost.body);
+                if (!alreadyExists) {
+                    state.feedPosts.unshift({
+                        id: Date.now(),
+                        sender: randomBotPost.sender,
+                        handle: randomBotPost.handle,
+                        avatar: randomBotPost.avatar,
+                        house: randomBotPost.house,
+                        body: randomBotPost.body,
+                        likes: Math.floor(Math.random() * 50) + 10,
+                        liked: false,
+                        comments: randomBotPost.comments || []
+                    });
+                    renderFeed();
+                }
+            }
+        }
+
+        function submitFeedPost() {
+            const input = document.getElementById("feed-input");
+            const text = input.value.trim();
+            if (!text) return;
+
+            const newPost = {
+                id: Date.now(),
+                sender: state.player.name,
+                handle: state.player.handle,
+                avatar: state.player.avatar,
+                house: state.player.house,
+                body: text,
+                likes: 0,
+                liked: false,
+                comments: []
+            };
+
+            state.feedPosts.unshift(newPost);
+            input.value = "";
+            renderFeed();
+            
+            state.player.turnsPlayed++;
+            updateUI();
+            checkStoryEvents();
+            triggerAutonomousBotActivity();
+
+            setTimeout(() => {
+                const npcList = Object.keys(characters);
+                const randomNpc = npcList[Math.floor(Math.random() * npcList.length)];
+                generateAIResponse(randomNpc, text, true);
+            }, 2000);
+        }
+
+        function likePost(id) {
+            const post = state.feedPosts.find(p => p.id === id);
+            if (post) {
+                if (post.liked) {
+                    post.likes--;
+                    post.liked = false;
+                } else {
+                    post.likes++;
+                    post.liked = true;
+                    state.player.popularity += 1;
+                }
+                renderFeed();
+                updateUI();
+            }
+        }
+
+        function renderRomanceMeters() {
+            const listDesktop = document.getElementById("romance-meters-list");
+            const listMobile = document.getElementById("romance-meters-list-mobile");
+            if (!listDesktop || !listMobile) return;
+            
+            let html = "";
+            for (const [char, val] of Object.entries(state.romance)) {
+                const npc = characters[char];
+                if (!npc) continue; // CRITICAL STRUCTURAL NULL-CHECK
+
+                const stageName = getTropeStage(char, val);
+                const safeChar = char.replace(/'/g, "\\'");
+                
+                html += `
+                    <div class="crush-item" style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                            <div class="post-avatar" style="width: 38px; height: 38px;" onclick="showCharacterProfile('${safeChar}')"><img src="${npc.avatar}" alt="${char}"></div>
+                            <div style="min-width: 0; overflow: hidden;">
+                                <div style="font-weight:bold; font-size: 0.9rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer;" onclick="showCharacterProfile('${safeChar}')">${char}</div>
+                                <div style="font-size:0.72rem; color: var(--text-muted);">${stageName}</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:8px; flex-shrink: 0;">
+                            <span style="font-size: 0.8rem; font-weight:bold;">${val}%</span>
+                            <div class="meter-bg">
+                                <div class="meter-fill" style="width: ${val}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            listDesktop.innerHTML = html;
+            listMobile.innerHTML = html;
+        }
+
+        function renderDMThreads() {
+            const threads = document.getElementById("dm-threads-col");
+            if (!threads) return; // FIX MATCH KEY MISTAKE: Safely targeted to prevent silent startup crash
+            threads.innerHTML = "";
+            for (const char in state.dms) {
+                const npc = characters[char] || backgroundBots[char];
+                if (!npc) continue; // CRITICAL STRUCTURAL NULL-CHECK
+
+                const lastMsg = state.dms[char].length > 0 ? state.dms[char][state.dms[char].length - 1].text : "No messages";
+                const activeClass = state.activeDMTarget === char ? "active" : "";
+                const safeChar = char.replace(/'/g, "\\'");
+
+                const thread = document.createElement("div");
+                thread.className = `dm-thread-item ${activeClass}`;
+                thread.onclick = () => selectDMThread(char);
+                thread.innerHTML = `
+                    <div class="post-avatar" onclick="event.stopPropagation(); showCharacterProfile('${safeChar}')"><img src="${npc.avatar}" alt="${char}"></div>
+                    <div style="flex-grow:1; min-width:0;">
+                        <div style="display:flex; justify-content:space-between;">
+                            <span style="font-weight:bold; font-size:0.9rem;">${char}</span>
+                        </div>
+                        <div style="font-size:0.8rem; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                            ${lastMsg}
+                        </div>
+                    </div>
+                `;
+                threads.appendChild(thread);
+            }
+        }
+
+        function selectDMThread(char) {
+            state.activeDMTarget = char;
+            document.getElementById("active-dm-name").innerText = `Chat with ${char}`;
+            renderDMHistory();
+            renderDMThreads();
+
+            // Native mobile swap: hide inbox threads, show clean chat window
+            if (window.innerWidth <= 768) {
+                document.getElementById("dm-threads-col").style.display = "none";
+                document.getElementById("dm-window-col").style.display = "flex";
+            }
+        }
+
+        function renderDMHistory() {
+            const chat = document.getElementById("dm-chat-history");
+            if (!chat) return;
+            chat.innerHTML = "";
+            if (!state.activeDMTarget) return;
+
+            const messages = state.dms[state.activeDMTarget] || [];
+            messages.forEach(msg => {
+                const bubble = document.createElement("div");
+                bubble.className = `msg-bubble ${msg.sender === state.player.name ? "sent" : "received"}`;
+                bubble.innerText = msg.text;
+                chat.appendChild(bubble);
+            });
+            chat.scrollTop = chat.scrollHeight;
+        }
+
+        function handleDMEnter(e) {
+            if (e.key === "Enter") {
+                sendDirectMessage();
+            }
+        }
+
+        function sendDirectMessage() {
+            const input = document.getElementById("dm-text-input");
+            const text = input.value.trim();
+            if (!text || !state.activeDMTarget) return;
+
+            // Safety guard: Initialise DMs target array cleanly if undefined to prevent freeze
+            if (!state.dms[state.activeDMTarget]) {
+                state.dms[state.activeDMTarget] = [];
+            }
+
+            state.dms[state.activeDMTarget].push({
+                sender: state.player.name,
+                text: text
+            });
+            input.value = "";
+            renderDMHistory();
+            renderDMThreads();
+
+            state.player.turnsPlayed++;
+            updateUI();
+            checkStoryEvents();
+            triggerAutonomousBotActivity();
+
+            generateAIResponse(state.activeDMTarget, text, false);
+        }
+
+        // DYNAMIC AI & RESPONSE ENGINE
+        async function generateAIResponse(npcName, userMessage, isPublicFeed = false) {
+            const isFillerBot = backgroundBots[npcName] !== undefined;
+            const npc = isFillerBot ? backgroundBots[npcName] : characters[npcName];
+            const currentAffection = isFillerBot ? 0 : (state.romance[npcName] || 0);
+            const currentStage = isFillerBot ? "N/A" : getTropeStage(npcName, currentAffection);
+            
+            if (isPublicFeed) {
+                const loader = document.createElement("div");
+                loader.className = "loading-dots";
+                loader.id = `feed-loader-${npcName}`;
+                loader.innerText = `${npcName} is typing...`;
+                const feedList = document.getElementById("feed-list");
+                if (feedList) feedList.insertBefore(loader, feedList.firstChild);
+            } else {
+                const dmLoader = document.getElementById("dm-loader");
+                if (dmLoader) dmLoader.classList.remove("hidden");
+            }
+
+            let replyText = "";
+            let changes = { romance: 1, aura: 1, points: 2, popularity: 0, intelligence: 0, courage: 0, magic: 0 };
+
+            if (state.api_key) {
+                try {
+                    let prompt = "";
+                    
+                    if (isFillerBot) {
+                        prompt = `
+                            You are playing the role of ${npcName} from Harry Potter inside a modern magical social network.
+                            Character Bio: ${npc.bio}.
+                            You are a side character/chaos bot designed to fuel the fire, make funny remarks, start drama, or complain.
+                            - Absolutely NO emojis. Never write smiley faces, hearts, stars, or cartoon icons.
+                            - If you are Rita Skeeter: Add scandalous gossip, act like a slimy journalist, and make up rumors about the player and their Hogwarts crushes.
+                            - If you are Professor Snape: Be incredibly bitter, demand safety compliance, complain about Gryffindor rule-breakers, or deduct house points.
+                            - If you are Fred Weasley or George Weasley: Speak with twin-banter, make joke suggestions, or offer illegal products.
+                            
+                            Respond to this player's post/conversation context: "${userMessage}".
+                            Keep your response short (1 to 2 sentences maximum) and completely in character.
+                            
+                            At the very end of your response, you MUST append a state tag strictly formatted like this:
+                            [ROMANCE: 0] [AURA: +x] [POINTS: +x] [POPULARITY: +x] [INTELLIGENCE: +x] [COURAGE: +x] [MAGIC: +x]
+                        `;
+                    } else {
+                        prompt = `
+                            You are playing the role of ${npcName} from Harry Potter inside a modern magical social network. 
+                            Character bio & distinct personality: ${npc.bio}. Hogwarts House: ${npc.house}.
+                            The player is speaking to you. Their name is "${state.player.name}" from ${state.player.house}.
+                            
+                            IMPORTANT ROMANCE DYNAMICS:
+                            Your current relationship status with the player is: "${currentStage}" (Affection: ${currentAffection}/100).
+                            You MUST adjust your behavior, mood, friendliness, and openness to match this stage.
+                            
+                            - Absolutely NO emojis. Never write smiley faces, hearts, stars, or cartoon icons.
+                            - Absolutely NO robotic assistant talk, polite instructions, or moral disclaimers. 
+                            - Adopt human traits: write using lowercases, minor typos, exclamation marks, or short dramatic phrases to sound like a real person texting or commenting on a social network.
+                            - For Draco Malfoy: If in "Bitter Enemies", be snobbish, toxic, defensive, or call them a Gryffindor dunce. If in "Star-Crossed Lovers", be highly protective, possessive, cozy but still keep your typical dry Draco flavor.
+                            - For Hermione Granger: If in "Academic Rivals", correct their grammar, tease their study habits. If in "Mutual Crushes", get extremely flustered, stutter, blush, and speak in longer nervous structures.
+                            - For Ron Weasley: Flustered easily, uses 'bloody hell', gets defensive when teased but intensely sweet and comfortable in high romance stages.
+                            - For Amelia Vance: Lazily cynical, yawns, mentions sleeping in shadows or drinking tomato juice, slowly warms up to being protective.
+                            - For Reggie Spark: Highly enthusiastic, types in modern text lingo, gets flustered if you ask about dating, talks about his servers.
+                            
+                            The player said: "${userMessage}".
+                            
+                            Write a short response (1 to 3 sentences maximum) completely in character. Be reactive. 
+                            
+                            At the very end of your response, you MUST append a state tag strictly formatted like this:
+                            [ROMANCE: +x] [AURA: +x] [POINTS: +x] [POPULARITY: +x] [INTELLIGENCE: +x] [COURAGE: +x] [MAGIC: +x]
+                        `;
+                    }
+
+                    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${state.api_key}`;
+                    const response = await fetch(endpoint, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                    });
+                    const data = await response.json();
+                    
+                    if (data.candidates && data.candidates[0].content.parts[0].text) {
+                        const rawReply = data.candidates[0].content.parts[0].text;
+                        
+                        const romanceMatch = rawReply.match(/\[ROMANCE:\s*([+-]?\d+)\]/i);
+                        const auraMatch = rawReply.match(/\[AURA:\s*([+-]?\d+)\]/i);
+                        const pointsMatch = rawReply.match(/\[POINTS:\s*([+-]?\d+)\]/i);
+                        const popularityMatch = rawReply.match(/\[POPULARITY:\s*([+-]?\d+)\]/i);
+                        const intelligenceMatch = rawReply.match(/\[INTELLIGENCE:\s*([+-]?\d+)\]/i);
+                        const courageMatch = rawReply.match(/\[COURAGE:\s*([+-]?\d+)\]/i);
+                        const magicMatch = rawReply.match(/\[MAGIC:\s*([+-]?\d+)\]/i);
+
+                        if (romanceMatch) changes.romance = parseInt(romanceMatch[1]);
+                        if (auraMatch) changes.aura = parseInt(auraMatch[1]);
+                        if (pointsMatch) changes.points = parseInt(pointsMatch[1]);
+                        if (popularityMatch) changes.popularity = parseInt(popularityMatch[1]);
+                        if (intelligenceMatch) changes.intelligence = parseInt(intelligenceMatch[1]);
+                        if (courageMatch) changes.courage = parseInt(courageMatch[1]);
+                        if (magicMatch) changes.magic = parseInt(magicMatch[1]);
+
+                        replyText = rawReply.replace(/\[.*?\]/g, "").trim();
+                    } else {
+                        throw new Error("Invalid response format");
+                    }
+                } catch (err) {
+                    console.error("AI Error:", err);
+                    replyText = "Hogwarts owl network experienced a temporal anomaly (API Connection Error). Let's retry.";
+                }
+            } else {
+                // Upgraded offline banter router
+                await new Promise(resolve => setTimeout(resolve, 1500)); 
+                const lowercase = userMessage.toLowerCase();
+                const characterBanter = fallbackBanterDatabase[npcName];
+
+                if (characterBanter) {
+                    if (lowercase.includes("date") || lowercase.includes("flirt") || lowercase.includes("cute") || lowercase.includes("love")) {
+                        replyText = characterBanter.flirt;
+                        changes.romance = 8;
+                        changes.popularity = 2;
+                    } else if (lowercase.includes("stupid") || lowercase.includes("hate") || lowercase.includes("ugly")) {
+                        replyText = characterBanter.hate;
+                        changes.romance = -5;
+                        changes.popularity = -2;
+                    } else {
+                        replyText = characterBanter.default;
+                    }
+                } else {
+                    replyText = "detention! stop wasting time.";
+                }
+            }
+
+            // Apply updates
+            if (!isFillerBot) {
+                state.romance[npcName] = Math.max(0, Math.min(100, (state.romance[npcName] || 0) + changes.romance));
+            }
+            state.player.aura = Math.max(0, state.player.aura + changes.aura);
+            state.player.points = Math.max(0, state.player.points + changes.points);
+
+            // Level up user Status attributes!
+            state.player.popularity = Math.max(0, state.player.popularity + changes.popularity);
+            state.player.intelligence = Math.max(0, state.player.intelligence + changes.intelligence);
+            state.player.courage = Math.max(0, state.player.courage + changes.courage);
+            state.player.magic = Math.max(0, state.player.magic + changes.magic);
+
+            if (isPublicFeed) {
+                const feedLoader = document.getElementById("feed-loader-" + npcName);
+                if (feedLoader) feedLoader.remove();
+
+                state.feedPosts.unshift({
+                    id: Date.now(),
+                    sender: npcName,
+                    handle: npc.handle,
+                    avatar: npc.avatar,
+                    house: isFillerBot ? "Side Character" : npc.house,
+                    body: `@${state.player.handle} ${replyText}`,
+                    likes: Math.floor(Math.random()*5),
+                    liked: false,
+                    comments: []
+                });
+                renderFeed();
+            } else {
+                const dmLoader = document.getElementById("dm-loader");
+                if (dmLoader) dmLoader.classList.remove("hidden");
+                // Safety guard: Initialise DMs target array cleanly if undefined to prevent freeze
+                if (!state.dms[npcName]) {
+                    state.dms[npcName] = [];
+                }
+                state.dms[npcName].push({
+                    sender: npcName,
+                    text: replyText
+                });
+                renderDMHistory();
+                renderDMThreads();
+            }
+
+            renderRomanceMeters();
+            updateUI();
+        }
+
         // Tab Switching
         function switchTab(tab) {
             document.getElementById("feed-view").classList.add("hidden");
-            document.getElementById("thread-view").classList.add("hidden");
+            document.getElementById("thread-view").classList.add("hidden"); // Ensure active details thread closes safely
             document.getElementById("dms-view").classList.add("hidden");
             document.getElementById("hearts-view").classList.add("hidden");
             document.getElementById("settings-view").classList.add("hidden");
@@ -1868,6 +2647,7 @@
 
             if (tab === "dms") {
                 document.getElementById("tab-title").innerText = "Owl Post";
+                // Reset mobile view column display
                 if (window.innerWidth <= 768) {
                     document.getElementById("dm-threads-col").style.display = "block";
                     document.getElementById("dm-window-col").style.display = "none";
@@ -1882,6 +2662,7 @@
             state.activeTab = tab;
         }
 
+        // Mobile active DM window close to go back to threads list
         function closeActiveChatMobile() {
             if (window.innerWidth <= 768) {
                 document.getElementById("dm-threads-col").style.display = "block";
@@ -1889,10 +2670,13 @@
             }
         }
 
+        // Render input text fields dynamically inside settings for each character portrait
         function renderMagicMirrorInputs() {
             const container = document.getElementById("magic-mirror-list");
             if (!container) return;
             container.innerHTML = "";
+            
+            // Loop through romanceable classmates
             for (const char in characters) {
                 const div = document.createElement("div");
                 div.style.display = "flex";
@@ -1904,6 +2688,8 @@
                 `;
                 container.appendChild(div);
             }
+            
+            // Loop through background bots
             for (const char in backgroundBots) {
                 const div = document.createElement("div");
                 div.style.display = "flex";
@@ -1917,10 +2703,12 @@
             }
         }
 
+        // Apply new Magic Mirror Portrait URLs
         function saveMagicMirrors() {
             if (!state.customAvatars) {
                 state.customAvatars = {};
             }
+
             for (const char in characters) {
                 const input = document.getElementById(`mirror-input-${char.replace(/\s+/g, '_')}`);
                 if (input && input.value.trim()) {
@@ -1929,6 +2717,7 @@
                     state.customAvatars[char] = newUrl;
                 }
             }
+
             for (const char in backgroundBots) {
                 const input = document.getElementById(`mirror-input-${char.replace(/\s+/g, '_')}`);
                 if (input && input.value.trim()) {
@@ -1937,6 +2726,8 @@
                     state.customAvatars[char] = newUrl;
                 }
             }
+
+            // Save state immediately
             updateUI();
             renderFeed();
             renderRomanceMeters();
@@ -1944,6 +2735,16 @@
             alert("Magic Mirrors successfully cast! Classmate portraits updated.");
         }
 
+        function getHouseBg(house) {
+            if (!house) return "#1e1b29";
+            if (house.includes("Gryffindor")) return "#731c24";
+            if (house.includes("Slytherin")) return "#1c5c36";
+            if (house.includes("Ravenclaw")) return "#1a3d7c";
+            if (house.includes("Hufflepuff")) return "#82611a";
+            return "#1e1b29";
+        }
+
+        // API Key Actions
         function saveApiKey() {
             const key = document.getElementById("api-key-input").value.trim();
             if (key) {
