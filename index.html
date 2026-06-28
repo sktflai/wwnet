@@ -2,8 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WizNet - Hogwarts Social Network</title>
+    
+    <!-- iOS Standalone App Mode (Full-screen standalone shortcut on Safari) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="WizNet">
+    <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=180&h=180&fit=crop">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
     <style>
         :root {
             --bg-color: #08060a; /* Midnight Obsidian */
@@ -13,7 +20,7 @@
             --text-muted: #8c7f70; /* Soft Shadow */
             --primary: #cfa856; /* Hogwarts Gold */
             --primary-hover: #b59345;
-            --accent: #785dc7; /* Mystic Purple */
+            --accent: #9c6c30; /* Burnished Bronze */
             --danger: #cf4a4a;
             --success: #4acf7c;
         }
@@ -203,7 +210,7 @@
             background: transparent;
             border: none;
             color: var(--text-main);
-            font-size: 1rem;
+            font-size: 1.05rem;
             resize: none;
             outline: none;
             min-height: 60px;
@@ -502,7 +509,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 100;
+            z-index: 10000; /* Overrides any other CSS layers securely */
         }
 
         .modal-content {
@@ -719,13 +726,19 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Select Student Avatar</label>
-                <select id="setup-avatar" class="form-control">
-                    <option value="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop">Portrait Witch (Dark Academe)</option>
-                    <option value="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop">Portrait Wizard (Casual Noble)</option>
-                    <option value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop">Portrait Witch (Intelligent Glare)</option>
-                    <option value="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop">Portrait Wizard (Soft Curios)</option>
+                <label>Blood Status / Lineage Background</label>
+                <select id="setup-blood" class="form-control">
+                    <option value="Pure-blood">Pure-blood</option>
+                    <option value="Half-blood">Half-blood</option>
+                    <option value="Muggle-born">Muggle-born</option>
+                    <option value="Full Werewolf">Full Werewolf</option>
+                    <option value="Half-Giant">Half-Giant</option>
+                    <option value="Veela-blooded">Veela-blooded</option>
                 </select>
+            </div>
+            <div class="form-group">
+                <label>Wizarding Avatar Picture Link (Optional)</label>
+                <input type="text" id="setup-avatar" class="form-control" placeholder="Paste direct image URL from Pinterest...">
             </div>
             <div style="text-align: center; margin-top: 25px;">
                 <button onclick="saveProfile()" class="btn-magic" style="width: 100%; padding: 12px;">Cast Profile Spell</button>
@@ -752,7 +765,10 @@
             </div>
             <h2 id="modal-char-name" style="color: var(--primary); margin-bottom: 5px; font-size: 1.5rem;">Character Name</h2>
             <div id="modal-char-handle" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;">@handle</div>
-            <div id="modal-char-house" style="display: inline-block; padding: 4px 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px;">House</div>
+            <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 15px;">
+                <div id="modal-char-house" style="padding: 4px 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">House</div>
+                <div id="modal-char-blood" style="padding: 4px 12px; border: 1px solid var(--border-color); border-radius: 4px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--primary);">Lineage</div>
+            </div>
             <p id="modal-char-bio" style="font-size: 0.95rem; color: #e2d8c3; line-height: 1.6; margin-bottom: 20px; padding: 0 10px;">Character bio here...</p>
             
             <div id="modal-char-romance-box" style="margin-bottom: 25px; text-align: left; padding: 12px; background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--border-color);">
@@ -794,8 +810,9 @@
                         <div id="p-handle" class="post-handle">@handle</div>
                     </div>
                 </div>
-                <div style="margin-top: 12px; font-size: 0.85rem;">
-                    <span id="p-house" style="background-color: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 10px; font-weight: bold; text-transform: uppercase;">Gryffindor</span>
+                <div style="margin-top: 12px; display: flex; gap: 5px;">
+                    <span id="p-house" style="background-color: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; font-size: 0.75rem;">Gryffindor</span>
+                    <span id="p-blood" style="background-color: rgba(257,168,86,0.1); color: var(--primary); padding: 3px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; font-size: 0.75rem;">Pure-blood</span>
                 </div>
             </div>
 
@@ -822,7 +839,7 @@
         <div class="main-col">
             <div class="header-title">
                 <span id="tab-title">Home Feed</span>
-                <span id="ai-status-badge" style="font-size: 0.75rem; background-color: var(--accent); padding: 3px 8px; border-radius: 10px;">Offline AI Mode</span>
+                <button class="btn-magic" style="padding: 4px 12px; font-size: 0.75rem;" onclick="triggerAutonomousBotActivity(true)">Refresh Feed</button>
             </div>
 
             <div class="content-area" id="main-content">
@@ -911,6 +928,20 @@
                     <button class="btn-magic" onclick="saveApiKey()" style="margin-top: 10px;">Activate Real-time AI</button>
                     <button class="btn-magic" onclick="clearApiKey()" style="background-color: var(--accent); color: #fff; margin-left: 10px;">Disconnect AI</button>
 
+                    <!-- Profile Settings Configuration -->
+                    <div class="profile-card" style="margin-top: 30px; border-color: var(--border-color);">
+                        <h3 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase;">Edit My Profile</h3>
+                        <div class="form-group">
+                            <label>My Avatar URL</label>
+                            <input type="text" id="edit-avatar-url" class="form-control" placeholder="Paste direct Pinterest or web link...">
+                        </div>
+                        <div class="form-group">
+                            <label>My Lineage (Blood Status / Race)</label>
+                            <input type="text" id="edit-blood-status" class="form-control" placeholder="Pure-blood, Werewolf, Half-Giant...">
+                        </div>
+                        <button class="btn-magic" onclick="saveUserProfileSettings()" style="width: 100%; margin-top: 10px;">Apply Profile Updates</button>
+                    </div>
+
                     <!-- Magic Mirror URL Customizer Section (NO MORE CODE FILE EDITING!) -->
                     <div class="profile-card" style="margin-top: 35px; border-color: var(--border-color);">
                         <h3 style="color: var(--primary); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">Magic Mirror Customizer</h3>
@@ -977,12 +1008,13 @@
     </div>
 
     <script>
-        // Game State Core (Fresh Key 'wwnet_romance_v2' completely clears old layouts and maps)
+        // Game State Core (Fresh Key 'wwnet_romance_v7' completely resolves old layout caching)
         let state = {
             player: {
                 name: "Wizard Student",
                 handle: "chaser_pro",
                 house: "Gryffindor",
+                bloodStatus: "Pure-blood",
                 avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop",
                 aura: 100,
                 points: 10,
@@ -1011,7 +1043,7 @@
             dms: {
                 "Draco Malfoy": [{ sender: "Draco Malfoy", text: "Why are you looking at me? If my father hears about this..." }],
                 "Hermione Granger": [{ sender: "Hermione Granger", text: "Did you finish the transfiguration essay? I'm proofreading mine in the library." }],
-                "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some pick-up Quidditch." }],
+                "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some Quidditch." }],
                 "Ron Weasley": [{ sender: "Ron Weasley", text: "Snape's essay prompt is absolute rubbish. Do you have any idea what we're supposed to write about?" }],
                 "Luna Lovegood": [{ sender: "Luna Lovegood", text: "The nargles are highly active around the library today. Keep your eyes open." }],
                 "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horrendous." }],
@@ -1026,49 +1058,49 @@
                 handle: "pureblood_prince", 
                 house: "Slytherin", 
                 avatar: "https://hp-api.onrender.com/images/draco.jpg", 
-                bio: "Slytherin Seeker. Defensive, prideful, hides vulnerabilities under family arrogance. Uses sarcasm as armor." 
+                bio: "Malfoy heir. Slytherin Seeker. Don't waste my time unless you're pureblood, or unless your name is on my shortlist. My father will hear of any insolence." 
             },
             "Hermione Granger": { 
                 handle: "brightest_witch", 
                 house: "Gryffindor", 
                 avatar: "https://hp-api.onrender.com/images/hermione.jpeg", 
-                bio: "S.P.E.W. founder. Library regular. Highly articulate, intellectually competitive, easily flustered when teased." 
+                bio: "Gryffindor Prefect. Founder of S.P.E.W. If you aren't currently revising for your Transfiguration O.W.L., please exit my scroll. Books and cleverness." 
             },
             "Harry Potter": { 
                 handle: "the_chosen_one", 
                 house: "Gryffindor", 
                 avatar: "https://hp-api.onrender.com/images/harry.jpg", 
-                bio: "Gryffindor Quidditch Captain. Wants simple sincerity, dry humor, and a normal classmate to hang out with." 
+                bio: "Gryffindor Quidditch Captain. Just Harry. Please don't message me about Voldemort or ask to see the scar. Let's just talk about Quidditch or potions." 
             },
             "Ron Weasley": {
                 handle: "chudley_cannon99",
                 house: "Gryffindor",
                 avatar: "https://hp-api.onrender.com/images/ron.jpg", 
-                bio: "Gryffindor Keeper. Loyal, easily embarrassed, loves a good laugh, and is highly protective of those he cares about."
+                bio: "Gryffindor Keeper. Chudley Cannons biggest supporter. Usually eating or panicking about Snape's homework. Deeply loyal, easily embarrassed."
             },
             "Luna Lovegood": { 
                 handle: "nargle_hunter", 
                 house: "Ravenclaw", 
                 avatar: "https://hp-api.onrender.com/images/luna.jpg", 
-                bio: "Dreamy eccentric. Empathetic, speaks in cryptic poetic truths about the world and magical creatures." 
+                bio: "Ravenclaw. Searching for Crumple-Horned Snorkacks and Plimpies. Your aura is lavender today. Keep your mind open, the world is much more than it seems." 
             },
             "Pansy Parkinson": { 
                 handle: "pansy_p", 
                 house: "Slytherin", 
                 avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=250&h=250&fit=crop", 
-                bio: "Slytherin socialite. Sarcastic, high-maintenance, gossipy, but protective of her friends." 
+                bio: "Slytherin. Best friends with Draco. If you aren't wearing designers from Paris, don't DM me. I know every secret in Hogwarts." 
             },
             "Amelia Vance": {
                 handle: "shadow_vance",
                 house: "Slytherin",
                 avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=250&h=250&fit=crop", 
-                bio: "Half-vampire exchange student. Enjoys blood-pops, hates mornings in the Great Hall, speaks with lazy cynicism."
+                bio: "Slytherin exchange student. Half-vampire. Sunlight makes me grumpy, so I'm usually asleep in the dungeons. Drinking tomato juice. Don't look at my fangs."
             },
             "Reggie Spark": {
                 handle: "reggie_sparks",
                 house: "Hufflepuff",
                 avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=250&h=250&fit=crop", 
-                bio: "Enthusiastic Muggle-born wizard. Tech-obsessed, friendly, and clumsy."
+                bio: "Hufflepuff Muggle-born. Currently trying to wire a spell-matrix to stream Netflix in the common room. DM me if you want to beta test."
             }
         };
 
@@ -1077,37 +1109,37 @@
                 handle: "quick_quotes_rita",
                 house: "Press",
                 avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&h=150&fit=crop",
-                bio: "Daily Prophet writer. Blind items, scandals, and dramatic twists are my specialty."
+                bio: "Chief Gossip Correspondent for the Daily Prophet. Quick-Quotes Quill always active. The truth is subjective, but my columns are always scandalous."
             },
             "Professor Snape": {
                 handle: "potion_master_snape",
                 house: "Slytherin",
                 avatar: "https://hp-api.onrender.com/images/snape.jpg",
-                bio: "Potions Master. Head of Slytherin. Report to detention immediately."
+                bio: "Potions Master. Head of Slytherin House. Keep your frivolous virtual comments off my feed, or suffer the consequences of detention."
             },
             "Fred Weasley": {
                 handle: "fred_weasley",
                 house: "Gryffindor",
                 avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop",
-                bio: "Proprietor of Weasleys' Wizard Wheezes. The better looking twin."
+                bio: "Gryffindor. Co-founder of Weasleys' Wizard Wheezes. Fred is the handsomer twin. Testing new dungbombs in the Gryffindor corridor."
             },
             "George Weasley": {
                 handle: "george_weasley",
                 house: "Gryffindor",
                 avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&h=150&fit=crop",
-                bio: "Proprietor of Weasleys' Wizard Wheezes. The smarter twin."
+                bio: "Gryffindor. Co-founder of Weasleys' Wizard Wheezes. The smarter twin. Selling nosebleed nougats for 2 Galleons."
             },
             "Aria Whispers": {
                 handle: "aria_whispering",
                 house: "Ravenclaw",
                 avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&h=150&fit=crop",
-                bio: "Half-siren student. Posts moody poetry, sings constantly, and complains that the Giant Squid keeps interrupting her choruses."
+                bio: "Ravenclaw. Half-siren. Humming to the giant squid in the lake. Wrote a new song, but sirens are dangerous to love."
             },
             "Grok the Goblin": {
                 handle: "grok_gringotts_intern",
                 house: "Goblin Liaison",
                 avatar: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=150&h=150&fit=crop",
-                bio: "Audit intern from Gringotts. Wants to check the House Cup balance sheet."
+                bio: "Gringotts audit intern. Compounding interest is far more powerful than your human magic. Auditing the House Cup balance sheet."
             }
         };
 
@@ -1210,8 +1242,8 @@
         ];
 
         window.onload = function() {
-            // Updated to 'wwnet_romance_v2' to completely flush out old saved formats
-            const savedState = localStorage.getItem("wwnet_romance_v2");
+            // Updated to 'wwnet_romance_v7' to completely flush out old saved formats
+            const savedState = localStorage.getItem("wwnet_romance_v7");
             if (savedState) {
                 state = JSON.parse(savedState);
                 document.getElementById("setup-modal").classList.add("hidden");
@@ -1245,16 +1277,22 @@
             const name = document.getElementById("setup-name").value.trim();
             const handle = document.getElementById("setup-handle").value.trim().replace(/\s+/g, '_').toLowerCase();
             const house = document.getElementById("setup-house").value;
-            const avatar = document.getElementById("setup-avatar").value;
+            const blood = document.getElementById("setup-blood").value;
+            let avatar = document.getElementById("setup-avatar").value.trim();
 
             if (!name || !handle) {
                 alert("Please fill out your wizarding papers!");
                 return;
             }
 
+            if (!avatar) {
+                avatar = "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop";
+            }
+
             state.player.name = name;
             state.player.handle = handle;
             state.player.house = house;
+            state.player.bloodStatus = blood;
             state.player.avatar = avatar;
             state.player.turnsPlayed = 0;
             state.player.popularity = 10;
@@ -1263,18 +1301,40 @@
             state.player.magic = 10;
             state.triggeredEvents = [];
 
-            localStorage.setItem("wwnet_romance_v2", JSON.stringify(state));
+            localStorage.setItem("wwnet_romance_v7", JSON.stringify(state));
             document.getElementById("setup-modal").classList.add("hidden");
             updateUI();
+        }
+
+        // Save Custom Settings modifications (Avatar, Lineage, etc.)
+        function saveUserProfileSettings() {
+            const avatarInput = document.getElementById("edit-avatar-url").value.trim();
+            const bloodInput = document.getElementById("edit-blood-status").value.trim();
+
+            if (avatarInput) {
+                state.player.avatar = avatarInput;
+            }
+            if (bloodInput) {
+                state.player.bloodStatus = bloodInput;
+            }
+
+            updateUI();
+            renderFeed();
+            alert("Your student profile settings have been updated successfully!");
         }
 
         function updateUI() {
             document.getElementById("p-name").innerText = state.player.name;
             document.getElementById("p-handle").innerText = "@" + state.player.handle;
             document.getElementById("p-house").innerText = state.player.house;
+            document.getElementById("p-blood").innerText = state.player.bloodStatus;
             document.getElementById("stat-aura").innerText = state.player.aura;
             document.getElementById("stat-points").innerText = state.player.points;
             document.getElementById("stat-turns").innerText = state.player.turnsPlayed;
+
+            // Pre-fill profile settings inputs if user wishes to edit
+            document.getElementById("edit-avatar-url").value = state.player.avatar;
+            document.getElementById("edit-blood-status").value = state.player.bloodStatus;
 
             // Update Status Attribute Values inside the Stats Tab
             document.getElementById("stat-val-popularity").innerText = state.player.popularity;
@@ -1294,7 +1354,7 @@
                 badge.innerText = "Offline AI Mode";
                 badge.style.backgroundColor = "var(--accent)";
             }
-            localStorage.setItem("wwnet_romance_v2", JSON.stringify(state));
+            localStorage.setItem("wwnet_romance_v7", JSON.stringify(state));
         }
 
         function getTropeStage(characterName, romanceVal) {
@@ -1329,15 +1389,21 @@
                 card.className = "post-card";
                 card.id = `post-${post.id}`;
 
+                // Fetch live current portraits fromcharacters configuration
+                const npc = characters[post.sender] || backgroundBots[post.sender];
+                const liveAvatar = npc ? npc.avatar : post.avatar;
+
                 // Generate comment HTML
                 let commentsHTML = "";
                 if (post.comments && post.comments.length > 0) {
                     post.comments.forEach(c => {
+                        const commentNpc = characters[c.sender] || backgroundBots[c.sender] || (c.sender === state.player.name ? state.player : null);
+                        const commentAvatar = commentNpc ? commentNpc.avatar : c.avatar;
                         commentsHTML += `
                             <div class="nested-comment">
-                                <div class="post-avatar" style="width: 30px; height: 30px;" onclick="showCharacterProfile('${c.sender}')"><img src="${c.avatar}" alt="avatar"></div>
+                                <div class="post-avatar" style="width: 30px; height: 30px;" onclick="showCharacterProfile('${c.sender}')"><img src="${commentAvatar}" alt="avatar"></div>
                                 <div>
-                                    <span style="font-weight: bold; color: var(--primary);" onclick="showCharacterProfile('${c.sender}')">${c.sender}</span>
+                                    <span style="font-weight: bold; color: var(--primary); cursor: pointer;" onclick="showCharacterProfile('${c.sender}')">${c.sender}</span>
                                     <span style="font-size: 0.75rem; color: var(--text-muted);">@${c.handle}</span>
                                     <div style="margin-top: 3px;">${c.body}</div>
                                 </div>
@@ -1348,8 +1414,8 @@
 
                 card.innerHTML = `
                     <div class="post-main-header-row">
-                        <!-- Clicking Profile picture or name redirects directly to Character Profile Modal -->
-                        <div class="post-avatar" onclick="showCharacterProfile('${post.sender}')"><img src="${post.avatar}" alt="${post.sender}"></div>
+                        <!-- Clicking portrait or name redirects to character profile popup modal -->
+                        <div class="post-avatar" onclick="showCharacterProfile('${post.sender}')"><img src="${liveAvatar}" alt="${post.sender}"></div>
                         <div class="post-main">
                             <div class="post-header">
                                 <span class="post-name" style="cursor: pointer;" onclick="showCharacterProfile('${post.sender}')">${post.sender}</span>
@@ -1364,7 +1430,7 @@
                                 </div>
                                 <div class="post-action" onclick="toggleCommentsSection(${post.id})">
                                     <svg viewBox="0 0 24 24" width="16" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                                    <span>Comment</span>
+                                    <span>Reply</span>
                                 </div>
                                 <div class="post-action">
                                     <svg viewBox="0 0 24 24" width="16" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
@@ -1374,7 +1440,7 @@
                         </div>
                     </div>
 
-                    <!-- Comments Thread (Expanded smoothly on click) -->
+                    <!-- Nested Public Banter Comments Panel -->
                     <div class="comments-container hidden" id="comments-container-${post.id}">
                         <div id="comments-thread-${post.id}">
                             ${commentsHTML}
@@ -1393,11 +1459,13 @@
         function showCharacterProfile(npcName) {
             const modal = document.getElementById("profile-preview-modal");
             
-            if (npcName === 'me') {
+            if (npcName === 'me' || npcName === state.player.name) {
                 document.getElementById("modal-char-avatar").innerHTML = `<img src="${state.player.avatar}" alt="Me">`;
                 document.getElementById("modal-char-name").innerText = state.player.name;
                 document.getElementById("modal-char-handle").innerText = "@" + state.player.handle;
                 document.getElementById("modal-char-house").innerText = state.player.house;
+                document.getElementById("modal-char-blood").innerText = state.player.bloodStatus;
+                document.getElementById("modal-char-blood").classList.remove("hidden");
                 document.getElementById("modal-char-bio").innerText = "This is your Hogwarts student file. Post updates on the feed to increase attributes and build relationships!";
                 document.getElementById("modal-char-romance-box").classList.add("hidden");
             } else {
@@ -1408,6 +1476,14 @@
                 document.getElementById("modal-char-name").innerText = npcName;
                 document.getElementById("modal-char-handle").innerText = "@" + npc.handle;
                 document.getElementById("modal-char-house").innerText = npc.house;
+                
+                if (npc.bloodStatus) {
+                    document.getElementById("modal-char-blood").innerText = npc.bloodStatus;
+                    document.getElementById("modal-char-blood").classList.remove("hidden");
+                } else {
+                    document.getElementById("modal-char-blood").classList.add("hidden");
+                }
+
                 document.getElementById("modal-char-bio").innerText = npc.bio;
 
                 const val = state.romance[npcName];
@@ -1486,7 +1562,7 @@
                         <img src="${commentObj.avatar}" alt="avatar">
                     </div>
                     <div>
-                        <span style="font-weight: bold; color: var(--primary);" style="cursor: pointer;" onclick="showCharacterProfile('${commentObj.sender}')">${commentObj.sender}</span>
+                        <span style="font-weight: bold; color: var(--primary); cursor: pointer;" onclick="showCharacterProfile('${commentObj.sender}')">${commentObj.sender}</span>
                         <span style="font-size: 0.75rem; color: var(--text-muted);">@${commentObj.handle}</span>
                         <div style="margin-top: 3px; color: #cbd5e1;">${commentObj.body}</div>
                     </div>
@@ -1505,7 +1581,12 @@
             const post = state.feedPosts.find(p => p.id === postId);
             if (!post) return;
 
-            const replyBot = (Math.random() < 0.40 && postAuthor !== state.player.name) ? "Rita Skeeter" : postAuthor;
+            // Crash-proof: If postAuthor is the player, randomly choose a classmate or bot to reply instead of crashing
+            let replyBot = postAuthor;
+            if (replyBot === state.player.name || !characters[replyBot]) {
+                const allPool = [...Object.keys(characters), ...Object.keys(backgroundBots)];
+                replyBot = allPool[Math.floor(Math.random() * allPool.length)];
+            }
             
             const isFillerBot = backgroundBots[replyBot] !== undefined;
             const npc = isFillerBot ? backgroundBots[replyBot] : characters[replyBot];
@@ -1516,6 +1597,7 @@
             let changes = { romance: 1, aura: 1, points: 2, popularity: 0, intelligence: 0, courage: 0, magic: 0 };
 
             if (state.api_key) {
+                // Real AI thread reply
                 try {
                     const prompt = `
                         You are playing the role of ${replyBot} from Harry Potter inside a modern magical social network. 
@@ -1529,7 +1611,7 @@
                         Current Relationship Stage with player: "${currentStage}" (Affection: ${currentAffection}/100).
                         The player just posted this comment under a WizNet scroll: "${userCommentText}".
                         
-                        Reply to their comment directly in exactly 1 to 2 sentences. Be snappy, fast-paced, and write like a real teenager or dynamic wizard, not an assistant. Use lowercases, minor typos, exclamation marks, or text terms where appropriate to make it feel human.
+                        Reply to their comment directly in exactly 1 to 2 sentences. Be sassy, fast-paced, and write like a real teenager or dynamic wizard, not an assistant. Use lowercases, minor typos, exclamation marks, or text terms where appropriate to make it feel human.
                         
                         At the very end of your response, you MUST append a state tag strictly formatted like this:
                         [ROMANCE: +x] [AURA: +x] [POINTS: +x] [POPULARITY: +x] [INTELLIGENCE: +x] [COURAGE: +x] [MAGIC: +x]
@@ -1621,8 +1703,8 @@
             updateUI();
         }
 
-        function triggerAutonomousBotActivity() {
-            if (Math.random() < 0.40) {
+        function triggerAutonomousBotActivity(forceManual = false) {
+            if (forceManual || Math.random() < 0.40) {
                 const randomBotPost = botAutonomousPosts[Math.floor(Math.random() * botAutonomousPosts.length)];
                 
                 const alreadyExists = state.feedPosts.some(p => p.body === randomBotPost.body);
@@ -1692,6 +1774,39 @@
             }
         }
 
+        function renderRomanceMeters() {
+            const listDesktop = document.getElementById("romance-meters-list");
+            const listMobile = document.getElementById("romance-meters-list-mobile");
+            
+            let html = "";
+            for (const [char, val] of Object.entries(state.romance)) {
+                const npc = characters[char];
+                if (!npc) continue; // CRITICAL STRUCTURAL NULL-CHECK
+
+                const stageName = getTropeStage(char, val);
+                
+                html += `
+                    <div class="crush-item" style="margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px; min-width: 0;">
+                            <div class="post-avatar" style="width: 38px; height: 38px;" onclick="showCharacterProfile('${char}')"><img src="${npc.avatar}" alt="${char}"></div>
+                            <div style="min-width: 0; overflow: hidden;">
+                                <div style="font-weight:bold; font-size: 0.9rem; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; cursor: pointer;" onclick="showCharacterProfile('${char}')">${char}</div>
+                                <div style="font-size:0.72rem; color: var(--text-muted);">${stageName}</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:8px; flex-shrink: 0;">
+                            <span style="font-size: 0.8rem; font-weight:bold;">${val}%</span>
+                            <div class="meter-bg">
+                                <div class="meter-fill" style="width: ${val}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            listDesktop.innerHTML = html;
+            listMobile.innerHTML = html;
+        }
+
         function renderDMThreads() {
             const threads = document.getElementById("dm-threads");
             threads.innerHTML = "";
@@ -1725,6 +1840,12 @@
             document.getElementById("active-dm-name").innerText = `Chat with ${char}`;
             renderDMHistory();
             renderDMThreads();
+
+            // Native mobile swap: hide inbox threads, show clean chat window
+            if (window.innerWidth <= 768) {
+                document.getElementById("dm-threads-col").style.display = "none";
+                document.getElementById("dm-window-col").style.display = "flex";
+            }
         }
 
         function renderDMHistory() {
@@ -2084,7 +2205,7 @@
 
         function wipeSaveAndRestart() {
             if (confirm("Are you sure you want to completely erase your wizard files and start over? All attributes, romantic progress, and custom portraits will be lost!")) {
-                localStorage.removeItem("wwnet_romance_v2");
+                localStorage.removeItem("wwnet_romance_v7");
                 alert("Wand snapped. Floo powder lit. Restarting application...");
                 window.location.reload();
             }
