@@ -4,26 +4,26 @@
     <meta charset="UTF-8">
     <title>WizNet - Hogwarts Social Network</title>
     
-    <!-- iOS Standalone Web App Mode -->
+    <!-- iOS Standalone App Mode Capabilities -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="WizNet">
     
-    <!-- Times New Roman Gold 'W' on Solid Black iOS Shortcut Icon -->
+    <!-- Times New Roman Gold 'W' on Solid Black iOS Touch Icon -->
     <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><rect width='180' height='180' fill='black'/><text x='50%' y='125' font-family='&quot;Times New Roman&quot;, Times, serif' font-size='130' font-weight='bold' fill='%23cfa856' text-anchor='middle'>W</text></svg>">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <style>
         :root {
-            --bg-color: #08060a; /* Midnight Obsidian */
-            --card-bg: #130f17; /* Deep Velvet */
-            --border-color: #2b1f13; /* Burnished Copper */
-            --text-main: #f1ebd9; /* Aged Parchment */
-            --text-muted: #8c7f70; /* Soft Shadow */
-            --primary: #cfa856; /* Hogwarts Gold */
+            --bg-color: #08060a;
+            --card-bg: #130f17;
+            --border-color: #2b1f13;
+            --text-main: #f1ebd9;
+            --text-muted: #8c7f70;
+            --primary: #cfa856;
             --primary-hover: #b59345;
-            --accent: #9c6c30; /* Burnished Bronze */
+            --accent: #9c6c30;
             --danger: #cf4a4a;
             --success: #4acf7c;
         }
@@ -45,16 +45,14 @@
             overflow: hidden;
         }
 
-        /* Layout Structure */
         .app-layout {
             display: flex;
             width: 100%;
             max-width: 1250px;
-            height: 100dvh; /* Dynamic Viewport Sizing for iOS */
+            height: 100dvh;
             position: relative;
         }
 
-        /* Sidebar Left (Desktop Only) */
         .sidebar-left {
             width: 25%;
             border-right: 1px solid var(--border-color);
@@ -138,7 +136,6 @@
             color: var(--primary);
         }
 
-        /* Middle Main Column */
         .main-col {
             width: 50%;
             display: flex;
@@ -170,7 +167,6 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        /* Post Composer */
         .composer {
             padding: 20px;
             border-bottom: 1px solid var(--border-color);
@@ -225,7 +221,26 @@
             margin-top: 10px;
         }
 
-        /* Post Cards */
+        .btn-magic {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .btn-magic:hover {
+            background-color: rgba(207, 168, 86, 0.05);
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(207, 168, 86, 0.15);
+        }
+
         .post-card {
             padding: 20px;
             border-bottom: 1px solid var(--border-color);
@@ -300,7 +315,6 @@
             color: var(--primary);
         }
 
-        /* Twitter/X Style Thread View Panels */
         .post-details-header {
             padding: calc(15px + env(safe-area-inset-top)) 20px 15px 20px;
             border-bottom: 1px solid var(--border-color);
@@ -380,7 +394,6 @@
             flex-direction: column;
         }
 
-        /* Comment Threads Styling */
         .comments-container {
             background-color: rgba(0, 0, 0, 0.3);
             border-radius: 8px;
@@ -904,7 +917,7 @@
         </div>
     </div>
 
-    <!-- Click-to-Open Hogwarts Student Profile Modal (Aesthetic Pinterest Viewer) -->
+    <!-- Click-to-Open Hogwarts Student Profile Modal (Aesthetic Pinterest Viewer with past posts!) -->
     <div id="profile-preview-modal" class="modal-overlay hidden">
         <div class="modal-content" style="max-width: 440px; text-align: center; border-color: var(--primary); display: flex; flex-direction: column; max-height: 90vh;">
             <div style="overflow-y: auto; flex-grow: 1; padding-bottom: 10px;">
@@ -919,7 +932,7 @@
                 </div>
                 <p id="modal-char-bio" style="font-size: 0.95rem; color: #e2d8c3; line-height: 1.6; margin-bottom: 20px; padding: 0 10px;">Character bio here...</p>
                 
-                <div id="modal-char-romance-box" style="margin-bottom: 20px; text-align: left; padding: 12px; background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--border-color);">
+                <div id="modal-char-romance-box" style="margin-bottom: 25px; text-align: left; padding: 12px; background: rgba(0,0,0,0.25); border-radius: 8px; border: 1px solid var(--border-color);">
                     <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 6px; letter-spacing: 0.5px;">Connection Rank</div>
                     <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: bold; margin-bottom: 5px;">
                         <span id="modal-char-romance-stage" style="color: var(--primary);">Classmates</span>
@@ -1427,37 +1440,123 @@
             }
         };
 
-        // Bot autonomous posts used to populate the feed and "fuel the fire"
+        // Bot autonomous posts used to populate the feed and "fuel the fire" (Pre-seeded with dynamic bot-to-bot banter threads!)
         const botAutonomousPosts = [
-            { sender: "Rita Skeeter", handle: "quick_quotes_rita", avatar: backgroundBots["Rita Skeeter"].avatar, house: "Press", body: "Rumors are swirling of a certain Slytherin prince getting unusually close with a new student... Is it a tragic delusion, or a pureblood scandal in the making? Details in my next column. #SlytherinScandal", comments: [] },
-            { sender: "Professor Snape", handle: "potion_master_snape", avatar: backgroundBots["Professor Snape"].avatar, house: "Slytherin", body: "Any student caught using WizNet during class hours will receive a week of detention scrubbing flobberworms. I am looking directly at Gryffindor house.", comments: [] },
-            { sender: "Fred Weasley", handle: "fred_weasley", avatar: backgroundBots["Fred Weasley"].avatar, house: "Gryffindor", body: "Need to escape History of Magic? Our Skiving Snackboxes are 15% off today! Guarantees 2 hours of projectile illness. Snape-proof! #GredAndFeorge", comments: [] },
-            { sender: "George Weasley", handle: "george_weasley", avatar: backgroundBots["George Weasley"].avatar, house: "Gryffindor", body: "Just made a bet with Fred on how long it takes Snape to confiscate Reggie's new router. Standard Gringotts terms. #GredAndFeorge", comments: [] },
-            { sender: "Amelia Vance", handle: "shadow_vance", avatar: characters["Amelia Vance"].avatar, house: "Slytherin", body: "The sun is too loud today. If anyone needs me, I will be sleeping in the shadows of the Owlery. Do not throw seeds at me.", comments: [] },
-            { sender: "Reggie Spark", handle: "reggie_sparks", avatar: characters["Reggie Spark"].avatar, house: "Hufflepuff", body: "URGENT: Has anyone figured out how to charge an iPhone with a Wand? I tried 'Incendio' and now my battery is smoking. #MuggleTech", comments: [] },
-            { sender: "Aria Whispers", handle: "aria_whispering", avatar: backgroundBots["Aria Whispers"].avatar, house: "Ravenclaw", body: "Do you ever just stand by the lake and sing until the Giant Squid waves a tentacle? No? Just me? Okay.", comments: [] },
-            { sender: "Grok the Goblin", handle: "grok_gringotts_intern", avatar: backgroundBots["Grok the Goblin"].avatar, house: "Goblin Liaison", body: "Audited the Gryffindor House points ledger today. Found several illegal 'unauthorized bravery bonuses' from Dumbledore. Investigation ongoing. #GrogLeaks", comments: [] }
+            { 
+                sender: "Rita Skeeter", 
+                handle: "quick_quotes_rita", 
+                avatar: backgroundBots["Rita Skeeter"].avatar, 
+                house: "Press", 
+                body: "Rumors are swirling of a certain Slytherin prince getting unusually close with a new student... Is it a tragic delusion, or a pureblood scandal in the making? Details in my next column. #SlytherinScandal", 
+                comments: [
+                    { sender: "Pansy Parkinson", handle: "pansy_p", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=250&h=250&fit=crop", body: "Who wrote this absolute garbage? Mind your business Skeeter." },
+                    { sender: "Draco Malfoy", handle: "pureblood_prince", avatar: "https://hp-api.onrender.com/images/draco.jpg", body: "Granger probably leaked this to cover her own embarrassing library habits." },
+                    { sender: "Hermione Granger", handle: "brightest_witch", avatar: "https://hp-api.onrender.com/images/hermione.jpeg", body: "I did no such thing, Malfoy! And stop making gossip columns your primary source of reading!" }
+                ] 
+            },
+            { 
+                sender: "Professor Snape", 
+                handle: "potion_master_snape", 
+                avatar: backgroundBots["Professor Snape"].avatar, 
+                house: "Slytherin", 
+                body: "Any student caught using WizNet during potions class hours will receive a week of detention scrubbing flobberworms. I am looking directly at Gryffindor house.", 
+                comments: [
+                    { sender: "Fred Weasley", handle: "fred_weasley", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop", body: "Worth it, Professor. Our engagement metrics are through the roof." },
+                    { sender: "George Weasley", handle: "george_weasley", avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&h=150&fit=crop", body: "Plus, we sold three dungbombs in the comments section of your last scroll." },
+                    { sender: "Professor Snape", handle: "potion_master_snape", avatar: "https://hp-api.onrender.com/images/snape.jpg", body: "Ten points from Gryffindor. Each." }
+                ] 
+            },
+            { 
+                sender: "Reggie Spark", 
+                handle: "reggie_sparks", 
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=250&h=250&fit=crop", 
+                house: "Hufflepuff", 
+                body: "URGENT: Has anyone figured out how to charge an iPhone with a Wand? I tried 'Incendio' and now my battery is smoking. #MuggleTech", 
+                comments: [
+                    { sender: "Hermione Granger", handle: "brightest_witch", avatar: "https://hp-api.onrender.com/images/hermione.jpeg", body: "Muggle electricity does not interact safely with volatile magical focus points, Reggie! You could have caused a temporal rift in Hufflepuff." },
+                    { sender: "Reggie Spark", handle: "reggie_sparks", avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=250&h=250&fit=crop", body: "Too late, Hermione. My desk is currently floating and playing jazz music." }
+                ] 
+            },
+            { 
+                sender: "Amelia Vance", 
+                handle: "shadow_vance", 
+                avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=250&h=250&fit=crop", 
+                house: "Slytherin", 
+                body: "The sun is too loud today. If anyone needs me, I will be sleeping in the shadows of the Owlery. Do not throw seeds at me.", 
+                comments: [
+                    { sender: "Pansy Parkinson", handle: "pansy_p", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=250&h=250&fit=crop", body: "Agreed. Let's skip Herbology and hide in the Slytherin common room." },
+                    { sender: "Amelia Vance", handle: "shadow_vance", avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=250&h=250&fit=crop", body: "Bring chocolate frogs. The sugar helps with the sun-induced migraine." }
+                ] 
+            }
         ];
 
         // Mapped Interactive Story Chapters (Hogwarts Story Book)
         const storyChapters = [
             {
-                id: "potions_accident",
-                title: "Chapter 1: Potions Catastrophe",
-                requirement: "None (Prerequisite for Hogwarts)",
-                unlocked: true
+                id: "quidditch_afterparty",
+                title: "Chapter 1: The Quidditch Cup Afterparty",
+                requirement: "Requires 15 Popularity or Courage",
+                description: "The music is booming in the common room. Your classmates are celebrating. Depending on who you have built the highest connection with, they might pull you aside for a private conversation or invite you to fly with them under the stars.",
+                play: function() {
+                    const crush = getHighestCrush();
+                    triggerStoryModal(
+                        "Quidditch Celebrations",
+                        `The room is packed with students cheering. Through the crowd, ${crush} catches your eye, holding a glass of Butterbeer. They squeeze past the other students and walk directly up to you, looking slightly flustered but happy.\n\n"Hey," they say, leaned in so you can hear them over the noise. "It's getting too loud in here. Want to sneak out to the Quidditch stands with me? Just to talk."`,
+                        [
+                            {
+                                text: `Sneak out to the stands with ${crush} immediately.`,
+                                effect: { romance: 15, courage: 10, aura: 5 },
+                                outcome: `You slip out into the cool night air. Sitting side-by-side on the high wooden benches, ${crush} laughs and shares their Butterbeer, looking at you with a soft, warm gaze. You feel your connection grow much deeper.`
+                            },
+                            {
+                                text: "Stay at the party and invite them to dance with you instead.",
+                                effect: { romance: 8, popularity: 12 },
+                                outcome: `You pull them onto the makeshift dance floor. They blush furiously but hold your waist, smiling. Everyone in the Great Hall is whispering about you two.`
+                            }
+                        ]
+                    );
+                }
             },
             {
-                id: "midnight_duel",
-                title: "Chapter 2: The Trophy Room Duel",
-                requirement: "Requires 15 Courage or Draco Romance 10%",
-                unlocked: false
-            },
-            {
-                id: "yule_ball",
-                title: "Chapter 3: The Yule Ball Date",
-                requirement: "Requires 25 Popularity and any Crush 20%",
-                unlocked: false
+                id: "yule_ball_invite",
+                title: "Chapter 2: The Yule Ball Dilemma",
+                requirement: "Requires 20 Connection with any Companion",
+                description: "The winter ball is approaching. If your connection with a classmate is high enough, they will build up the courage to formally ask you to be their date in a unique, highly personal way.",
+                play: function() {
+                    const crush = getHighestCrush();
+                    const currentVal = state.romance[crush] || 0;
+                    
+                    if (currentVal < 20) {
+                        alert(`Wand Blocked: Your connection with ${crush} is currently only ${currentVal}%. You need at least 20% to unlock their Yule Ball invitation!`);
+                        return;
+                    }
+
+                    let inviteText = "";
+                    if (crush === "Draco Malfoy") {
+                        inviteText = `You find Draco waiting for you near the Slytherin dungeons. He looks defensive, crossing his arms and refusing to make direct eye contact.\n\n"Listen," he mutters, his ears slightly red. "The Yule Ball is next week. I obviously need a date, and I refuse to go with Parkinson or some other half-witted pureblood. So... you're going with me. Don't make me ask twice."`;
+                    } else if (crush === "Ron Weasley") {
+                        inviteText = `Ron corners you in the corridor, looking absolutely panicked and clutching his robes. He is blushing furiously.\n\n"Bloody hell," he stammers, rubbing the back of his neck. "I was thinking... well, everyone is asking dates, and I really, really don't want to go with anyone else. Would you... I mean, would you want to go to the Yule Ball with me? Please say yes, my ears are on fire."`;
+                    } else {
+                        inviteText = `You find ${crush} waiting by the lake. They look up, smiling warmly as you approach.\n\n"The Yule Ball is coming up," they say, their voice soft. "I've been hoping to ask you. I don't want to dance with anyone else. Will you go with me?"`;
+                    }
+
+                    triggerStoryModal(
+                        "The Yule Ball Invitation",
+                        inviteText,
+                        [
+                            {
+                                text: "Accept their invitation with a bright smile.",
+                                effect: { romance: 20, popularity: 15, aura: 10 },
+                                outcome: `They look immensely relieved, a gorgeous, happy smile breaking across their face. The news spreads across WizNet instantly, and your popularity skyrockets!`
+                            },
+                            {
+                                text: "Tease them playfully first before saying yes.",
+                                effect: { romance: 25, intelligence: 5 },
+                                outcome: `They blush even harder, stammering a playful defense, but they absolutely adore your banter. Your connection level surges (+25% Connection)!`
+                            }
+                        ]
+                    );
+                }
             }
         ];
     </script>
