@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <title>WizNet - Hogwarts Social Network</title>
     
-    <!-- iOS Standalone App Mode (Full-screen standalone shortcut on Safari) -->
+    <!-- iOS Standalone WebApp Capability -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="WizNet">
-    <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=180&h=180&fit=crop">
+    
+    <!-- Dynamic Times New Roman Gold 'W' on Solid Black iOS Shortcut Icon -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><rect width='180' height='180' fill='black'/><text x='50%' y='125' font-family='&quot;Times New Roman&quot;, Times, serif' font-size='130' font-weight='bold' fill='%23cfa856' text-anchor='middle'>W</text></svg>">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <style>
@@ -51,7 +54,7 @@
             position: relative;
         }
 
-        /* Sidebar Left */
+        /* Sidebar Left (Desktop Only) */
         .sidebar-left {
             width: 25%;
             border-right: 1px solid var(--border-color);
@@ -146,7 +149,7 @@
         }
 
         .header-title {
-            padding: 15px 20px;
+            padding: calc(15px + env(safe-area-inset-top)) 20px 15px 20px; /* Safe padding for iPhone notch */
             font-size: 1rem;
             font-weight: bold;
             letter-spacing: 1px;
@@ -163,7 +166,7 @@
         .content-area {
             flex-grow: 1;
             overflow-y: auto;
-            padding-bottom: 70px;
+            padding-bottom: calc(70px + env(safe-area-inset-bottom));
             -webkit-overflow-scrolling: touch;
         }
 
@@ -220,27 +223,6 @@
             display: flex;
             justify-content: flex-end;
             margin-top: 10px;
-        }
-
-        /* Buttons */
-        .btn-magic {
-            background-color: transparent;
-            color: var(--primary);
-            border: 1px solid var(--border-color);
-            padding: 8px 24px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            transition: all 0.2s;
-        }
-
-        .btn-magic:hover {
-            background-color: rgba(207, 168, 86, 0.05);
-            border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(207, 168, 86, 0.15);
         }
 
         /* Post Cards */
@@ -352,9 +334,9 @@
             flex-grow: 1;
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 6px;
+            border-radius: 15px;
             color: var(--text-main);
-            padding: 8px 12px;
+            padding: 6px 12px;
             font-size: 0.85rem;
             outline: none;
         }
@@ -404,9 +386,9 @@
         .msg-bubble {
             max-width: 75%;
             padding: 12px 16px;
-            border-radius: 12px;
-            line-height: 1.5;
-            font-size: 0.92rem;
+            border-radius: 18px;
+            line-height: 1.4;
+            font-size: 0.95rem;
             white-space: pre-wrap;
         }
 
@@ -423,7 +405,7 @@
             color: var(--text-main);
             border: 1px solid var(--border-color);
             align-self: flex-start;
-            border-bottom-left-radius: 2px;
+            border-bottom-left-radius: 4px;
         }
 
         .dm-input-area {
@@ -444,7 +426,7 @@
             outline: none;
         }
 
-        /* Right Sidebar */
+        /* Right Sidebar (Desktop Only) */
         .sidebar-right {
             width: 25%;
             border-left: 1px solid var(--border-color);
@@ -509,7 +491,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10000; /* Overrides any other CSS layers securely */
+            z-index: 10000; /* Overrides any other CSS layers safely */
         }
 
         .modal-content {
@@ -731,9 +713,7 @@
                     <option value="Pure-blood">Pure-blood</option>
                     <option value="Half-blood">Half-blood</option>
                     <option value="Muggle-born">Muggle-born</option>
-                    <option value="Full Werewolf">Full Werewolf</option>
-                    <option value="Half-Giant">Half-Giant</option>
-                    <option value="Veela-blooded">Veela-blooded</option>
+                    <option value="Pure-blood Squib">Pure-blood Squib</option>
                 </select>
             </div>
             <div class="form-group">
@@ -810,9 +790,8 @@
                         <div id="p-handle" class="post-handle">@handle</div>
                     </div>
                 </div>
-                <div style="margin-top: 12px; display: flex; gap: 5px;">
-                    <span id="p-house" style="background-color: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; font-size: 0.75rem;">Gryffindor</span>
-                    <span id="p-blood" style="background-color: rgba(257,168,86,0.1); color: var(--primary); padding: 3px 8px; border-radius: 4px; font-weight: bold; text-transform: uppercase; font-size: 0.75rem;">Pure-blood</span>
+                <div style="margin-top: 12px; font-size: 0.85rem;">
+                    <span id="p-house" style="background-color: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 10px; font-weight: bold; text-transform: uppercase;">Gryffindor</span>
                 </div>
             </div>
 
@@ -839,7 +818,7 @@
         <div class="main-col">
             <div class="header-title">
                 <span id="tab-title">Home Feed</span>
-                <button class="btn-magic" style="padding: 4px 12px; font-size: 0.75rem;" onclick="triggerAutonomousBotActivity(true)">Refresh Feed</button>
+                <span id="ai-status-badge" style="font-size: 0.75rem; background-color: var(--accent); padding: 3px 8px; border-radius: 10px;">Offline AI Mode</span>
             </div>
 
             <div class="content-area" id="main-content">
@@ -1008,7 +987,7 @@
     </div>
 
     <script>
-        // Game State Core (Fresh Key 'wwnet_romance_v7' completely resolves old layout caching)
+        // Game State Core (Fresh Key 'wwnet_romance_v11' completely resolves old format caching)
         let state = {
             player: {
                 name: "Wizard Student",
@@ -1043,7 +1022,7 @@
             dms: {
                 "Draco Malfoy": [{ sender: "Draco Malfoy", text: "Why are you looking at me? If my father hears about this..." }],
                 "Hermione Granger": [{ sender: "Hermione Granger", text: "Did you finish the transfiguration essay? I'm proofreading mine in the library." }],
-                "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some Quidditch." }],
+                "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some pick-up Quidditch." }],
                 "Ron Weasley": [{ sender: "Ron Weasley", text: "Snape's essay prompt is absolute rubbish. Do you have any idea what we're supposed to write about?" }],
                 "Luna Lovegood": [{ sender: "Luna Lovegood", text: "The nargles are highly active around the library today. Keep your eyes open." }],
                 "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horrendous." }],
@@ -1242,8 +1221,8 @@
         ];
 
         window.onload = function() {
-            // Updated to 'wwnet_romance_v7' to completely flush out old saved formats
-            const savedState = localStorage.getItem("wwnet_romance_v7");
+            // Using a unique final key name 'wwnet_romance_v11' to resolve caching and empty DM lists
+            const savedState = localStorage.getItem("wwnet_romance_v11");
             if (savedState) {
                 state = JSON.parse(savedState);
                 document.getElementById("setup-modal").classList.add("hidden");
@@ -1252,6 +1231,20 @@
             if (savedKey) {
                 state.api_key = savedKey;
                 document.getElementById("api-key-input").value = savedKey;
+            }
+
+            // Fallback safety to ensure state DMs list is never empty on load
+            if (!state.dms || Object.keys(state.dms).length === 0) {
+                state.dms = {
+                    "Draco Malfoy": [{ sender: "Draco Malfoy", text: "Why are you looking at me? If my father hears about this..." }],
+                    "Hermione Granger": [{ sender: "Hermione Granger", text: "Did you finish the transfiguration essay? I'm proofreading mine in the library." }],
+                    "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some pick-up Quidditch." }],
+                    "Ron Weasley": [{ sender: "Ron Weasley", text: "Snape's essay prompt is absolute rubbish. Do you have any idea what we're supposed to write about?" }],
+                    "Luna Lovegood": [{ sender: "Luna Lovegood", text: "The nargles are highly active around the library today. Keep your eyes open." }],
+                    "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horrendous." }],
+                    "Amelia Vance": [{ sender: "Amelia Vance", text: "Do not wake me up before noon. And no, I do not want to go study by the Herbology greenhouse." }],
+                    "Reggie Spark": [{ sender: "Reggie Spark", text: "Hey! Do you know if there's any spell to convert spell-fire into a 5G hotspot? Asking for a friend." }]
+                };
             }
 
             // Apply custom magic mirror portraits if they are set in user state
@@ -1301,7 +1294,7 @@
             state.player.magic = 10;
             state.triggeredEvents = [];
 
-            localStorage.setItem("wwnet_romance_v7", JSON.stringify(state));
+            localStorage.setItem("wwnet_romance_v11", JSON.stringify(state));
             document.getElementById("setup-modal").classList.add("hidden");
             updateUI();
         }
@@ -1327,14 +1320,14 @@
             document.getElementById("p-name").innerText = state.player.name;
             document.getElementById("p-handle").innerText = "@" + state.player.handle;
             document.getElementById("p-house").innerText = state.player.house;
-            document.getElementById("p-blood").innerText = state.player.bloodStatus;
+            document.getElementById("p-blood").innerText = state.player.bloodStatus || "Pure-blood";
             document.getElementById("stat-aura").innerText = state.player.aura;
             document.getElementById("stat-points").innerText = state.player.points;
             document.getElementById("stat-turns").innerText = state.player.turnsPlayed;
 
             // Pre-fill profile settings inputs if user wishes to edit
             document.getElementById("edit-avatar-url").value = state.player.avatar;
-            document.getElementById("edit-blood-status").value = state.player.bloodStatus;
+            document.getElementById("edit-blood-status").value = state.player.bloodStatus || "Pure-blood";
 
             // Update Status Attribute Values inside the Stats Tab
             document.getElementById("stat-val-popularity").innerText = state.player.popularity;
@@ -1354,7 +1347,7 @@
                 badge.innerText = "Offline AI Mode";
                 badge.style.backgroundColor = "var(--accent)";
             }
-            localStorage.setItem("wwnet_romance_v7", JSON.stringify(state));
+            localStorage.setItem("wwnet_romance_v11", JSON.stringify(state));
         }
 
         function getTropeStage(characterName, romanceVal) {
@@ -1389,7 +1382,7 @@
                 card.className = "post-card";
                 card.id = `post-${post.id}`;
 
-                // Fetch live current portraits fromcharacters configuration
+                // Fetch live current portraits dynamically
                 const npc = characters[post.sender] || backgroundBots[post.sender];
                 const liveAvatar = npc ? npc.avatar : post.avatar;
 
@@ -1414,7 +1407,7 @@
 
                 card.innerHTML = `
                     <div class="post-main-header-row">
-                        <!-- Clicking portrait or name redirects to character profile popup modal -->
+                        <!-- Clicking portrait or name redirects to character profile popup modal safely -->
                         <div class="post-avatar" onclick="showCharacterProfile('${post.sender}')"><img src="${liveAvatar}" alt="${post.sender}"></div>
                         <div class="post-main">
                             <div class="post-header">
@@ -1464,7 +1457,7 @@
                 document.getElementById("modal-char-name").innerText = state.player.name;
                 document.getElementById("modal-char-handle").innerText = "@" + state.player.handle;
                 document.getElementById("modal-char-house").innerText = state.player.house;
-                document.getElementById("modal-char-blood").innerText = state.player.bloodStatus;
+                document.getElementById("modal-char-blood").innerText = state.player.bloodStatus || "Pure-blood";
                 document.getElementById("modal-char-blood").classList.remove("hidden");
                 document.getElementById("modal-char-bio").innerText = "This is your Hogwarts student file. Post updates on the feed to increase attributes and build relationships!";
                 document.getElementById("modal-char-romance-box").classList.add("hidden");
@@ -1562,7 +1555,7 @@
                         <img src="${commentObj.avatar}" alt="avatar">
                     </div>
                     <div>
-                        <span style="font-weight: bold; color: var(--primary); cursor: pointer;" onclick="showCharacterProfile('${commentObj.sender}')">${commentObj.sender}</span>
+                        <span style="font-weight: bold; color: var(--primary);" style="cursor: pointer;" onclick="showCharacterProfile('${commentObj.sender}')">${commentObj.sender}</span>
                         <span style="font-size: 0.75rem; color: var(--text-muted);">@${commentObj.handle}</span>
                         <div style="margin-top: 3px; color: #cbd5e1;">${commentObj.body}</div>
                     </div>
@@ -1874,6 +1867,11 @@
             const text = input.value.trim();
             if (!text || !state.activeDMTarget) return;
 
+            // Safety guard: Initialise DMs target array cleanly if undefined to prevent freeze
+            if (!state.dms[state.activeDMTarget]) {
+                state.dms[state.activeDMTarget] = [];
+            }
+
             state.dms[state.activeDMTarget].push({
                 sender: state.player.name,
                 text: text
@@ -2019,6 +2017,10 @@
 
             // Apply updates
             if (!isFillerBot) {
+                // Safety guard: Initialise target key cleanly if undefined to prevent freeze
+                if (!state.dms[npcName]) {
+                    state.dms[npcName] = [];
+                }
                 state.romance[npcName] = Math.max(0, Math.min(100, (state.romance[npcName] || 0) + changes.romance));
             }
             state.player.aura = Math.max(0, state.player.aura + changes.aura);
@@ -2048,6 +2050,10 @@
                 renderFeed();
             } else {
                 document.getElementById("dm-loader").classList.add("hidden");
+                // Safety guard: Initialise DMs target array cleanly if undefined to prevent freeze
+                if (!state.dms[npcName]) {
+                    state.dms[npcName] = [];
+                }
                 state.dms[npcName].push({
                     sender: npcName,
                     text: replyText
