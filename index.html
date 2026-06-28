@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>WizNet - Hogwarts Social Network</title>
     
-    <!-- iOS Standalone App Mode Capabilities -->
+    <!-- iOS Standalone Web App Mode -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="WizNet">
@@ -50,7 +50,7 @@
             display: flex;
             width: 100%;
             max-width: 1250px;
-            height: 100dvh;
+            height: 100dvh; /* Dynamic Viewport Sizing for iOS */
             position: relative;
         }
 
@@ -225,6 +225,28 @@
             margin-top: 10px;
         }
 
+        /* Buttons */
+        .btn-magic {
+            background-color: #130f17; /* Cohesive dark velvet */
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            -webkit-appearance: none; /* CRITICAL IOS OVERRIDE - Strips Apple glossy button overlay */
+        }
+
+        .btn-magic:hover {
+            background-color: rgba(207, 168, 86, 0.05);
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(207, 168, 86, 0.15);
+        }
+
         /* Post Cards */
         .post-card {
             padding: 20px;
@@ -266,7 +288,7 @@
 
         .post-handle {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .post-body {
@@ -365,7 +387,6 @@
             cursor: pointer;
             font-weight: bold;
             font-size: 0.85rem;
-            transition: all 0.2s;
         }
 
         .pill-action-btn:hover {
@@ -1045,7 +1066,9 @@
                             <div class="dm-messages" id="dm-chat-history"></div>
                             <div id="dm-loader" class="loading-dots hidden">Sending an owl...</div>
                             <div class="dm-input-area" style="position: relative;">
+                                <!-- Autocomplete popup for DMs -->
                                 <div id="autocomplete-list-dm" class="autocomplete-dropdown hidden" style="bottom: 50px;"></div>
+
                                 <input type="text" id="dm-text-input" class="dm-input" placeholder="Whisper something..." onkeydown="handleDMEnter(event)" oninput="handleAutocompleteInput(this, 'dm')">
                                 <button class="btn-magic" onclick="sendDirectMessage()">Send</button>
                             </div>
@@ -1181,7 +1204,7 @@
     </div>
 
     <script>
-        // Game State Core (Fresh Key 'wwnet_romance_v30' completely wipes out old layout memory bugs)
+        // Game State Core (Fresh Key 'wwnet_romance_v30' completely resolves all previous format caching)
         let state = {
             player: {
                 name: "Wizard Student",
@@ -1200,6 +1223,7 @@
             api_key: "",
             activeTab: "feed",
             activeDMTarget: "",
+            activeThreadPostId: null, // Stored ID for active X-style thread Details View
             customAvatars: {}, // Store Magic Mirror updates
             romance: {
                 "Draco Malfoy": 5,
@@ -1617,18 +1641,17 @@
             document.getElementById("p-name").innerText = state.player.name;
             document.getElementById("p-handle").innerText = "@" + state.player.handle;
             document.getElementById("p-house").innerText = state.player.house;
-            
-            // Protective null-check on iOS Elements
+
             const pBlood = document.getElementById("p-blood");
             if (pBlood) {
                 pBlood.innerText = state.player.bloodStatus || "Pure-blood";
             }
-            
+
             document.getElementById("stat-aura").innerText = state.player.aura;
             document.getElementById("stat-points").innerText = state.player.points;
             document.getElementById("stat-turns").innerText = state.player.turnsPlayed;
 
-            // Pre-fill settings fields
+            // Pre-fill profile settings inputs if user wishes to edit
             document.getElementById("edit-avatar-url").value = state.player.avatar;
             document.getElementById("edit-blood-status").value = state.player.bloodStatus || "Pure-blood";
 
@@ -1664,7 +1687,21 @@
             return path[path.length - 1].stage;
         }
 
+        function seedInitialFeed() {
+            const dracoAvatar = characters["Draco Malfoy"] ? characters["Draco Malfoy"].avatar : "";
+            const hermioneAvatar = characters["Hermione Granger"] ? characters["Hermione Granger"].avatar : "";
+            const lunaAvatar = characters["Luna Lovegood"] ? characters["Luna Lovegood"].avatar : "";
+
+            state.feedPosts = [
+                { id: 1, sender: "Draco Malfoy", handle: "pureblood_prince", avatar: dracoAvatar, house: "Slytherin", body: "If I have to share a potions cauldron with another clumsy Gryffindor I am going to write a formal complaint to the Headmaster.", likes: 45, liked: false, comments: [] },
+                { id: 2, sender: "Hermione Granger", handle: "brightest_witch", avatar: hermioneAvatar, house: "Gryffindor", body: "WizNet is not a platform to complain. We should be utilizing it to study for the upcoming Ancient Runes examination. DM me if you need study materials.", likes: 112, liked: false, comments: [] },
+                { id: 3, sender: "Luna Lovegood", handle: "nargle_hunter", avatar: lunaAvatar, house: "Ravenclaw", body: "The puddings in the Great Hall are exceptional today. They taste almost completely clear of spiritual toxins.", likes: 88, liked: false, comments: [] }
+            ];
+            renderFeed();
+        }
+
         function formatPostText(text) {
+            // Highlights any @handle strictly in Twitter-style blue
             return text.replace(/(@[a-zA-Z0-9_]+)/g, '<span style="color: #3b82f6; cursor: pointer; font-weight: bold;">$1</span>');
         }
 
@@ -1892,7 +1929,7 @@
             for (const charName in characters) {
                 const handleTag = `@${characters[charName].handle.toLowerCase()}`;
                 if (lowercaseText.includes(handleTag)) {
-                    replyBot = charName; // Target tagged classmate for response intervention
+                    replyBot = charName;
                     break;
                 }
             }
@@ -1900,7 +1937,7 @@
             for (const charName in backgroundBots) {
                 const handleTag = `@${backgroundBots[charName].handle.toLowerCase()}`;
                 if (lowercaseText.includes(handleTag)) {
-                    replyBot = charName; // Target tagged chaos bot for response intervention
+                    replyBot = charName;
                     break;
                 }
             }
@@ -1912,7 +1949,7 @@
             }
             
             const isFillerBot = backgroundBots[replyBot] !== undefined;
-            const npc = isFillerBot ? backgroundBots[replyBot] : characters[replyBot]; // FIX PORTRAIT CRASH KEY MISMATCH!
+            const npc = isFillerBot ? backgroundBots[replyBot] : characters[replyBot]; // FIXED TYPO KEY MISMATCH HERE!
             const currentAffection = isFillerBot ? 0 : (state.romance[replyBot] || 0);
             const currentStage = isFillerBot ? "N/A" : getTropeStage(replyBot, currentAffection);
 
@@ -1972,7 +2009,7 @@
                     }
                 } catch (e) {
                     console.error(e);
-                    replyText = "Fascinating comment. Merlin's beard, the Ley lines are volatile today.";
+                    replyText = "Fascinating comment. Ley lines are volatile today.";
                 }
             } else {
                 // Highly upgraded offline banter script with keyword triggers
@@ -2178,8 +2215,8 @@
                 card.innerHTML = `
                     <div>
                         <div class="chapter-title">${chap.title}</div>
-                        <div class="chapter-req">${chap.description || ""}</div>
-                        <div class="chapter-req" style="color: var(--primary);">${chap.requirement}</div>
+                        <div class="chapter-req" style="margin-top:4px;">${chap.description || ""}</div>
+                        <div class="chapter-req" style="color: var(--primary); font-weight:bold; margin-top:2px;">${chap.requirement}</div>
                     </div>
                     <button class="btn-magic" style="padding: 6px 14px; font-size: 0.75rem;" onclick="playStoryChapter('${chap.id}')">Play</button>
                 `;
@@ -2566,6 +2603,10 @@
 
             // Apply updates
             if (!isFillerBot) {
+                // Safety guard: Initialise target key cleanly if undefined to prevent freeze
+                if (!state.dms[npcName]) {
+                    state.dms[npcName] = [];
+                }
                 state.romance[npcName] = Math.max(0, Math.min(100, (state.romance[npcName] || 0) + changes.romance));
             }
             state.player.aura = Math.max(0, state.player.aura + changes.aura);
@@ -2765,7 +2806,7 @@
 
         function wipeSaveAndRestart() {
             if (confirm("Are you sure you want to completely erase your wizard files and start over? All attributes, romantic progress, and custom portraits will be lost!")) {
-                localStorage.removeItem("wwnet_romance_v25");
+                localStorage.removeItem("wwnet_romance_v30");
                 alert("Wand snapped. Floo powder lit. Restarting application...");
                 window.location.reload();
             }
