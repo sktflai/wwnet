@@ -6,23 +6,24 @@
     <title>WizNet - Hogwarts Social Network</title>
     <style>
         :root {
-            --bg-color: #0b0e14;
-            --card-bg: #151a24;
-            --border-color: #242c3d;
-            --text-main: #e2e8f0;
-            --text-muted: #718096;
-            --primary: #d4af37; /* Hogwarts Gold */
-            --primary-hover: #bda030;
-            --accent: #805ad5; /* Magic Purple */
-            --danger: #e53e3e;
-            --success: #38a169;
+            --bg-color: #08060a; /* Midnight Obsidian */
+            --card-bg: #130f17; /* Deep Velvet */
+            --border-color: #2b1f13; /* Burnished Copper */
+            --text-main: #f1ebd9; /* Aged Parchment */
+            --text-muted: #8c7f70; /* Soft Shadow */
+            --primary: #cfa856; /* Hogwarts Gold */
+            --primary-hover: #b59345;
+            --accent: #785dc7; /* Mystic Purple */
+            --danger: #cf4a4a;
+            --success: #4acf7c;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Garamond', Georgia, serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
@@ -56,12 +57,14 @@
 
         .logo {
             font-size: 1.8rem;
-            font-weight: 900;
+            font-weight: bold;
             color: var(--primary);
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
-            letter-spacing: 1px;
+            text-shadow: 0 0 12px rgba(207, 168, 86, 0.3);
+            letter-spacing: 2px;
             padding-bottom: 10px;
+            text-transform: uppercase;
             border-bottom: 1px solid var(--border-color);
+            text-align: center;
         }
 
         .nav-menu {
@@ -74,23 +77,27 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 15px;
-            border-radius: 30px;
+            padding: 12px 18px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            transition: background 0.2s;
+            border: 1px solid transparent;
+            transition: all 0.3s;
         }
 
         .nav-item:hover, .nav-item.active {
-            background-color: rgba(212, 175, 55, 0.1);
+            background-color: rgba(207, 168, 86, 0.05);
+            border-color: var(--border-color);
             color: var(--primary);
+            box-shadow: inset 0 0 10px rgba(207, 168, 86, 0.03);
         }
 
         .profile-card, .stats-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .stats-grid {
@@ -101,9 +108,9 @@
         }
 
         .stat-box {
-            background-color: rgba(255,255,255,0.03);
+            background-color: rgba(0,0,0,0.25);
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 6px;
             padding: 8px;
             text-align: center;
         }
@@ -112,6 +119,8 @@
             display: block;
             font-size: 0.75rem;
             color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .stat-box strong {
@@ -131,10 +140,12 @@
 
         .header-title {
             padding: 15px 20px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
             border-bottom: 1px solid var(--border-color);
-            background-color: rgba(11, 14, 20, 0.95);
+            background-color: rgba(8, 6, 10, 0.95);
             backdrop-filter: blur(10px);
             display: flex;
             justify-content: space-between;
@@ -145,29 +156,30 @@
         .content-area {
             flex-grow: 1;
             overflow-y: auto;
-            padding-bottom: 50px;
+            padding-bottom: 70px;
             -webkit-overflow-scrolling: touch;
         }
 
         /* Post Composer */
         .composer {
-            padding: 15px 20px;
+            padding: 20px;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             gap: 15px;
+            background-color: rgba(19, 15, 23, 0.2);
         }
 
         .composer-avatar, .post-avatar {
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background-color: var(--border-color);
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
             border: 1px solid var(--border-color);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         .composer-avatar img, .post-avatar img {
@@ -185,7 +197,7 @@
             background: transparent;
             border: none;
             color: var(--text-main);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             resize: none;
             outline: none;
             min-height: 60px;
@@ -197,18 +209,40 @@
             margin-top: 10px;
         }
 
+        /* Buttons */
+        .btn-magic {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .btn-magic:hover {
+            background-color: rgba(207, 168, 86, 0.05);
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(207, 168, 86, 0.15);
+        }
+
         /* Post Cards */
         .post-card {
-            padding: 15px 20px;
+            padding: 20px;
             border-bottom: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
+            background-color: rgba(19, 15, 23, 0.1);
             animation: slideIn 0.3s ease-out;
         }
 
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -224,7 +258,7 @@
         .post-header {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             margin-bottom: 5px;
             flex-wrap: wrap;
         }
@@ -232,39 +266,44 @@
         .post-name {
             font-weight: bold;
             color: var(--text-main);
+            font-size: 1rem;
         }
 
         .post-handle {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .post-house-badge {
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 10px;
+            font-size: 0.7rem;
+            padding: 2px 10px;
+            border-radius: 4px;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .post-body {
-            line-height: 1.5;
-            font-size: 0.98rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
             white-space: pre-wrap;
+            color: #e2d8c3;
         }
 
         .post-footer {
             display: flex;
             gap: 40px;
-            margin-top: 12px;
+            margin-top: 15px;
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         .post-action {
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             transition: color 0.15s;
         }
 
@@ -274,23 +313,22 @@
 
         /* Comment Threads Styling (Public Feed Banter) */
         .comments-container {
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            padding: 12px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 15px;
             margin-top: 10px;
             border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
         }
 
         .nested-comment {
             display: flex;
-            gap: 10px;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            font-size: 0.9rem;
-            animation: slideIn 0.2s ease-out;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            font-size: 0.88rem;
         }
 
         .nested-comment:last-child {
@@ -307,9 +345,9 @@
             flex-grow: 1;
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 15px;
+            border-radius: 6px;
             color: var(--text-main);
-            padding: 6px 12px;
+            padding: 8px 12px;
             font-size: 0.85rem;
             outline: none;
         }
@@ -337,7 +375,7 @@
         }
 
         .dm-thread-item:hover, .dm-thread-item.active {
-            background-color: rgba(255, 255, 255, 0.03);
+            background-color: rgba(255, 255, 255, 0.02);
         }
 
         .dm-window {
@@ -359,17 +397,18 @@
         .msg-bubble {
             max-width: 75%;
             padding: 12px 16px;
-            border-radius: 18px;
-            line-height: 1.4;
-            font-size: 0.95rem;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 0.92rem;
             white-space: pre-wrap;
         }
 
         .msg-bubble.sent {
-            background-color: var(--primary);
-            color: #000;
+            background-color: rgba(207, 168, 86, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--border-color);
             align-self: flex-end;
-            border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 2px;
         }
 
         .msg-bubble.received {
@@ -377,7 +416,7 @@
             color: var(--text-main);
             border: 1px solid var(--border-color);
             align-self: flex-start;
-            border-bottom-left-radius: 4px;
+            border-bottom-left-radius: 2px;
         }
 
         .dm-input-area {
@@ -392,7 +431,7 @@
             flex-grow: 1;
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
+            border-radius: 6px;
             color: var(--text-main);
             padding: 10px 15px;
             outline: none;
@@ -412,32 +451,34 @@
         .crush-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 15px;
         }
 
         .crush-header {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: bold;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             color: var(--primary);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
         }
 
         .crush-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
         }
 
         .meter-bg {
-            width: 100px;
-            height: 8px;
-            background-color: rgba(255,255,255,0.1);
-            border-radius: 4px;
+            width: 90px;
+            height: 6px;
+            background-color: rgba(255,255,255,0.05);
+            border-radius: 3px;
             overflow: hidden;
         }
 
@@ -457,7 +498,7 @@
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(0,0,0,0.9);
+            background-color: rgba(0,0,0,0.95);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -467,10 +508,11 @@
         .modal-content {
             background-color: var(--card-bg);
             border: 2px solid var(--primary);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 30px;
             width: 90%;
             max-width: 480px;
+            box-shadow: 0 0 25px rgba(207, 168, 86, 0.15);
         }
 
         .form-group {
@@ -485,9 +527,9 @@
             border: 1px solid var(--border-color);
             color: var(--text-main);
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 6px;
             outline: none;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .form-control:focus {
@@ -506,10 +548,10 @@
 
         /* Interactive Story Event Modal Styles */
         .event-modal-content {
-            background-color: #1a1e2e;
+            background-color: #110e15;
             border: 2px solid var(--accent);
-            box-shadow: 0 0 25px rgba(128, 90, 213, 0.4);
-            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(120, 93, 199, 0.3);
+            border-radius: 12px;
             padding: 35px;
             width: 90%;
             max-width: 550px;
@@ -523,37 +565,39 @@
 
         .event-title {
             color: var(--primary);
-            font-size: 1.4rem;
-            font-weight: 900;
+            font-size: 1.3rem;
+            font-weight: bold;
             margin-bottom: 15px;
             text-align: center;
             border-bottom: 1px dashed var(--border-color);
             padding-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .event-desc {
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.6;
             margin-bottom: 25px;
             color: #cbd5e1;
         }
 
         .choice-btn {
-            background-color: #242b3d;
+            background-color: rgba(255, 255, 255, 0.02);
             color: var(--text-main);
             border: 1px solid var(--border-color);
             padding: 14px 18px;
-            border-radius: 12px;
+            border-radius: 8px;
             width: 100%;
             text-align: left;
             margin-bottom: 12px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             transition: all 0.2s;
         }
 
         .choice-btn:hover {
-            background-color: rgba(128, 90, 213, 0.2);
+            background-color: rgba(120, 93, 199, 0.1);
             border-color: var(--accent);
             transform: translateX(5px);
         }
@@ -604,7 +648,15 @@
             }
 
             .bottom-nav-icon {
-                font-size: 1.1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: inherit;
+            }
+
+            .bottom-nav-icon svg {
+                width: 20px;
+                height: 20px;
             }
 
             /* Stack DM columns on mobile */
@@ -644,7 +696,7 @@
     <!-- Onboarding Setup Modal -->
     <div id="setup-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2 style="color: var(--primary); margin-bottom: 15px; text-align: center;">⚡ Welcome to WizNet</h2>
+            <h2 style="color: var(--primary); margin-bottom: 15px; text-align: center;">Welcome to WizNet</h2>
             <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; text-align: center;">Set up your student profile to enter Hogwarts.</p>
             
             <div class="form-group">
@@ -658,14 +710,14 @@
             <div class="form-group">
                 <label>Hogwarts House</label>
                 <select id="setup-house" class="form-control">
-                    <option value="🦁 Gryffindor">🦁 Gryffindor</option>
-                    <option value="🐍 Slytherin">🐍 Slytherin</option>
-                    <option value="🦅 Ravenclaw">🦅 Ravenclaw</option>
-                    <option value="🦡 Hufflepuff">🦡 Hufflepuff</option>
+                    <option value="Gryffindor">Gryffindor</option>
+                    <option value="Slytherin">Slytherin</option>
+                    <option value="Ravenclaw">Ravenclaw</option>
+                    <option value="Hufflepuff">Hufflepuff</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Select Aesthetic Student Avatar</label>
+                <label>Select Student Avatar</label>
                 <select id="setup-avatar" class="form-control">
                     <option value="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop">Portrait Witch (Dark Academe)</option>
                     <option value="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop">Portrait Wizard (Casual Noble)</option>
@@ -682,7 +734,7 @@
     <!-- Dynamic Story Event Modal Overlay -->
     <div id="event-modal" class="modal-overlay hidden">
         <div class="event-modal-content">
-            <div class="event-title" id="event-modal-title">🧪 Event Title</div>
+            <div class="event-title" id="event-modal-title">Event Title</div>
             <div class="event-desc" id="event-modal-desc">Event description goes here...</div>
             <div id="event-modal-choices">
                 <!-- Choice buttons generated here -->
@@ -695,13 +747,13 @@
         
         <!-- Left Column: Navigation & Stats (Desktop Only) -->
         <div class="sidebar-left">
-            <div class="logo">⚡ WizNet</div>
+            <div class="logo">WizNet</div>
             
             <div class="nav-menu">
-                <div class="nav-item active" onclick="switchTab('feed')" id="nav-feed">🔮 Home Feed</div>
-                <div class="nav-item" onclick="switchTab('dms')" id="nav-dms">✉️ Direct Messages</div>
-                <div class="nav-item" onclick="switchTab('hearts')" id="nav-hearts">📊 Attributes & Romance</div>
-                <div class="nav-item" onclick="switchTab('settings')" id="nav-settings">⚙️ AI Key Settings</div>
+                <div class="nav-item active" onclick="switchTab('feed')" id="nav-feed">Home Feed</div>
+                <div class="nav-item" onclick="switchTab('dms')" id="nav-dms">Direct Messages</div>
+                <div class="nav-item" onclick="switchTab('hearts')" id="nav-hearts">Attributes & Romance</div>
+                <div class="nav-item" onclick="switchTab('settings')" id="nav-settings">AI Key Settings</div>
             </div>
 
             <!-- Profile Info Card -->
@@ -716,13 +768,13 @@
                     </div>
                 </div>
                 <div style="margin-top: 12px; font-size: 0.85rem;">
-                    <span id="p-house" style="background-color: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 10px; font-weight: bold;">🦁 Gryffindor</span>
+                    <span id="p-house" style="background-color: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 10px; font-weight: bold; text-transform: uppercase;">Gryffindor</span>
                 </div>
             </div>
 
             <!-- Global Hogwarts Stats -->
             <div class="stats-card">
-                <h3 style="font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase;">Global Standing</h3>
+                <h3 style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Global Standing</h3>
                 <div class="stats-grid">
                     <div class="stat-box">
                         <span>Aura</span>
@@ -780,7 +832,7 @@
                             <div class="dm-messages" id="dm-chat-history">
                                 <!-- Messages -->
                             </div>
-                            <div id="dm-loader" class="loading-dots hidden">Draco is sending an owl...</div>
+                            <div id="dm-loader" class="loading-dots hidden">Sending an owl...</div>
                             <div class="dm-input-area">
                                 <input type="text" id="dm-text-input" class="dm-input" placeholder="Whisper something..." onkeydown="handleDMEnter(event)">
                                 <button class="btn-magic" onclick="sendDirectMessage()">Send</button>
@@ -791,7 +843,7 @@
 
                 <!-- Tab 3: Attributes & Romance Tab (Combines romance meters + Status Attributes) -->
                 <div id="hearts-view" class="hidden" style="padding: 20px;">
-                    <h3 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px;">📊 Wizarding Attributes</h3>
+                    <h3 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px;">Wizarding Attributes</h3>
                     
                     <div class="profile-card" style="margin-bottom: 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background-color: rgba(255,255,255,0.02);">
                         <div class="stat-box" style="text-align: left; padding: 10px;">
@@ -812,7 +864,7 @@
                         </div>
                     </div>
 
-                    <h3 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px;">❤️ Hogwarts Hearts</h3>
+                    <h3 style="color: var(--primary); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px;">Hogwarts Hearts</h3>
                     <div id="romance-meters-list-mobile">
                         <!-- Renders romance meters here for mobile and central view -->
                     </div>
@@ -820,7 +872,7 @@
 
                 <!-- Tab 4: Settings -->
                 <div id="settings-view" class="hidden" style="padding: 25px;">
-                    <h3 style="color: var(--primary); margin-bottom: 10px;">🛡️ Custom AI Engine (Free)</h3>
+                    <h3 style="color: var(--primary); margin-bottom: 10px;">Custom AI Engine (Free)</h3>
                     <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px;">
                         To give your Hogwarts classmates unrestricted, 100% open-ended AI personalities who can dynamically react, hold romance conversations, and adapt to whatever you type, you can link your Google Gemini API key.
                     </p>
@@ -829,13 +881,25 @@
                         <input type="password" id="api-key-input" class="form-control" placeholder="AIzaSy...">
                     </div>
                     <button class="btn-magic" onclick="saveApiKey()" style="margin-top: 10px;">Activate Real-time AI</button>
-                    <button class="btn-magic" onclick="clearApiKey()" style="background-color: var(--accent); color: #fff; margin-left: 10px; border-radius: 20px;">Disconnect AI</button>
+                    <button class="btn-magic" onclick="clearApiKey()" style="background-color: var(--accent); color: #fff; margin-left: 10px;">Disconnect AI</button>
 
-                    <h3 style="color: var(--danger); margin-top: 40px; margin-bottom: 10px;">⚠️ Danger Zone</h3>
+                    <!-- Magic Mirror URL Customizer Section (NO MORE CODE FILE EDITING!) -->
+                    <div class="profile-card" style="margin-top: 35px; border-color: var(--border-color);">
+                        <h3 style="color: var(--primary); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">Magic Mirror Customizer</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.4;">
+                            Paste any Pinterest direct link (make sure it ends with .jpg or .png) or any web portrait link below. The app will save these changes directly to your device memory!
+                        </p>
+                        <div id="magic-mirror-list" style="display: flex; flex-direction: column; gap: 15px;">
+                            <!-- Mapped dynamically in JS -->
+                        </div>
+                        <button class="btn-magic" onclick="saveMagicMirrors()" style="margin-top: 20px; width: 100%; font-size: 0.85rem; padding: 10px;">Cast Portrait Upgrades</button>
+                    </div>
+
+                    <h3 style="color: var(--danger); margin-top: 40px; margin-bottom: 10px;">Danger Zone</h3>
                     <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
                         Wipe your saved student files, attributes, event logs, and start your Hogwarts adventure completely over.
                     </p>
-                    <button class="btn-magic" onclick="wipeSaveAndRestart()" style="background-color: var(--danger); color: #fff; border-radius: 20px;">Reset Student File</button>
+                    <button class="btn-magic" onclick="wipeSaveAndRestart()" style="background-color: var(--danger); color: #fff;">Reset Student File</button>
                 </div>
             </div>
         </div>
@@ -843,33 +907,41 @@
         <!-- Right Column: Romance Tracker / Crush Panel (Desktop Only) -->
         <div class="sidebar-right">
             <div class="crush-card">
-                <div class="crush-header">❤️ Hogwarts Hearts</div>
+                <div class="crush-header">Hogwarts Hearts</div>
                 <div id="romance-meters-list">
                     <!-- Dynamic romance meters rendered here -->
                 </div>
             </div>
             
             <div class="stats-card" style="font-size: 0.85rem; line-height: 1.5; color: var(--text-muted);">
-                <strong>💡 Tip:</strong> DMs build stronger romantic connections. Talk to characters directly, ask them on dates, or try writing scandalous things to test their dynamic AI personalities!
+                <strong>Tip:</strong> DMs build stronger romantic connections. Talk to characters directly, ask them on dates, or try writing scandalous things to test their dynamic AI personalities!
             </div>
         </div>
 
-        <!-- Mobile Bottom Tab Navigation -->
+        <!-- Mobile Bottom Tab Navigation (Custom SVG Vector Icons - No Emojis!) -->
         <div class="bottom-nav">
             <div class="bottom-nav-item active" onclick="switchTab('feed')" id="bottom-nav-feed">
-                <span class="bottom-nav-icon">🔮</span>
+                <span class="bottom-nav-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                </span>
                 <span>Feed</span>
             </div>
             <div class="bottom-nav-item" onclick="switchTab('dms')" id="bottom-nav-dms">
-                <span class="bottom-nav-icon">✉️</span>
+                <span class="bottom-nav-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </span>
                 <span>DMs</span>
             </div>
             <div class="bottom-nav-item" onclick="switchTab('hearts')" id="bottom-nav-hearts">
-                <span class="bottom-nav-icon">📊</span>
+                <span class="bottom-nav-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </span>
                 <span>Stats</span>
             </div>
             <div class="bottom-nav-item" onclick="switchTab('settings')" id="bottom-nav-settings">
-                <span class="bottom-nav-icon">⚙️</span>
+                <span class="bottom-nav-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </span>
                 <span>Settings</span>
             </div>
         </div>
@@ -877,12 +949,12 @@
     </div>
 
     <script>
-        // Game State Core
+        // Game State Core (Fresh Key 'wwnet_romance_v1' completely resolves old browser caches)
         let state = {
             player: {
                 name: "Wizard Student",
                 handle: "chaser_pro",
-                house: "🦁 Gryffindor",
+                house: "Gryffindor",
                 avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop",
                 aura: 100,
                 points: 10,
@@ -895,6 +967,7 @@
             api_key: "",
             activeTab: "feed",
             activeDMTarget: "",
+            customAvatars: {}, // Store Magic Mirror updates
             romance: {
                 "Draco Malfoy": 5,
                 "Hermione Granger": 5,
@@ -919,54 +992,54 @@
             }
         };
 
-        // All Character Avatars updated strictly to your local JPEG file list
+        // All Portrait images point to stable CDN actor headshots/Unsplash styles initially.
         const characters = {
             "Draco Malfoy": { 
                 handle: "pureblood_prince", 
-                house: "🐍 Slytherin", 
-                avatar: "./IMG_1364.jpeg", 
+                house: "Slytherin", 
+                avatar: "https://hp-api.onrender.com/images/draco.jpg", 
                 bio: "Slytherin Seeker. Defensive, prideful, hides vulnerabilities under layers of family arrogance. Uses sarcasm as armor." 
             },
             "Hermione Granger": { 
                 handle: "brightest_witch", 
-                house: "🦁 Gryffindor", 
-                avatar: "./IMG_1362.jpeg", 
+                house: "Gryffindor", 
+                avatar: "https://hp-api.onrender.com/images/hermione.jpeg", 
                 bio: "S.P.E.W. founder. Library regular. Highly articulate, intellectually competitive, easily flustered when teased." 
             },
             "Harry Potter": { 
                 handle: "the_chosen_one", 
-                house: "🦁 Gryffindor", 
-                avatar: "./IMG_1363.jpeg", 
+                house: "Gryffindor", 
+                avatar: "https://hp-api.onrender.com/images/harry.jpg", 
                 bio: "Gryffindor Quidditch Captain. Wants simple sincerity, dry humor, and a normal classmate to hang out with." 
             },
             "Ron Weasley": {
                 handle: "chudley_cannon99",
-                house: "🦁 Gryffindor",
-                avatar: "./IMG_1361.jpeg", 
+                house: "Gryffindor",
+                avatar: "https://hp-api.onrender.com/images/ron.jpg", 
                 bio: "Gryffindor Keeper. Loyal, easily embarrassed, loves a good laugh, and is highly protective of those he cares about."
             },
             "Luna Lovegood": { 
                 handle: "nargle_hunter", 
-                house: "🦅 Ravenclaw", 
-                avatar: "./IMG_1365.jpeg", 
+                house: "Ravenclaw", 
+                avatar: "https://hp-api.onrender.com/images/luna.jpg", 
                 bio: "Dreamy eccentric. Empathetic, speaks in cryptic poetic truths about the world and magical creatures." 
             },
             "Pansy Parkinson": { 
                 handle: "pansy_p", 
-                house: "🐍 Slytherin", 
-                avatar: "./IMG_1366.jpeg", 
+                house: "Slytherin", 
+                avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=250&h=250&fit=crop", 
                 bio: "Slytherin socialite. Sarcastic, high-maintenance, gossipy, but protective of her friends." 
             },
             "Amelia Vance": {
                 handle: "shadow_vance",
-                house: "🐍 Slytherin",
-                avatar: "./IMG_1367.jpeg", 
+                house: "Slytherin",
+                avatar: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=250&h=250&fit=crop", 
                 bio: "Half-vampire exchange student. Enjoys blood-pops, hates mornings in the Great Hall, speaks with lazy cynicism."
             },
             "Reggie Spark": {
                 handle: "reggie_sparks",
-                house: "🦡 Hufflepuff",
-                avatar: "./IMG_1368.jpeg", 
+                house: "Hufflepuff",
+                avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=250&h=250&fit=crop", 
                 bio: "Enthusiastic Muggle-born wizard. Tech-obsessed, friendly, and clumsy."
             }
         };
@@ -974,43 +1047,43 @@
         const backgroundBots = {
             "Rita Skeeter": {
                 handle: "quick_quotes_rita",
-                house: "⚡ Press",
-                avatar: "./IMG_1369.jpeg",
+                house: "Press",
+                avatar: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=150&h=150&fit=crop",
                 bio: "Daily Prophet writer. Blind items, scandals, and dramatic twists are my specialty."
             },
             "Professor Snape": {
                 handle: "potion_master_snape",
-                house: "🐍 Slytherin",
-                avatar: "./IMG_1372.jpeg",
+                house: "Slytherin",
+                avatar: "https://hp-api.onrender.com/images/snape.jpg",
                 bio: "Potions Master. Head of Slytherin. Report to detention immediately."
             },
             "Fred Weasley": {
                 handle: "fred_weasley",
-                house: "🦁 Gryffindor",
-                avatar: "./IMG_1371.jpeg",
+                house: "Gryffindor",
+                avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop",
                 bio: "Proprietor of Weasleys' Wizard Wheezes. The better looking twin."
             },
             "George Weasley": {
                 handle: "george_weasley",
-                house: "🦁 Gryffindor",
-                avatar: "./IMG_1370.jpeg",
+                house: "Gryffindor",
+                avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&h=150&fit=crop",
                 bio: "Proprietor of Weasleys' Wizard Wheezes. The smarter twin."
             },
             "Aria Whispers": {
                 handle: "aria_whispering",
-                house: "🦅 Ravenclaw",
-                avatar: "./IMG_1374.jpeg",
+                house: "Ravenclaw",
+                avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&h=150&fit=crop",
                 bio: "Half-siren student. Posts moody poetry, sings constantly, and complains that the Giant Squid keeps interrupting her choruses."
             },
             "Grok the Goblin": {
                 handle: "grok_gringotts_intern",
-                house: "🪙 Goblin Liaison",
-                avatar: "./IMG_1375.jpeg",
+                house: "Goblin Liaison",
+                avatar: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=150&h=150&fit=crop",
                 bio: "Audit intern from Gringotts. Wants to check the House Cup balance sheet."
             }
         };
 
-        // Static Offline Fallbacks (Highly upgraded pattern-sass matcher)
+        // Offline Banter Matcher (Completely raw, dynamic teenager dialog structures - NO EMOJIS)
         const fallbackBanterDatabase = {
             "Draco Malfoy": {
                 flirt: "Is this your terrible attempt at flirting? Try harder, Gryffindor.",
@@ -1098,18 +1171,18 @@
 
         // Bot autonomous posts used to populate the feed and "fuel the fire"
         const botAutonomousPosts = [
-            { sender: "Rita Skeeter", handle: "quick_quotes_rita", avatar: backgroundBots["Rita Skeeter"].avatar, house: "⚡ Press", body: "Rumors are swirling of a certain Slytherin prince getting unusually close with a new student... Is it a tragic delusion, or a pureblood scandal in the making? Details in my next column. #SlytherinScandal", comments: [] },
-            { sender: "Professor Snape", handle: "potion_master_snape", avatar: backgroundBots["Professor Snape"].avatar, house: "🐍 Slytherin", body: "Any student caught using WizNet during class hours will receive a week of detention scrubbing flobberworms. I am looking directly at Gryffindor house.", comments: [] },
-            { sender: "Fred Weasley", handle: "fred_weasley", avatar: backgroundBots["Fred Weasley"].avatar, house: "🦁 Gryffindor", body: "Need to escape History of Magic? Our Skiving Snackboxes are 15% off today! Guarantees 2 hours of projectile illness. Snape-proof! #GredAndFeorge", comments: [] },
-            { sender: "George Weasley", handle: "george_weasley", avatar: backgroundBots["George Weasley"].avatar, house: "🦁 Gryffindor", body: "Just made a bet with Fred on how long it takes Snape to confiscate Reggie's new router. Standard Gringotts terms. #GredAndFeorge", comments: [] },
-            { sender: "Amelia Vance", handle: "shadow_vance", avatar: characters["Amelia Vance"].avatar, house: "🐍 Slytherin", body: "The sun is too loud today. If anyone needs me, I will be sleeping in the shadows of the Owlery. Do not throw seeds at me.", comments: [] },
-            { sender: "Reggie Spark", handle: "reggie_sparks", avatar: characters["Reggie Spark"].avatar, house: "🦡 Hufflepuff", body: "URGENT: Has anyone figured out how to charge an iPhone with a Wand? I tried 'Incendio' and now my battery is smoking. #MuggleTech", comments: [] },
-            { sender: "Aria Whispers", handle: "aria_whispering", avatar: backgroundBots["Aria Whispers"].avatar, house: "🦅 Ravenclaw", body: "Do you ever just stand by the lake and sing until the Giant Squid waves a tentacle? No? Just me? Okay.", comments: [] },
-            { sender: "Grok the Goblin", handle: "grok_gringotts_intern", avatar: backgroundBots["Grok the Goblin"].avatar, house: "🪙 Goblin Liaison", body: "Audited the Gryffindor House points ledger today. Found several illegal 'unauthorized bravery bonuses' from Dumbledore. Investigation ongoing. #GrogLeaks", comments: [] }
+            { sender: "Rita Skeeter", handle: "quick_quotes_rita", avatar: backgroundBots["Rita Skeeter"].avatar, house: "Press", body: "Rumors are swirling of a certain Slytherin prince getting unusually close with a new student... Is it a tragic delusion, or a pureblood scandal in the making? Details in my next column. #SlytherinScandal", comments: [] },
+            { sender: "Professor Snape", handle: "potion_master_snape", avatar: backgroundBots["Professor Snape"].avatar, house: "Slytherin", body: "Any student caught using WizNet during class hours will receive a week of detention scrubbing flobberworms. I am looking directly at Gryffindor house.", comments: [] },
+            { sender: "Fred Weasley", handle: "fred_weasley", avatar: backgroundBots["Fred Weasley"].avatar, house: "Gryffindor", body: "Need to escape History of Magic? Our Skiving Snackboxes are 15% off today! Guarantees 2 hours of projectile illness. Snape-proof! #GredAndFeorge", comments: [] },
+            { sender: "George Weasley", handle: "george_weasley", avatar: backgroundBots["George Weasley"].avatar, house: "Gryffindor", body: "Just made a bet with Fred on how long it takes Snape to confiscate Reggie's new router. Standard Gringotts terms. #GredAndFeorge", comments: [] },
+            { sender: "Amelia Vance", handle: "shadow_vance", avatar: characters["Amelia Vance"].avatar, house: "Slytherin", body: "The sun is too loud today. If anyone needs me, I will be sleeping in the shadows of the Owlery. Do not throw seeds at me.", comments: [] },
+            { sender: "Reggie Spark", handle: "reggie_sparks", avatar: characters["Reggie Spark"].avatar, house: "Hufflepuff", body: "URGENT: Has anyone figured out how to charge an iPhone with a Wand? I tried 'Incendio' and now my battery is smoking. #MuggleTech", comments: [] },
+            { sender: "Aria Whispers", handle: "aria_whispering", avatar: backgroundBots["Aria Whispers"].avatar, house: "Ravenclaw", body: "Do you ever just stand by the lake and sing until the Giant Squid waves a tentacle? No? Just me? Okay.", comments: [] },
+            { sender: "Grok the Goblin", handle: "grok_gringotts_intern", avatar: backgroundBots["Grok the Goblin"].avatar, house: "Goblin Liaison", body: "Audited the Gryffindor House points ledger today. Found several illegal 'unauthorized bravery bonuses' from Dumbledore. Investigation ongoing. #GrogLeaks", comments: [] }
         ];
 
         window.onload = function() {
-            // Using a unique final key name to force the browser to discard any old save files
+            // Updated to 'wwnet_romance_v1' to guarantee your regular browser tab loads freshly
             const savedState = localStorage.getItem("wwnet_romance_v1");
             if (savedState) {
                 state = JSON.parse(savedState);
@@ -1120,6 +1193,15 @@
                 state.api_key = savedKey;
                 document.getElementById("api-key-input").value = savedKey;
             }
+
+            // Apply custom magic mirror portraits if they are set in user state
+            if (state.customAvatars) {
+                for (const char in state.customAvatars) {
+                    if (characters[char]) characters[char].avatar = state.customAvatars[char];
+                    if (backgroundBots[char]) backgroundBots[char].avatar = state.customAvatars[char];
+                }
+            }
+
             updateUI();
             if (state.feedPosts.length === 0) {
                 seedInitialFeed();
@@ -1128,6 +1210,7 @@
             }
             renderRomanceMeters();
             renderDMThreads();
+            renderMagicMirrorInputs(); // Dynamically draw the URL text inputs
         };
 
         function saveProfile() {
@@ -1177,10 +1260,10 @@
 
             const badge = document.getElementById("ai-status-badge");
             if (state.api_key) {
-                badge.innerText = "🔮 Real AI Active";
+                badge.innerText = "Real AI Active";
                 badge.style.backgroundColor = "var(--success)";
             } else {
-                badge.innerText = "🔌 Offline AI Mode";
+                badge.innerText = "Offline AI Mode";
                 badge.style.backgroundColor = "var(--accent)";
             }
             localStorage.setItem("wwnet_romance_v1", JSON.stringify(state));
@@ -1188,7 +1271,7 @@
 
         function getTropeStage(characterName, romanceVal) {
             const path = relationshipTropes[characterName];
-            if (!path) return "Acquaintance 🤝";
+            if (!path) return "Acquaintance";
             for (let i = 0; i < path.length; i++) {
                 if (romanceVal <= path[i].maxVal) {
                     return path[i].stage;
@@ -1198,15 +1281,14 @@
         }
 
         function seedInitialFeed() {
-            // Protected safe checks so if character assets load slowly, no crash occurs
             const dracoAvatar = characters["Draco Malfoy"] ? characters["Draco Malfoy"].avatar : "";
             const hermioneAvatar = characters["Hermione Granger"] ? characters["Hermione Granger"].avatar : "";
             const lunaAvatar = characters["Luna Lovegood"] ? characters["Luna Lovegood"].avatar : "";
 
             state.feedPosts = [
-                { id: 1, sender: "Draco Malfoy", handle: "pureblood_prince", avatar: dracoAvatar, house: "🐍 Slytherin", body: "If I have to share a potions cauldron with another clumsy Gryffindor I am going to write a formal complaint to the Headmaster.", likes: 45, liked: false, comments: [] },
-                { id: 2, sender: "Hermione Granger", handle: "brightest_witch", avatar: hermioneAvatar, house: "🦁 Gryffindor", body: "WizNet is not a platform to complain. We should be utilizing it to study for the upcoming Ancient Runes examination. DM me if you need study materials.", likes: 112, liked: false, comments: [] },
-                { id: 3, sender: "Luna Lovegood", handle: "nargle_hunter", avatar: lunaAvatar, house: "🦅 Ravenclaw", body: "The puddings in the Great Hall are exceptional today. They taste almost completely clear of spiritual toxins.", likes: 88, liked: false, comments: [] }
+                { id: 1, sender: "Draco Malfoy", handle: "pureblood_prince", avatar: dracoAvatar, house: "Slytherin", body: "If I have to share a potions cauldron with another clumsy Gryffindor I am going to write a formal complaint to the Headmaster.", likes: 45, liked: false, comments: [] },
+                { id: 2, sender: "Hermione Granger", handle: "brightest_witch", avatar: hermioneAvatar, house: "Gryffindor", body: "WizNet is not a platform to complain. We should be utilizing it to study for the upcoming Ancient Runes examination. DM me if you need study materials.", likes: 112, liked: false, comments: [] },
+                { id: 3, sender: "Luna Lovegood", handle: "nargle_hunter", avatar: lunaAvatar, house: "Ravenclaw", body: "The puddings in the Great Hall are exceptional today. They taste almost completely clear of spiritual toxins.", likes: 88, liked: false, comments: [] }
             ];
             renderFeed();
         }
@@ -1336,7 +1418,7 @@
                 try {
                     const prompt = `
                         You are playing the role of ${replyBot} from Harry Potter inside a modern magical social network. 
-                        Character bio: ${npc.bio}. Hogwarts House: ${npc.house || "⚡ Press"}.
+                        Character bio: ${npc.bio}. Hogwarts House: ${npc.house || "Press"}.
                         The player is commenting on a public thread post. Player name is "${state.player.name}" from ${state.player.house}.
                         
                         - If you are Draco Malfoy: Be toxic, defensive, or highly flustered/protective depending on if your romance stage is "Bitter Enemies" or "Star-Crossed Lovers". Use typical smug pureblood slang. Avoid polite or helpful robotic speech. 
@@ -1569,7 +1651,7 @@
 
         function selectDMThread(char) {
             state.activeDMTarget = char;
-            document.getElementById("active-dm-name").innerText = `💬 Chat with ${char} (${characters[char] ? characters[char].house : "⚡ Press"})`;
+            document.getElementById("active-dm-name").innerText = `Chat with ${char}`;
             renderDMHistory();
             renderDMThreads();
         }
@@ -1763,7 +1845,7 @@
                     sender: npcName,
                     handle: npc.handle,
                     avatar: npc.avatar,
-                    house: isFillerBot ? "⚡ Side Character" : npc.house,
+                    house: isFillerBot ? "Side Character" : npc.house,
                     body: `@${state.player.handle} ${replyText}`,
                     likes: Math.floor(Math.random()*5),
                     liked: false,
@@ -1817,6 +1899,79 @@
             state.activeTab = tab;
         }
 
+        // Render input text fields dynamically inside settings for each character portrait
+        function renderMagicMirrorInputs() {
+            const container = document.getElementById("magic-mirror-list");
+            container.innerHTML = "";
+            
+            // Loop through romanceable classmates
+            for (const char in characters) {
+                const div = document.createElement("div");
+                div.style.display = "flex";
+                div.style.flexDirection = "column";
+                div.style.gap = "4px";
+                div.innerHTML = `
+                    <label style="font-size: 0.85rem; font-weight: bold; color: var(--text-main);">${char}</label>
+                    <input type="text" class="form-control" style="padding: 8px; font-size: 0.85rem;" id="mirror-input-${char.replace(/\s+/g, '_')}" value="${characters[char].avatar}">
+                `;
+                container.appendChild(div);
+            }
+            
+            // Loop through background bots
+            for (const char in backgroundBots) {
+                const div = document.createElement("div");
+                div.style.display = "flex";
+                div.style.flexDirection = "column";
+                div.style.gap = "4px";
+                div.innerHTML = `
+                    <label style="font-size: 0.85rem; font-weight: bold; color: var(--text-muted);">${char} (Gossip/Chaos Bot)</label>
+                    <input type="text" class="form-control" style="padding: 8px; font-size: 0.85rem;" id="mirror-input-${char.replace(/\s+/g, '_')}" value="${backgroundBots[char].avatar}">
+                `;
+                container.appendChild(div);
+            }
+        }
+
+        // Apply new Magic Mirror Portrait URLs
+        function saveMagicMirrors() {
+            if (!state.customAvatars) {
+                state.customAvatars = {};
+            }
+
+            for (const char in characters) {
+                const input = document.getElementById(`mirror-input-${char.replace(/\s+/g, '_')}`);
+                if (input && input.value.trim()) {
+                    const newUrl = input.value.trim();
+                    characters[char].avatar = newUrl;
+                    state.customAvatars[char] = newUrl;
+                }
+            }
+
+            for (const char in backgroundBots) {
+                const input = document.getElementById(`mirror-input-${char.replace(/\s+/g, '_')}`);
+                if (input && input.value.trim()) {
+                    const newUrl = input.value.trim();
+                    backgroundBots[char].avatar = newUrl;
+                    state.customAvatars[char] = newUrl;
+                }
+            }
+
+            // Save state immediately
+            updateUI();
+            renderFeed();
+            renderRomanceMeters();
+            renderDMThreads();
+            alert("Magic Mirrors successfully cast! Classmate portraits updated.");
+        }
+
+        function getHouseBg(house) {
+            if (!house) return "#1e1b29";
+            if (house.includes("Gryffindor")) return "#731c24";
+            if (house.includes("Slytherin")) return "#1c5c36";
+            if (house.includes("Ravenclaw")) return "#1a3d7c";
+            if (house.includes("Hufflepuff")) return "#82611a";
+            return "#1e1b29";
+        }
+
         // API Key Actions
         function saveApiKey() {
             const key = document.getElementById("api-key-input").value.trim();
@@ -1837,7 +1992,7 @@
         }
 
         function wipeSaveAndRestart() {
-            if (confirm("Are you sure you want to completely erase your wizard files and start over? All attributes, romantic progress, and messages will be lost!")) {
+            if (confirm("Are you sure you want to completely erase your wizard files and start over? All attributes, romantic progress, and custom portraits will be lost!")) {
                 localStorage.removeItem("wwnet_romance_v1");
                 alert("Wand snapped. Floo powder lit. Restarting application...");
                 window.location.reload();
