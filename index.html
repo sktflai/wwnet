@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <title>WizNet - Hogwarts Social Network</title>
     
-    <!-- iOS Standalone WebApp Capability -->
+    <!-- iOS Standalone App Mode (Stand-alone shortcut capability) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="WizNet">
     
-    <!-- Dynamic Times New Roman Gold 'W' on Solid Black iOS Shortcut Icon -->
+    <!-- Times New Roman Gold 'W' on Solid Black iOS Shortcut Icon -->
     <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><rect width='180' height='180' fill='black'/><text x='50%' y='125' font-family='&quot;Times New Roman&quot;, Times, serif' font-size='130' font-weight='bold' fill='%23cfa856' text-anchor='middle'>W</text></svg>">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -32,7 +32,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Garamond', Georgia, serif;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -66,8 +66,8 @@
         }
 
         .logo {
-            font-size: 1.6rem;
-            font-weight: 900;
+            font-size: 1.8rem;
+            font-weight: bold;
             color: var(--primary);
             text-shadow: 0 0 12px rgba(207, 168, 86, 0.3);
             letter-spacing: 2px;
@@ -150,7 +150,7 @@
 
         .header-title {
             padding: calc(15px + env(safe-area-inset-top)) 20px 15px 20px; /* Safe padding for iPhone notch */
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: bold;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -213,7 +213,7 @@
             background: transparent;
             border: none;
             color: var(--text-main);
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             resize: none;
             outline: none;
             min-height: 60px;
@@ -223,6 +223,27 @@
             display: flex;
             justify-content: flex-end;
             margin-top: 10px;
+        }
+
+        /* Buttons */
+        .btn-magic {
+            background-color: transparent;
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+            padding: 8px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+        }
+
+        .btn-magic:hover {
+            background-color: rgba(207, 168, 86, 0.05);
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(207, 168, 86, 0.15);
         }
 
         /* Post Cards */
@@ -261,17 +282,17 @@
         .post-name {
             font-weight: bold;
             color: var(--text-main);
-            font-size: 0.95rem;
+            font-size: 1.05rem;
         }
 
         .post-handle {
             color: var(--text-muted);
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
         .post-body {
             line-height: 1.6;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             white-space: pre-wrap;
             color: #e2d8c3;
         }
@@ -281,7 +302,7 @@
             gap: 40px;
             margin-top: 15px;
             color: var(--text-muted);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
 
         .post-action {
@@ -298,6 +319,86 @@
 
         .post-action:hover {
             color: var(--primary);
+        }
+
+        /* Twitter/X Style Thread View Panels */
+        .post-details-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .enlarged-post-card {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .enlarged-header {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .enlarged-names {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .enlarged-body {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            white-space: pre-wrap;
+        }
+
+        .enlarged-meta {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .enlarged-actions {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-muted);
+        }
+
+        .pill-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .pill-action-btn:hover {
+            background-color: rgba(207, 168, 86, 0.05);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .thread-replies-list {
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Comment Threads Styling */
@@ -317,7 +418,7 @@
             gap: 12px;
             padding: 10px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-            font-size: 0.88rem;
+            font-size: 0.9rem;
         }
 
         .nested-comment:last-child {
@@ -334,10 +435,10 @@
             flex-grow: 1;
             background-color: var(--bg-color);
             border: 1px solid var(--border-color);
-            border-radius: 15px;
+            border-radius: 6px;
             color: var(--text-main);
-            padding: 6px 12px;
-            font-size: 0.85rem;
+            padding: 8px 12px;
+            font-size: 0.9rem;
             outline: none;
         }
 
@@ -386,9 +487,9 @@
         .msg-bubble {
             max-width: 75%;
             padding: 12px 16px;
-            border-radius: 18px;
-            line-height: 1.4;
-            font-size: 0.95rem;
+            border-radius: 12px;
+            line-height: 1.5;
+            font-size: 1rem;
             white-space: pre-wrap;
         }
 
@@ -405,7 +506,7 @@
             color: var(--text-main);
             border: 1px solid var(--border-color);
             align-self: flex-start;
-            border-bottom-left-radius: 4px;
+            border-bottom-left-radius: 2px;
         }
 
         .dm-input-area {
@@ -491,7 +592,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10000; /* Overrides any other CSS layers safely */
+            z-index: 10000; /* Overrides any other CSS layers securely */
         }
 
         .modal-content {
@@ -608,13 +709,13 @@
                 bottom: 0;
                 left: 0;
                 right: 0;
-                height: 60px;
+                height: calc(60px + env(safe-area-inset-bottom)); /* Safe padding for iPhone home bar */
+                padding-bottom: env(safe-area-inset-bottom);
                 background-color: var(--card-bg);
                 border-top: 1px solid var(--border-color);
                 justify-content: space-around;
                 align-items: center;
                 z-index: 99;
-                padding-bottom: env(safe-area-inset-bottom); /* iOS home bar safety */
             }
 
             .bottom-nav-item {
@@ -816,9 +917,10 @@
 
         <!-- Middle Column: Interactive App Feed/DMs -->
         <div class="main-col">
-            <div class="header-title">
+            <!-- Header elements safely spaced below iOS Safe Area Notch -->
+            <div class="header-title" id="main-header-row">
                 <span id="tab-title">Home Feed</span>
-                <span id="ai-status-badge" style="font-size: 0.75rem; background-color: var(--accent); padding: 3px 8px; border-radius: 10px;">Offline AI Mode</span>
+                <button class="btn-magic" style="padding: 4px 12px; font-size: 0.75rem;" onclick="triggerAutonomousBotActivity(true)">Refresh Feed</button>
             </div>
 
             <div class="content-area" id="main-content">
@@ -837,6 +939,24 @@
                     </div>
                     <div id="feed-list">
                         <!-- Dynamic feed cards will load here -->
+                    </div>
+                </div>
+
+                <!-- Tab 1.5: Detailed Post Thread View (Click reply to slide in) -->
+                <div id="thread-view" class="hidden">
+                    <div class="post-details-header" onclick="closePostThread()">
+                        <span>&larr; Post</span>
+                    </div>
+                    <div id="enlarged-post-container">
+                        <!-- Enlarged main thread post loaded dynamically here -->
+                    </div>
+                    <div class="thread-replies-list" id="thread-replies-container">
+                        <!-- Nested reply cards rendered here -->
+                    </div>
+                    <!-- Direct Thread Reply input bar -->
+                    <div class="dm-input-area" style="position: sticky; bottom: 0;">
+                        <input type="text" id="thread-reply-input" class="dm-input" placeholder="Post your reply...">
+                        <button class="btn-magic" id="thread-reply-submit-btn">Reply</button>
                     </div>
                 </div>
 
@@ -987,7 +1107,7 @@
     </div>
 
     <script>
-        // Game State Core (Fresh Key 'wwnet_romance_v11' completely resolves old format caching)
+        // Game State Core (Fresh Key 'wwnet_spellbook_final_v15' clears all previous formats completely)
         let state = {
             player: {
                 name: "Wizard Student",
@@ -1006,6 +1126,7 @@
             api_key: "",
             activeTab: "feed",
             activeDMTarget: "",
+            activeThreadPostId: null, // Stored ID for active X-style thread Details View
             customAvatars: {}, // Store Magic Mirror updates
             romance: {
                 "Draco Malfoy": 5,
@@ -1221,8 +1342,8 @@
         ];
 
         window.onload = function() {
-            // Using a unique final key name 'wwnet_romance_v11' to resolve caching and empty DM lists
-            const savedState = localStorage.getItem("wwnet_romance_v11");
+            // Using a unique final key name 'wwnet_spellbook_final_v15' to resolve all caching immediately
+            const savedState = localStorage.getItem("wwnet_spellbook_final_v15");
             if (savedState) {
                 state = JSON.parse(savedState);
                 document.getElementById("setup-modal").classList.add("hidden");
@@ -1238,10 +1359,10 @@
                 state.dms = {
                     "Draco Malfoy": [{ sender: "Draco Malfoy", text: "Why are you looking at me? If my father hears about this..." }],
                     "Hermione Granger": [{ sender: "Hermione Granger", text: "Did you finish the transfiguration essay? I'm proofreading mine in the library." }],
-                    "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some pick-up Quidditch." }],
+                    "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some Quidditch." }],
                     "Ron Weasley": [{ sender: "Ron Weasley", text: "Snape's essay prompt is absolute rubbish. Do you have any idea what we're supposed to write about?" }],
                     "Luna Lovegood": [{ sender: "Luna Lovegood", text: "The nargles are highly active around the library today. Keep your eyes open." }],
-                    "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horrendous." }],
+                    "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horhendous." }],
                     "Amelia Vance": [{ sender: "Amelia Vance", text: "Do not wake me up before noon. And no, I do not want to go study by the Herbology greenhouse." }],
                     "Reggie Spark": [{ sender: "Reggie Spark", text: "Hey! Do you know if there's any spell to convert spell-fire into a 5G hotspot? Asking for a friend." }]
                 };
@@ -1294,7 +1415,7 @@
             state.player.magic = 10;
             state.triggeredEvents = [];
 
-            localStorage.setItem("wwnet_romance_v11", JSON.stringify(state));
+            localStorage.setItem("wwnet_spellbook_final_v15", JSON.stringify(state));
             document.getElementById("setup-modal").classList.add("hidden");
             updateUI();
         }
@@ -1347,7 +1468,7 @@
                 badge.innerText = "Offline AI Mode";
                 badge.style.backgroundColor = "var(--accent)";
             }
-            localStorage.setItem("wwnet_romance_v11", JSON.stringify(state));
+            localStorage.setItem("wwnet_spellbook_final_v15", JSON.stringify(state));
         }
 
         function getTropeStage(characterName, romanceVal) {
@@ -1374,6 +1495,11 @@
             renderFeed();
         }
 
+        function formatPostText(text) {
+            // Highlights any @handle strictly in Twitter-style blue
+            return text.replace(/(@[a-zA-Z0-9_]+)/g, '<span style="color: #3b82f6; cursor: pointer; font-weight: bold;">$1</span>');
+        }
+
         function renderFeed() {
             const list = document.getElementById("feed-list");
             list.innerHTML = "";
@@ -1386,44 +1512,28 @@
                 const npc = characters[post.sender] || backgroundBots[post.sender];
                 const liveAvatar = npc ? npc.avatar : post.avatar;
 
-                // Generate comment HTML
-                let commentsHTML = "";
-                if (post.comments && post.comments.length > 0) {
-                    post.comments.forEach(c => {
-                        const commentNpc = characters[c.sender] || backgroundBots[c.sender] || (c.sender === state.player.name ? state.player : null);
-                        const commentAvatar = commentNpc ? commentNpc.avatar : c.avatar;
-                        commentsHTML += `
-                            <div class="nested-comment">
-                                <div class="post-avatar" style="width: 30px; height: 30px;" onclick="showCharacterProfile('${c.sender}')"><img src="${commentAvatar}" alt="avatar"></div>
-                                <div>
-                                    <span style="font-weight: bold; color: var(--primary); cursor: pointer;" onclick="showCharacterProfile('${c.sender}')">${c.sender}</span>
-                                    <span style="font-size: 0.75rem; color: var(--text-muted);">@${c.handle}</span>
-                                    <div style="margin-top: 3px;">${c.body}</div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
+                // Escape single quotes safely to prevent profile modal click crashes
+                const safeSender = post.sender.replace(/'/g, "\\'");
 
                 card.innerHTML = `
                     <div class="post-main-header-row">
                         <!-- Clicking portrait or name redirects to character profile popup modal safely -->
-                        <div class="post-avatar" onclick="showCharacterProfile('${post.sender}')"><img src="${liveAvatar}" alt="${post.sender}"></div>
+                        <div class="post-avatar" onclick="showCharacterProfile('${safeSender}')"><img src="${liveAvatar}" alt="${post.sender}"></div>
                         <div class="post-main">
-                            <div class="post-header">
-                                <span class="post-name" style="cursor: pointer;" onclick="showCharacterProfile('${post.sender}')">${post.sender}</span>
+                            <div class="post-header" onclick="openPostThread(${post.id})" style="cursor: pointer;">
+                                <span class="post-name" onclick="event.stopPropagation(); showCharacterProfile('${safeSender}')" style="cursor: pointer;">${post.sender}</span>
                                 <span class="post-handle">@${post.handle}</span>
                             </div>
-                            <div class="post-body">${post.body}</div>
+                            <div class="post-body" onclick="openPostThread(${post.id})" style="cursor: pointer;">${formatPostText(post.body)}</div>
                             <div class="post-footer">
                                 <!-- Minimalist Twitter/X Style Logos with count metrics -->
                                 <div class="post-action" onclick="likePost(${post.id})">
                                     <svg viewBox="0 0 24 24" width="16" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
                                     <span>${post.likes}</span>
                                 </div>
-                                <div class="post-action" onclick="toggleCommentsSection(${post.id})">
+                                <div class="post-action" onclick="openPostThread(${post.id})">
                                     <svg viewBox="0 0 24 24" width="16" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                                    <span>Reply</span>
+                                    <span>${post.comments ? post.comments.length : 0}</span>
                                 </div>
                                 <div class="post-action">
                                     <svg viewBox="0 0 24 24" width="16" height="18" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
@@ -1432,94 +1542,113 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Nested Public Banter Comments Panel -->
-                    <div class="comments-container hidden" id="comments-container-${post.id}">
-                        <div id="comments-thread-${post.id}">
-                            ${commentsHTML}
-                        </div>
-                        <div class="comment-input-area">
-                            <input type="text" placeholder="Post your reply..." class="comment-input" id="comment-input-${post.id}" onkeydown="handleCommentEnter(event, ${post.id}, '${post.sender}')">
-                            <button class="btn-magic" style="padding: 4px 12px; font-size: 0.8rem;" onclick="submitPublicComment(${post.id}, '${post.sender}')">Reply</button>
-                        </div>
-                    </div>
                 `;
                 list.appendChild(card);
             });
         }
 
-        // Click profile picture redirects directly to student profile popup
-        function showCharacterProfile(npcName) {
-            const modal = document.getElementById("profile-preview-modal");
+        // Open Twitter/X Style Thread Details View on Post Click
+        function openPostThread(postId) {
+            const post = state.feedPosts.find(p => p.id === postId);
+            if (!post) return;
+
+            state.activeThreadPostId = postId;
+
+            // Render main enlarged post
+            const container = document.getElementById("enlarged-post-container");
+            const npc = characters[post.sender] || backgroundBots[post.sender];
+            const liveAvatar = npc ? npc.avatar : post.avatar;
+            const safeSender = post.sender.replace(/'/g, "\\'");
+
+            container.innerHTML = `
+                <div class="enlarged-post-card">
+                    <div class="enlarged-header">
+                        <div class="post-avatar" onclick="showCharacterProfile('${safeSender}')"><img src="${liveAvatar}" alt="${post.sender}"></div>
+                        <div class="enlarged-names">
+                            <span class="post-name" style="cursor: pointer;" onclick="showCharacterProfile('${safeSender}')">${post.sender}</span>
+                            <span class="post-handle">@${post.handle}</span>
+                        </div>
+                    </div>
+                    <div class="enlarged-body">${formatPostText(post.body)}</div>
+                    <div class="enlarged-meta">11:05 PM · 6/28/26 · 416 Views</div>
+                    <div class="enlarged-actions">
+                        <div class="pill-action-btn" onclick="likePost(${post.id}); openPostThread(${post.id});">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                            <span>${post.likes} Likes</span>
+                        </div>
+                        <div class="pill-action-btn">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                            <span>Repost</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Draw all comments
+            renderThreadReplies(post);
+
+            // Bind Thread submit button actions
+            const submitBtn = document.getElementById("thread-reply-submit-btn");
+            submitBtn.onclick = () => submitThreadComment(postId, post.sender);
+
+            // Show Thread Details View, Hide Feed Composer view
+            document.getElementById("feed-view").classList.add("hidden");
+            document.getElementById("thread-view").classList.remove("hidden");
+            document.getElementById("tab-title").innerText = "Post Thread";
+        }
+
+        function closePostThread() {
+            document.getElementById("thread-view").classList.add("hidden");
+            document.getElementById("feed-view").classList.remove("hidden");
+            document.getElementById("tab-title").innerText = "Home Feed";
+            state.activeThreadPostId = null;
+            renderFeed();
+        }
+
+        function renderThreadReplies(post) {
+            const list = document.getElementById("thread-replies-container");
+            list.innerHTML = "";
             
-            if (npcName === 'me' || npcName === state.player.name) {
-                document.getElementById("modal-char-avatar").innerHTML = `<img src="${state.player.avatar}" alt="Me">`;
-                document.getElementById("modal-char-name").innerText = state.player.name;
-                document.getElementById("modal-char-handle").innerText = "@" + state.player.handle;
-                document.getElementById("modal-char-house").innerText = state.player.house;
-                document.getElementById("modal-char-blood").innerText = state.player.bloodStatus || "Pure-blood";
-                document.getElementById("modal-char-blood").classList.remove("hidden");
-                document.getElementById("modal-char-bio").innerText = "This is your Hogwarts student file. Post updates on the feed to increase attributes and build relationships!";
-                document.getElementById("modal-char-romance-box").classList.add("hidden");
-            } else {
-                const npc = characters[npcName] || backgroundBots[npcName];
-                if (!npc) return;
+            if (post.comments && post.comments.length > 0) {
+                post.comments.forEach(c => {
+                    const commentNpc = characters[c.sender] || backgroundBots[c.sender] || (c.sender === state.player.name ? state.player : null);
+                    const commentAvatar = commentNpc ? commentNpc.avatar : c.avatar;
+                    const safeSender = c.sender.replace(/'/g, "\\'");
 
-                document.getElementById("modal-char-avatar").innerHTML = `<img src="${npc.avatar}" alt="${npcName}">`;
-                document.getElementById("modal-char-name").innerText = npcName;
-                document.getElementById("modal-char-handle").innerText = "@" + npc.handle;
-                document.getElementById("modal-char-house").innerText = npc.house;
-                
-                if (npc.bloodStatus) {
-                    document.getElementById("modal-char-blood").innerText = npc.bloodStatus;
-                    document.getElementById("modal-char-blood").classList.remove("hidden");
-                } else {
-                    document.getElementById("modal-char-blood").classList.add("hidden");
-                }
-
-                document.getElementById("modal-char-bio").innerText = npc.bio;
-
-                const val = state.romance[npcName];
-                if (val !== undefined) {
-                    document.getElementById("modal-char-romance-box").classList.remove("hidden");
-                    document.getElementById("modal-char-romance-stage").innerText = getTropeStage(npcName, val);
-                    document.getElementById("modal-char-romance-val").innerText = val + "%";
-                    document.getElementById("modal-char-romance-fill").style.width = val + "%";
-                } else {
-                    document.getElementById("modal-char-romance-box").classList.add("hidden");
-                }
-            }
-
-            modal.classList.remove("hidden");
-        }
-
-        function closeProfilePreview() {
-            document.getElementById("profile-preview-modal").classList.add("hidden");
-        }
-
-        function toggleCommentsSection(postId) {
-            const container = document.getElementById(`comments-container-${postId}`);
-            if (container) {
-                container.classList.toggle("hidden");
+                    const div = document.createElement("div");
+                    div.className = "nested-comment";
+                    div.innerHTML = `
+                        <div class="post-avatar" style="width: 35px; height: 35px;" onclick="showCharacterProfile('${safeSender}')"><img src="${commentAvatar}" alt="avatar"></div>
+                        <div style="flex-grow: 1;">
+                            <div style="display: flex; gap: 6px; align-items: center; margin-bottom: 2px;">
+                                <span style="font-weight: bold; color: var(--primary); cursor: pointer;" onclick="showCharacterProfile('${safeSender}')">${c.sender}</span>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">@${c.handle}</span>
+                            </div>
+                            <div style="color: #cbd5e1; line-height: 1.4;">${formatPostText(c.body)}</div>
+                            <div style="display: flex; gap: 30px; margin-top: 10px; color: var(--text-muted); font-size: 0.75rem;">
+                                <div class="post-action">
+                                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                                    <span>Like</span>
+                                </div>
+                                <div class="post-action">
+                                    <span>Reply</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    list.appendChild(div);
+                });
             }
         }
 
-        function handleCommentEnter(e, postId, postAuthor) {
-            if (e.key === "Enter") {
-                submitPublicComment(postId, postAuthor);
-            }
-        }
-
-        // Thread Comment submission (Injects directly into thread DOM without rebuilding page!)
-        function submitPublicComment(postId, postAuthor) {
-            const input = document.getElementById(`comment-input-${postId}`);
+        function submitThreadComment(postId, postAuthor) {
+            const input = document.getElementById("thread-reply-input");
             const text = input.value.trim();
             if (!text) return;
 
             const post = state.feedPosts.find(p => p.id === postId);
             if (!post) return;
 
-            // Add user comment to data model
             const userComment = {
                 sender: state.player.name,
                 handle: state.player.handle,
@@ -1530,52 +1659,43 @@
             post.comments.push(userComment);
             input.value = "";
 
-            // Smoothly append User comment directly to the thread DOM
-            appendCommentToDOM(postId, userComment);
+            renderThreadReplies(post);
 
             state.player.turnsPlayed++;
             updateUI();
             checkStoryEvents();
             triggerAutonomousBotActivity();
 
-            // Set up character response in thread
             setTimeout(() => {
                 generateThreadReply(postId, postAuthor, text);
             }, 1500);
-        }
-
-        // Direct DOM injection to keep reply boxes expanded and active
-        function appendCommentToDOM(postId, commentObj) {
-            const threadDiv = document.getElementById(`comments-thread-${postId}`);
-            if (threadDiv) {
-                const div = document.createElement("div");
-                div.className = "nested-comment";
-                div.innerHTML = `
-                    <div class="post-avatar" style="width: 30px; height: 30px;" onclick="showCharacterProfile('${commentObj.sender}')">
-                        <img src="${commentObj.avatar}" alt="avatar">
-                    </div>
-                    <div>
-                        <span style="font-weight: bold; color: var(--primary);" style="cursor: pointer;" onclick="showCharacterProfile('${commentObj.sender}')">${commentObj.sender}</span>
-                        <span style="font-size: 0.75rem; color: var(--text-muted);">@${commentObj.handle}</span>
-                        <div style="margin-top: 3px; color: #cbd5e1;">${commentObj.body}</div>
-                    </div>
-                `;
-                threadDiv.appendChild(div);
-                
-                // Focus/scroll and expand reply container
-                const container = document.getElementById(`comments-container-${postId}`);
-                if (container) {
-                    container.classList.remove("hidden");
-                }
-            }
         }
 
         async function generateThreadReply(postId, postAuthor, userCommentText) {
             const post = state.feedPosts.find(p => p.id === postId);
             if (!post) return;
 
-            // Crash-proof: If postAuthor is the player, randomly choose a classmate or bot to reply instead of crashing
+            // Scanning the text body to verify if another character was actively tagged (@handle)
             let replyBot = postAuthor;
+            const lowercaseText = userCommentText.toLowerCase();
+
+            for (const charName in characters) {
+                const handleTag = `@${characters[charName].handle.toLowerCase()}`;
+                if (lowercaseText.includes(handleTag)) {
+                    replyBot = charName; // Target tagged classmate for response intervention
+                    break;
+                }
+            }
+
+            for (const charName in backgroundBots) {
+                const handleTag = `@${backgroundBots[charName].handle.toLowerCase()}`;
+                if (lowercaseText.includes(handleTag)) {
+                    replyBot = charName; // Target tagged chaos bot for response intervention
+                    break;
+                }
+            }
+
+            // Fallback: If postAuthor is player and no tag found, select a random NPC
             if (replyBot === state.player.name || !characters[replyBot]) {
                 const allPool = [...Object.keys(characters), ...Object.keys(backgroundBots)];
                 replyBot = allPool[Math.floor(Math.random() * allPool.length)];
@@ -1597,9 +1717,8 @@
                         Character bio: ${npc.bio}. Hogwarts House: ${npc.house || "Press"}.
                         The player is commenting on a public thread post. Player name is "${state.player.name}" from ${state.player.house}.
                         
-                        - Absolutely NO emojis. Never write symbols like smiley faces, hearts, stars, or any cartoon graphics.
-                        - Absolutely NO robotic assistant talk, polite instructions, or moral disclaimers.
-                        - Write in character like a real human. Draco should be defensive/mocking, Hermione studious/flustered, Ron easily flustered.
+                        - If you are Draco Malfoy: Be toxic, defensive, or highly flustered/protective depending on if your romance stage is "Bitter Enemies" or "Star-Crossed Lovers". Use typical smug pureblood slang. Avoid polite or helpful robotic speech. 
+                        - If you are Rita Skeeter: Try to start gossip, call out the player, ask if they are secretly sneaking out with the Malfoy heir, and write blind items.
                         
                         Current Relationship Stage with player: "${currentStage}" (Affection: ${currentAffection}/100).
                         The player just posted this comment under a WizNet scroll: "${userCommentText}".
@@ -1681,19 +1800,69 @@
             state.player.magic = Math.max(0, state.player.magic + changes.magic);
 
             // Append bot reply in comment thread
-            const botComment = {
+            post.comments.push({
                 sender: replyBot,
                 handle: npc.handle,
                 avatar: npc.avatar,
                 body: replyText
-            };
-            post.comments.push(botComment);
-            
-            // Smoothly append Bot reply directly to the thread DOM
-            appendCommentToDOM(postId, botComment);
+            });
+
+            // Re-draw active thread list if currently viewed
+            if (state.activeThreadPostId === postId) {
+                renderThreadReplies(post);
+            }
 
             renderRomanceMeters();
             updateUI();
+        }
+
+        // Click-to-Open Profile Modal (Renders fully custom image addresses)
+        function showCharacterProfile(npcName) {
+            const modal = document.getElementById("profile-preview-modal");
+            
+            if (npcName === 'me' || npcName === state.player.name) {
+                document.getElementById("modal-char-avatar").innerHTML = `<img src="${state.player.avatar}" alt="Me">`;
+                document.getElementById("modal-char-name").innerText = state.player.name;
+                document.getElementById("modal-char-handle").innerText = "@" + state.player.handle;
+                document.getElementById("modal-char-house").innerText = state.player.house;
+                document.getElementById("modal-char-blood").innerText = state.player.bloodStatus || "Pure-blood";
+                document.getElementById("modal-char-blood").classList.remove("hidden");
+                document.getElementById("modal-char-bio").innerText = "This is your Hogwarts student file. Post updates on the feed to increase attributes and build relationships!";
+                document.getElementById("modal-char-romance-box").classList.add("hidden");
+            } else {
+                const npc = characters[npcName] || backgroundBots[npcName];
+                if (!npc) return;
+
+                document.getElementById("modal-char-avatar").innerHTML = `<img src="${npc.avatar}" alt="${npcName}">`;
+                document.getElementById("modal-char-name").innerText = npcName;
+                document.getElementById("modal-char-handle").innerText = "@" + npc.handle;
+                document.getElementById("modal-char-house").innerText = npc.house;
+                
+                if (npc.bloodStatus) {
+                    document.getElementById("modal-char-blood").innerText = npc.bloodStatus;
+                    document.getElementById("modal-char-blood").classList.remove("hidden");
+                } else {
+                    document.getElementById("modal-char-blood").classList.add("hidden");
+                }
+
+                document.getElementById("modal-char-bio").innerText = npc.bio;
+
+                const val = state.romance[npcName];
+                if (val !== undefined) {
+                    document.getElementById("modal-char-romance-box").classList.remove("hidden");
+                    document.getElementById("modal-char-romance-stage").innerText = getTropeStage(npcName, val);
+                    document.getElementById("modal-char-romance-val").innerText = val + "%";
+                    document.getElementById("modal-char-romance-fill").style.width = val + "%";
+                } else {
+                    document.getElementById("modal-char-romance-box").classList.add("hidden");
+                }
+            }
+
+            modal.classList.remove("hidden");
+        }
+
+        function closeProfilePreview() {
+            document.getElementById("profile-preview-modal").classList.add("hidden");
         }
 
         function triggerAutonomousBotActivity(forceManual = false) {
@@ -1762,7 +1931,13 @@
                     post.liked = true;
                     state.player.popularity += 1;
                 }
-                renderFeed();
+                
+                // Keep views correctly refreshed
+                if (state.activeThreadPostId === id) {
+                    openPostThread(id);
+                } else {
+                    renderFeed();
+                }
                 updateUI();
             }
         }
@@ -1814,7 +1989,7 @@
                 thread.className = `dm-thread-item ${activeClass}`;
                 thread.onclick = () => selectDMThread(char);
                 thread.innerHTML = `
-                    <div class="post-avatar"><img src="${npc.avatar}" alt="${char}"></div>
+                    <div class="post-avatar" onclick="event.stopPropagation(); showCharacterProfile('${char}')"><img src="${npc.avatar}" alt="${char}"></div>
                     <div style="flex-grow:1; min-width:0;">
                         <div style="display:flex; justify-content:space-between;">
                             <span style="font-weight:bold; font-size:0.9rem;">${char}</span>
@@ -2017,10 +2192,6 @@
 
             // Apply updates
             if (!isFillerBot) {
-                // Safety guard: Initialise target key cleanly if undefined to prevent freeze
-                if (!state.dms[npcName]) {
-                    state.dms[npcName] = [];
-                }
                 state.romance[npcName] = Math.max(0, Math.min(100, (state.romance[npcName] || 0) + changes.romance));
             }
             state.player.aura = Math.max(0, state.player.aura + changes.aura);
@@ -2069,6 +2240,7 @@
         // Tab Switching
         function switchTab(tab) {
             document.getElementById("feed-view").classList.add("hidden");
+            document.getElementById("thread-view").classList.add("hidden"); // Ensure active details thread closes safely
             document.getElementById("dms-view").classList.add("hidden");
             document.getElementById("hearts-view").classList.add("hidden");
             document.getElementById("settings-view").classList.add("hidden");
