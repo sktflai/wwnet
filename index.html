@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>WizNet - Hogwarts Social Network</title>
     
-    <!-- iOS Standalone App Mode (Stand-alone shortcut capability) -->
+    <!-- iOS Standalone Web App Mode -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="WizNet">
@@ -32,7 +32,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Garamond', Georgia, serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -41,7 +41,7 @@
             color: var(--text-main);
             display: flex;
             justify-content: center;
-            min-height: 100vh;
+            min-height: 100dvh;
             overflow: hidden;
         }
 
@@ -50,7 +50,7 @@
             display: flex;
             width: 100%;
             max-width: 1250px;
-            height: 100vh;
+            height: 100dvh; /* Dynamic Viewport Sizing for iOS */
             position: relative;
         }
 
@@ -66,8 +66,8 @@
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
+            font-size: 1.6rem;
+            font-weight: 900;
             color: var(--primary);
             text-shadow: 0 0 12px rgba(207, 168, 86, 0.3);
             letter-spacing: 2px;
@@ -144,13 +144,13 @@
             display: flex;
             flex-direction: column;
             border-right: 1px solid var(--border-color);
-            height: 100vh;
+            height: 100dvh;
             background-color: var(--bg-color);
         }
 
         .header-title {
             padding: calc(15px + env(safe-area-inset-top)) 20px 15px 20px; /* Safe padding for iPhone notch */
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -213,7 +213,7 @@
             background: transparent;
             border: none;
             color: var(--text-main);
-            font-size: 1.15rem;
+            font-size: 1.05rem;
             resize: none;
             outline: none;
             min-height: 60px;
@@ -261,17 +261,17 @@
         .post-name {
             font-weight: bold;
             color: var(--text-main);
-            font-size: 1.05rem;
+            font-size: 0.95rem;
         }
 
         .post-handle {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         .post-body {
             line-height: 1.6;
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             white-space: pre-wrap;
             color: #e2d8c3;
         }
@@ -679,7 +679,7 @@
 
             .main-col {
                 width: 100% !important;
-                height: calc(100vh - 60px); /* Leave room for bottom nav */
+                height: calc(100dvh - 60px); /* Leave room for bottom nav */
             }
 
             .bottom-nav {
@@ -1122,7 +1122,7 @@
             dms: {
                 "Draco Malfoy": [{ sender: "Draco Malfoy", text: "Why are you looking at me? If my father hears about this..." }],
                 "Hermione Granger": [{ sender: "Hermione Granger", text: "Did you finish the transfiguration essay? I'm proofreading mine in the library." }],
-                "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some Quidditch." }],
+                "Harry Potter": [{ sender: "Harry Potter", text: "Hey! Let me know if you want to hang out by the lake or play some pick-up Quidditch." }],
                 "Ron Weasley": [{ sender: "Ron Weasley", text: "Snape's essay prompt is absolute rubbish. Do you have any idea what we're supposed to write about?" }],
                 "Luna Lovegood": [{ sender: "Luna Lovegood", text: "The nargles are highly active around the library today. Keep your eyes open." }],
                 "Pansy Parkinson": [{ sender: "Pansy Parkinson", text: "Did you see what Granger was wearing at dinner? Horrendous." }],
@@ -1179,7 +1179,7 @@
                 handle: "reggie_sparks",
                 house: "Hufflepuff",
                 avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=250&h=250&fit=crop", 
-                bio: "Hufflepuff Muggle-born. Currently trying to wire a spell-matrix to stream Netflix in the common room. DM me if you want to beta test."
+                bio: "Hufflepuff Muggle-born. Tech-obsessed, friendly, and clumsy."
             }
         };
 
@@ -1218,7 +1218,7 @@
                 handle: "grok_gringotts_intern",
                 house: "Goblin Liaison",
                 avatar: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=150&h=150&fit=crop",
-                bio: "Gringotts audit intern. Compounding interest is far more powerful than your human magic. Auditing the House Cup balance sheet."
+                bio: "Audit intern from Gringotts. Wants to check the House Cup balance sheet."
             }
         };
 
@@ -1681,7 +1681,7 @@
             }
             
             const isFillerBot = backgroundBots[replyBot] !== undefined;
-            const npc = isFillerBot ? backgroundBots[replyBot] : characters[replyBot];
+            const npc = isFillerBot ? backgroundBots[npcName] : characters[replyBot];
             const currentAffection = isFillerBot ? 0 : (state.romance[replyBot] || 0);
             const currentStage = isFillerBot ? "N/A" : getTropeStage(replyBot, currentAffection);
 
@@ -1996,141 +1996,8 @@
             const currentStage = isFillerBot ? "N/A" : getTropeStage(npcName, currentAffection);
             
             if (isPublicFeed) {
-                const loader = document.createElement("div");
-                loader.className = "loading-dots";
-                loader.id = `feed-loader-${npcName}`;
-                loader.innerText = `${npcName} is typing...`;
-                document.getElementById("feed-list").insertBefore(loader, document.getElementById("feed-list").firstChild);
-            } else {
-                document.getElementById("dm-loader").classList.remove("hidden");
-                document.getElementById("dm-loader").innerText = `${npcName} is sending an owl...`;
-            }
-
-            let replyText = "";
-            let changes = { romance: 1, aura: 1, points: 2, popularity: 0, intelligence: 0, courage: 0, magic: 0 };
-
-            if (state.api_key) {
-                try {
-                    let prompt = "";
-                    
-                    if (isFillerBot) {
-                        prompt = `
-                            You are playing the role of ${npcName} from Harry Potter inside a modern magical social network.
-                            Character Bio: ${npc.bio}.
-                            You are a side character/chaos bot designed to fuel the fire, make funny remarks, start drama, or complain.
-                            - Absolutely NO emojis. Never write smiley faces, hearts, stars, or cartoon icons.
-                            - If you are Rita Skeeter: Add scandalous gossip, act like a slimy journalist, and make up rumors about the player and their Hogwarts crushes.
-                            - If you are Professor Snape: Be incredibly bitter, demand safety compliance, complain about Gryffindor rule-breakers, or deduct house points.
-                            - If you are Fred Weasley or George Weasley: Speak with twin-banter, make joke suggestions, or offer illegal products.
-                            
-                            Respond to this player's post/conversation context: "${userMessage}".
-                            Keep your response short (1 to 2 sentences maximum) and completely in character.
-                            
-                            At the very end of your response, you MUST append a state tag strictly formatted like this:
-                            [ROMANCE: 0] [AURA: +x] [POINTS: +x] [POPULARITY: +x] [INTELLIGENCE: +x] [COURAGE: +x] [MAGIC: +x]
-                        `;
-                    } else {
-                        prompt = `
-                            You are playing the role of ${npcName} from Harry Potter inside a modern magical social network. 
-                            Character bio & distinct personality: ${npc.bio}. Hogwarts House: ${npc.house}.
-                            The player is speaking to you. Their name is "${state.player.name}" from ${state.player.house}.
-                            
-                            IMPORTANT ROMANCE DYNAMICS:
-                            Your current relationship status with the player is: "${currentStage}" (Affection: ${currentAffection}/100).
-                            You MUST adjust your behavior, mood, friendliness, and openness to match this stage.
-                            
-                            - Absolutely NO emojis. Never write smiley faces, hearts, stars, or cartoon icons.
-                            - Absolutely NO robotic assistant talk, polite instructions, or moral disclaimers. 
-                            - Adopt human traits: write using lowercases, minor typos, exclamation marks, or short dramatic phrases to sound like a real person texting or commenting on a social network.
-                            - For Draco Malfoy: If in "Bitter Enemies", be snobbish, toxic, defensive, or call them a Gryffindor dunce. If in "Star-Crossed Lovers", be highly protective, possessive, cozy but still keep your typical dry Draco flavor.
-                            - For Hermione Granger: If in "Academic Rivals", correct their grammar, tease their study habits. If in "Mutual Crushes", get extremely flustered, stutter, blush, and speak in longer nervous structures.
-                            - For Ron Weasley: Flustered easily, uses 'bloody hell', gets defensive when teased but intensely sweet and comfortable in high romance stages.
-                            - For Amelia Vance: Lazily cynical, yawns, mentions sleeping in shadows or drinking tomato juice, slowly warms up to being protective.
-                            - For Reggie Spark: Highly enthusiastic, types in modern text lingo, gets flustered if you ask about dating, talks about his servers.
-                            
-                            The player said: "${userMessage}".
-                            
-                            Write a short response (1 to 3 sentences maximum) completely in character. Be reactive. 
-                            
-                            At the very end of your response, you MUST append a state tag strictly formatted like this:
-                            [ROMANCE: +x] [AURA: +x] [POINTS: +x] [POPULARITY: +x] [INTELLIGENCE: +x] [COURAGE: +x] [MAGIC: +x]
-                        `;
-                    }
-
-                    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${state.api_key}`;
-                    const response = await fetch(endpoint, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-                    });
-                    const data = await response.json();
-                    
-                    if (data.candidates && data.candidates[0].content.parts[0].text) {
-                        const rawReply = data.candidates[0].content.parts[0].text;
-                        
-                        const romanceMatch = rawReply.match(/\[ROMANCE:\s*([+-]?\d+)\]/i);
-                        const auraMatch = rawReply.match(/\[AURA:\s*([+-]?\d+)\]/i);
-                        const pointsMatch = rawReply.match(/\[POINTS:\s*([+-]?\d+)\]/i);
-                        const popularityMatch = rawReply.match(/\[POPULARITY:\s*([+-]?\d+)\]/i);
-                        const intelligenceMatch = rawReply.match(/\[INTELLIGENCE:\s*([+-]?\d+)\]/i);
-                        const courageMatch = rawReply.match(/\[COURAGE:\s*([+-]?\d+)\]/i);
-                        const magicMatch = rawReply.match(/\[MAGIC:\s*([+-]?\d+)\]/i);
-
-                        if (romanceMatch) changes.romance = parseInt(romanceMatch[1]);
-                        if (auraMatch) changes.aura = parseInt(auraMatch[1]);
-                        if (pointsMatch) changes.points = parseInt(pointsMatch[1]);
-                        if (popularityMatch) changes.popularity = parseInt(popularityMatch[1]);
-                        if (intelligenceMatch) changes.intelligence = parseInt(intelligenceMatch[1]);
-                        if (courageMatch) changes.courage = parseInt(courageMatch[1]);
-                        if (magicMatch) changes.magic = parseInt(magicMatch[1]);
-
-                        replyText = rawReply.replace(/\[.*?\]/g, "").trim();
-                    } else {
-                        throw new Error("Invalid response format");
-                    }
-                } catch (err) {
-                    console.error("AI Error:", err);
-                    replyText = "Hogwarts owl network experienced a temporal anomaly (API Connection Error). Let's retry.";
-                }
-            } else {
-                // Upgraded offline banter router
-                await new Promise(resolve => setTimeout(resolve, 1500)); 
-                const lowercase = userMessage.toLowerCase();
-                const characterBanter = fallbackBanterDatabase[npcName];
-
-                if (characterBanter) {
-                    if (lowercase.includes("date") || lowercase.includes("flirt") || lowercase.includes("cute") || lowercase.includes("love")) {
-                        replyText = characterBanter.flirt;
-                        changes.romance = 8;
-                        changes.popularity = 2;
-                    } else if (lowercase.includes("stupid") || lowercase.includes("hate") || lowercase.includes("ugly")) {
-                        replyText = characterBanter.hate;
-                        changes.romance = -5;
-                        changes.popularity = -2;
-                    } else {
-                        replyText = characterBanter.default;
-                    }
-                } else {
-                    replyText = "detention! stop wasting time.";
-                }
-            }
-
-            // Apply updates
-            if (!isFillerBot) {
-                state.romance[npcName] = Math.max(0, Math.min(100, (state.romance[npcName] || 0) + changes.romance));
-            }
-            state.player.aura = Math.max(0, state.player.aura + changes.aura);
-            state.player.points = Math.max(0, state.player.points + changes.points);
-
-            // Level up user Status attributes!
-            state.player.popularity = Math.max(0, state.player.popularity + changes.popularity);
-            state.player.intelligence = Math.max(0, state.player.intelligence + changes.intelligence);
-            state.player.courage = Math.max(0, state.player.courage + changes.courage);
-            state.player.magic = Math.max(0, state.player.magic + changes.magic);
-
-            if (isPublicFeed) {
-                const feedLoader = document.getElementById("feed-loader-" + npcName);
-                if (feedLoader) feedLoader.remove();
+                const loader = document.getElementById("feed-loader-" + npcName);
+                if (loader) loader.remove();
 
                 state.feedPosts.unshift({
                     id: Date.now(),
